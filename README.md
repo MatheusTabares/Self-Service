@@ -1,2 +1,2 @@
 # Self-Service
-Sistema de auto atendimento para restaurantes, lancherias entre outros.
+Sistema de auto atendimento para restaurantes e lancherias em geral.
