@@ -85,6 +85,4 @@ public class PratoPrincipalBean {
 			this.pratosFiltrados = pratosFiltrados;
 		}
 	    
-	    
-	
 }
