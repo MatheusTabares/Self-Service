@@ -96,7 +96,7 @@
                    <source>${java.version}</source>
                    <target>${java.version}</target>
                    <!-- MATHEUS -->
-      		   <outputEncoding>UTF-8</outputEncoding>
+ 		   		   <outputEncoding>UTF-8</outputEncoding>
                </configuration>
            </plugin>
        </plugins>

@@ -2,7 +2,7 @@ package br.com.mastermenu.bean;
 
 import java.util.List;
 
-
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
@@ -11,7 +11,7 @@ import br.com.mastermenu.persistencia.DAOGenerico;
 
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class PratoPrincipalBean {
 	
 	private PratoPrincipal prato = new PratoPrincipal();
