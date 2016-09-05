@@ -2,7 +2,6 @@ package br.com.mastermenu.model;
 
 import javax.persistence.Entity;
 import java.io.Serializable;
-import javax.persistence.Table;
 import javax.persistence.Id;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,27 +9,16 @@ import javax.persistence.Column;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "PratoPrincipal")
-public class PratoPrincipal implements Serializable {
+public class Item implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
+	
+	@Column(name = "nome")
 	private String nome;
-
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
 
 	public Long getId() {
 		return this.id;
@@ -40,6 +28,13 @@ public class PratoPrincipal implements Serializable {
 		this.id = id;
 	}
 
+	public String getNome() {
+		return this.nome;
+	}
+
+	public void setNome(final String nome) {
+		this.nome = nome;
+	}
 
 	@Override
 	public String toString() {
@@ -54,10 +49,10 @@ public class PratoPrincipal implements Serializable {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof PratoPrincipal)) {
+		if (!(obj instanceof Item)) {
 			return false;
 		}
-		PratoPrincipal other = (PratoPrincipal) obj;
+		Item other = (Item) obj;
 		if (id != null) {
 			if (!id.equals(other.id)) {
 				return false;
