@@ -6,6 +6,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
 import br.com.mastermenu.model.Cliente;
+import br.com.mastermenu.model.PratoPrincipal;
+import br.com.mastermenu.persistencia.DAOGenerico;
 
 @ManagedBean(name = "clienteBean")
 @SessionScoped
@@ -44,7 +46,9 @@ public class ClienteBean {
 			context.addMessage(null, facesMessage);
 			return null;
 		}
-		//chupa will
-		return null;
+		this.cliente.setAtivo(true);
+		new DAOGenerico<Cliente>(Cliente.class).adiciona(this.cliente);
+		
+		return "sucessoCliente?faces-redirect=true";
 	}
 }

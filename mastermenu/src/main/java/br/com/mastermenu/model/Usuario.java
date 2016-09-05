@@ -34,20 +34,28 @@ public class Usuario implements Serializable {
 	@Min(5)
 	private String senha;
 	
-	@ManyToOne
-	@JoinColumn(name = "id_endereco", nullable = false)
-	private Endereco endereco;
+	@Column(name = "endereco", nullable = false)
+	private String endereco;
 	
-	@Column(name = "imagem", length = 200, nullable = false)
+	@Column(name = "imagem", length = 200)
 	private String imagem;
 	
 	@Column(name = "telefone", length = 50, nullable = false)
+	@Min(10)
 	private String telefone;
 	
 	@Column(name = "dt_nascimento", nullable = false)
-	private Date nascimento;
+	@Min(8)
+	private String nascimento;
 	
 	private boolean ativo;
+	
+	@Column(name = "email", length = 50, nullable = false)
+	private String email;
+	
+	@Column(name = "cpf", length = 12, nullable = false)
+	@Min(11)
+	private String cpf;
 	
 	public Long getId() {
 		return id;
@@ -67,10 +75,10 @@ public class Usuario implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public Endereco getEndereco() {
+	public String getEndereco() {
 		return endereco;
 	}
-	public void setEndereco(Endereco endereco) {
+	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
 	public String getImagem() {
@@ -85,10 +93,10 @@ public class Usuario implements Serializable {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	public Date getNascimento() {
+	public String getNascimento() {
 		return nascimento;
 	}
-	public void setNascimento(Date nascimento) {
+	public void setNascimento(String nascimento) {
 		this.nascimento = nascimento;
 	}
 	public boolean isAtivo() {
@@ -97,11 +105,25 @@ public class Usuario implements Serializable {
 	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getCpf() {
+		return cpf;
+	}
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (ativo ? 1231 : 1237);
+		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
+		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((imagem == null) ? 0 : imagem.hashCode());
@@ -121,6 +143,16 @@ public class Usuario implements Serializable {
 			return false;
 		Usuario other = (Usuario) obj;
 		if (ativo != other.ativo)
+			return false;
+		if (cpf == null) {
+			if (other.cpf != null)
+				return false;
+		} else if (!cpf.equals(other.cpf))
+			return false;
+		if (email == null) {
+			if (other.email != null)
+				return false;
+		} else if (!email.equals(other.email))
 			return false;
 		if (endereco == null) {
 			if (other.endereco != null)
@@ -162,8 +194,9 @@ public class Usuario implements Serializable {
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", senha=" + senha + ", endereco=" + endereco + ", imagem="
-				+ imagem + ", telefone=" + telefone + ", nascimento=" + nascimento + ", ativo=" + ativo + "]";
+				+ imagem + ", telefone=" + telefone + ", nascimento=" + nascimento + ", ativo=" + ativo + ", email="
+				+ email + ", cpf=" + cpf + "]";
 	}
 	
-	
+		
 }
