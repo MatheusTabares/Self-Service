@@ -10,8 +10,8 @@ import javax.persistence.Column;
 import javax.persistence.Version;
 
 @Entity
-@Table(name = "Produtos")
-public class Produtos implements Serializable {
+@Table(name = "Produto")
+public class Produto implements Serializable {
 
 	/**
 	 * 
@@ -21,6 +21,19 @@ public class Produtos implements Serializable {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", updatable = false, nullable = false)
 	private Long id;
+	
+	@Column(name = "nome", updatable = false, nullable = false)
+	private String nome;
+	
+	
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
 	public Long getId() {
 		return this.id;
@@ -43,10 +56,10 @@ public class Produtos implements Serializable {
 		if (this == obj) {
 			return true;
 		}
-		if (!(obj instanceof Produtos)) {
+		if (!(obj instanceof Produto)) {
 			return false;
 		}
-		Produtos other = (Produtos) obj;
+		Produto other = (Produto) obj;
 		if (id != null) {
 			if (!id.equals(other.id)) {
 				return false;

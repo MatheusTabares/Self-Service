@@ -6,7 +6,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 
 import br.com.mastermenu.model.Cliente;
-import br.com.mastermenu.model.PratoPrincipal;
+import br.com.mastermenu.model.Produto;
 import br.com.mastermenu.persistencia.DAOGenerico;
 
 @ManagedBean(name = "clienteBean")

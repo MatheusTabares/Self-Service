@@ -8,7 +8,8 @@
 		
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		
-		<class>br.com.mastermenu.model.PratoPrincipal</class>
+		<class>br.com.mastermenu.model.Item</class>
+		<class>br.com.mastermenu.model.Produto</class>
 
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
@@ -20,7 +21,7 @@
 			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			
-			<!-- Matheus -->
+			
 			<property name="show_sql" value="true"/>
 		</properties>
 	</persistence-unit>

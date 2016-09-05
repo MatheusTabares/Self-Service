@@ -4,44 +4,48 @@ import java.util.List;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
 
-import br.com.mastermenu.model.PratoPrincipal;
+import br.com.mastermenu.model.Item;
 import br.com.mastermenu.persistencia.DAOGenerico;
+import java.io.Serializable;
 
 
 @ManagedBean
 @SessionScoped
-public class PratoPrincipalBean {
+public class ItemBean implements Serializable {
 	
-	private PratoPrincipal prato = new PratoPrincipal();
-	private List<PratoPrincipal> pratos;
-	private List<PratoPrincipal> pratosFiltrados;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private Item item = new Item();
+	private List<Item> itens;
+	private List<Item> itensFiltrados;
 	
 	
-	 public PratoPrincipalBean() {
+	 public ItemBean() {
 		super();
 	}
 
 	public void prepararPesquisa() {
 	        try {
-	        	new DAOGenerico<PratoPrincipal>(PratoPrincipal.class).listaTodos();
+	        	new DAOGenerico<Item>(Item.class).listaTodos();
 	        } catch (Exception ex) {
 	            ex.printStackTrace();
 	        }
 	    }
 	
 	 public void preparaNovo() {
-	        PratoPrincipal prato = new PratoPrincipal();
+	        Item item = new Item();
 	    }
 	 
 	 public void incluirPratoPrincipal() {
 	        try {
 	        	
-	        	if (this.prato.getId() == null) {
-	    			new DAOGenerico<PratoPrincipal>(PratoPrincipal.class).adiciona(this.prato);
+	        	if (this.item.getId() == null) {
+	    			new DAOGenerico<Item>(Item.class).adiciona(this.item);
 	    		} else {
-	    			new DAOGenerico<PratoPrincipal>(PratoPrincipal.class).atualiza(this.prato);
+	    			new DAOGenerico<Item>(Item.class).atualiza(this.item);
 	    		}
 	        }
 	        	catch (Exception ex) {
@@ -54,35 +58,40 @@ public class PratoPrincipalBean {
 	    public void excluir() {
 	        try {
 
-	        	System.out.println("Removendo cliente " + prato.getNome());
-	    		new DAOGenerico<PratoPrincipal>(PratoPrincipal.class).remove(prato);
+	        	System.out.println("Removendo cliente " + item.getNome());
+	    		new DAOGenerico<Item>(Item.class).remove(item);
 	        } catch (Exception ex) {
 	            ex.printStackTrace();
 	        }
 	    }
 
-		public PratoPrincipal getPrato() {
-			return prato;
+		public Item getPrato() {
+			return item;
 		}
 
-		public void setPrato(PratoPrincipal prato) {
-			this.prato = prato;
+		public Item getItem() {
+			return item;
 		}
 
-		public List<PratoPrincipal> getPratos() {
-			return pratos;
+		public void setItem(Item item) {
+			this.item = item;
 		}
 
-		public void setPratos(List<PratoPrincipal> pratos) {
-			this.pratos = pratos;
+		public List<Item> getItens() {
+			return itens;
 		}
 
-		public List<PratoPrincipal> getPratosFiltrados() {
-			return pratosFiltrados;
+		public void setItens(List<Item> itens) {
+			this.itens = itens;
 		}
 
-		public void setPratosFiltrados(List<PratoPrincipal> pratosFiltrados) {
-			this.pratosFiltrados = pratosFiltrados;
+		public List<Item> getItensFiltrados() {
+			return itensFiltrados;
 		}
-	    
+
+		public void setItensFiltrados(List<Item> itensFiltrados) {
+			this.itensFiltrados = itensFiltrados;
+		}
+		
+
 }
