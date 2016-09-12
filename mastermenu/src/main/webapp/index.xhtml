@@ -1,30 +1,45 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
 <h:head></h:head>
 <h:body>
-    <H2>
-        <h:outputText value="MASTER-MENU" />
-    </H2>
-    
-    <h:form id="autor">
-				<fieldset>
-					<legend>Insira um prato</legend>
-					<h:panelGrid columns="3">
-    
-    <h:outputLabel value="Nome:" for="nome" />
-						<h:inputText id="nome" value="#{pratoPrincipalBean.prato.nome}"
-							required="true">
-							<f:validateLength minimum="5" />
-							<f:ajax event="blur" render="messageNome" />
-						</h:inputText>
-						
-							<h:commandButton value="Gravar" action="#{pratoPrincipalBean.incluirPratoPrincipal}" />
-					</h:panelGrid>
-				</fieldset>
-			</h:form>
-    
+	<H2>
+		<h:outputText value="MASTER-MENU" />
+	</H2>
+
+	<h:form id="autor">
+		<fieldset>
+			<legend>Insira um prato</legend>
+			<h:panelGrid columns="3">
+
+				<h:outputLabel value="Nome:" for="nome" />
+				<h:inputText id="nome" value="#{itemBean.item.nome}" required="true">
+					<f:validateLength minimum="5" />
+					<f:ajax event="blur" render="messageNome" />
+				</h:inputText>
+
+				<h:commandButton value="Gravar" action="#{itemBean.incluirOuEditar}" />
+
+
+				<h:commandButton value="Listar" action="#{itemBean.itens}"
+					update="idTabela" />
+
+				<h:dataTable id="idTabela" value="${itemBean.item}" var="p">
+					<h:column>
+						<h:outputText value="${p.id}" />
+					</h:column>
+
+					<h:column>
+						<h:outputText value="${p.nome}" />
+					</h:column>
+				</h:dataTable>
+
+
+			</h:panelGrid>
+		</fieldset>
+	</h:form>
+
 </h:body>
 </html>

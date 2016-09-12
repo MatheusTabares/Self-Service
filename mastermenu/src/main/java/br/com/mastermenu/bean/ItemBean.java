@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import br.com.mastermenu.model.Item;
 import br.com.mastermenu.persistencia.DAOGenerico;
 import java.io.Serializable;
+import java.sql.SQLException;
 
 
 @ManagedBean
@@ -39,7 +40,7 @@ public class ItemBean implements Serializable {
 	        Item item = new Item();
 	    }
 	 
-	 public void incluirPratoPrincipal() {
+	 public void incluirOuEditar() {
 	        try {
 	        	
 	        	if (this.item.getId() == null) {
@@ -52,7 +53,6 @@ public class ItemBean implements Serializable {
 	        		ex.printStackTrace();
 	        	}
 	    	}
-	        	
 	        	
 	        	
 	    public void excluir() {
@@ -78,7 +78,7 @@ public class ItemBean implements Serializable {
 		}
 
 		public List<Item> getItens() {
-			return itens;
+			return new DAOGenerico<Item>(Item.class).listaTodos();
 		}
 
 		public void setItens(List<Item> itens) {
