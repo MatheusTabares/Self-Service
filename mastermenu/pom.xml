@@ -46,6 +46,22 @@
 			<version>4.0.1.Final</version>
 		</dependency>
 		
+		<!-- Gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.7</version>
+		</dependency>
+		
+		
+		<!--jersey-client -->
+		<dependency>
+		    <groupId>org.glassfish.jersey.core</groupId>
+		    <artifactId>jersey-client</artifactId>
+		    <version>2.23.2</version>
+		</dependency>
+		
+		
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
@@ -64,6 +80,13 @@
            <artifactId>javax.servlet-api</artifactId>
            <version>${javax.servlet.version}</version>
        </dependency>
+       
+         <!-- resteasy-jaxrs -->
+		<dependency>
+		    <groupId>org.jboss.resteasy</groupId>
+		    <artifactId>resteasy-jaxrs</artifactId>
+		    <version>3.0.19.Final</version>
+		</dependency>
         
        <!-- JSF -->
        <dependency>
@@ -83,7 +106,7 @@
            <artifactId>jstl</artifactId>
            <version>${jstl.version}</version>
        </dependency>
-   </dependencies>
+   </dependencies>   
    
    <!-- BUILD CONFIGURATION -->
    <build>
@@ -95,7 +118,6 @@
                <configuration>
                    <source>${java.version}</source>
                    <target>${java.version}</target>
-                   <!-- MATHEUS -->
  		   		   <encoding>UTF-8</encoding>
                </configuration>
            </plugin>
