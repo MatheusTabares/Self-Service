@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core">
+<h:head></h:head>
+<h:body>
+    <H2>Listagem de Usuários</H2>
+    <h:form>
+    		<h:messages/>
+ 			<h:dataTable style="width: 100%; text-align: left;" value="#{usuarioBean.lista}" var="usuario" rules="rows" cellpadding="5" >
+    			<f:facet name="caption">
+    				A listagem a seguir exibe a relação de todos os usuários do sistema. Você poderá
+    				realizar ativação e desativação, edição e exclusão para os usuários.
+    				<hr/>
+    			</f:facet>
+    			<f:facet name="footer">Final da Listagem</f:facet>
+    			<h:column>
+    				<f:facet name="header">Id</f:facet>
+    				<h:outputText value="#{usuario.id}" />
+    			</h:column>
+    			<h:column>
+    				<f:facet name="header">Nome</f:facet>
+    				<h:outputText value="#{usuario.nome}" />
+    			</h:column>
+    			<h:column>
+    				<f:facet name="header">e-Mail</f:facet>
+    				<h:outputText value="#{usuario.email}" />
+    			</h:column>
+    			<h:column>
+    				<h:commandLink action="#{clienteBean.alterar}" value="alterar">
+    					<f:setPropertyActionListener value="#{usuario}" target="#{clienteBean.cliente}" />
+    					<f:setPropertyActionListener value="listagem" target="#{clienteBean.destinoSalvar}" />
+    				</h:commandLink>
+    			</h:column>
+    			<h:column>
+    				<h:commandLink action="#{usuarioBean.excluir}" value="excluir"
+    					onclick="if (!confirm('Confirma a exclusão do usuário')) return false;">
+    					<f:setPropertyActionListener value="#{usuario}" target="#{usuarioBean.usuario}" />
+    				</h:commandLink>
+    			</h:column>
+    		</h:dataTable>
+     	</h:form>
+     	<a href="login.xhtml">voltar</a>
+</h:body>
+</html>

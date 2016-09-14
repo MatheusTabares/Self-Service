@@ -17,9 +17,6 @@ import javax.validation.constraints.Min;
 @Table(name = "usuario")
 public class Usuario implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 6510223654635279605L;
 
 	@Id
@@ -56,6 +53,9 @@ public class Usuario implements Serializable {
 	@Column(name = "cpf", length = 12, nullable = false)
 	@Min(11)
 	private String cpf;
+	
+	@Column(nullable = false)
+	private String tipo;
 	
 	public Long getId() {
 		return id;
@@ -117,6 +117,12 @@ public class Usuario implements Serializable {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
+	public String getTipo() {
+		return tipo;
+	}
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -131,6 +137,7 @@ public class Usuario implements Serializable {
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
 		result = prime * result + ((telefone == null) ? 0 : telefone.hashCode());
+		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
 		return result;
 	}
 	@Override
@@ -189,14 +196,19 @@ public class Usuario implements Serializable {
 				return false;
 		} else if (!telefone.equals(other.telefone))
 			return false;
+		if (tipo == null) {
+			if (other.tipo != null)
+				return false;
+		} else if (!tipo.equals(other.tipo))
+			return false;
 		return true;
 	}
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", senha=" + senha + ", endereco=" + endereco + ", imagem="
 				+ imagem + ", telefone=" + telefone + ", nascimento=" + nascimento + ", ativo=" + ativo + ", email="
-				+ email + ", cpf=" + cpf + "]";
+				+ email + ", cpf=" + cpf + ", tipo=" + tipo + "]";
 	}
-	
+		
 		
 }

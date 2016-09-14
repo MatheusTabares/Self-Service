@@ -9,7 +9,14 @@
         <h:outputText value="MASTER-MENU" />
     </H2>
     <h:form>
-    		<h:message/>
+    		<h:messages/>
+    		<h:inputHidden value="#{clienteBean.cliente.id}" />
+    		<h:inputHidden value="#{clienteBean.cliente.ativo}" />
+    		<h:inputHidden value="#{clienteBean.cliente.imagem}" />
+    		<h:inputHidden value="#{clienteBean.cliente.tipo}" />
+    		<h:inputHidden value="#{clienteBean.cliente.cupom}" />
+    		<h:inputHidden value="#{clienteBean.cliente.token}" />
+    		<h:inputHidden value="#{clienteBean.destinoSalvar}" />
    			<fieldset>
 				<legend>Cadastrar Cliente</legend>
 				<h:panelGrid columns="2">
@@ -54,20 +61,21 @@
 						</h:inputText>
 					
 						<h:outputLabel value="Senha:" for="senha" />
-						<h:inputText id="senha" value="#{clienteBean.cliente.senha}"
+						<h:inputSecret id="senha" value="#{clienteBean.cliente.senha}"
 							required="true">
 							<f:validateLength minimum="5" />
 							<f:ajax event="blur" render="messageNome" />
-						</h:inputText>
+						</h:inputSecret>
 						
 						<h:outputLabel value="Confirma Senha:" for="confirmaSenha" />
-						<h:inputText id="confirmaSenha" value="#{clienteBean.confirmarSenha}"
+						<h:inputSecret id="confirmaSenha" value="#{clienteBean.confirmarSenha}"
 							required="true">
 							<f:validateLength minimum="5" />
 							<f:ajax event="blur" render="messageNome" />
-						</h:inputText>
+						</h:inputSecret>
 						
-						<h:commandButton value="Salvar" action="#{clienteBean.adiciona}" />
+						<h:commandButton value="Salvar" action="#{clienteBean.salvar}" />
+						<a href="login.xhtml">voltar</a>
 				</h:panelGrid>
 			</fieldset>
 		</h:form>

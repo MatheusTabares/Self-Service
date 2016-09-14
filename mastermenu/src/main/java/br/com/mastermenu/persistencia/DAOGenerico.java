@@ -28,13 +28,13 @@ public class DAOGenerico<T> {
             if(t != null){
                 em.getTransaction().rollback();
             }
-            System.out.println("N„o foi possÌvel adicionar. Erro: " + ex.getMessage());
+            System.out.println("N√£o foi poss√≠vel adicionar. Erro: " + ex.getMessage());
         } finally {
         	try {
         		// fecha a entity manager
         		em.close();
         	} catch (Throwable ex) {
-        		System.out.println("Erro ao fechar a operaÁ„o de adicionar. Mensagem:" + ex.getMessage());
+        		System.out.println("Erro ao fechar a opera√ß√£o de adicionar. Mensagem:" + ex.getMessage());
         	}
         }
 	}
@@ -49,13 +49,13 @@ public class DAOGenerico<T> {
 			//commita a transa√ß√£o
 			em.getTransaction().commit();
 		} catch (Exception ex) {
-			System.out.println("N„o foi possÌvel remover. Erro: " + ex.getMessage());
+			System.out.println("N√£o foi poss√≠vel remover. Erro: " + ex.getMessage());
 		}  finally {
         	try {
         		// fecha a entity manager
         		em.close();
         	} catch (Throwable ex) {
-        		System.out.println("Erro ao fechar a operaÁ„o de adicionar. Mensagem:" + ex.getMessage());
+        		System.out.println("Erro ao fechar a opera√ß√£o de adicionar. Mensagem:" + ex.getMessage());
         	}
         }
 	}
@@ -69,13 +69,13 @@ public class DAOGenerico<T> {
 	
 			em.getTransaction().commit();
 		} catch (Exception ex) {
-			System.out.println("N„o foi possÌvel atualizar. Erro: " + ex.getMessage());
+			System.out.println("N√£o foi poss√≠vel atualizar. Erro: " + ex.getMessage());
 		}  finally {
         	try {
         		// fecha a entity manager
         		em.close();
         	} catch (Throwable ex) {
-        		System.out.println("Erro ao fechar a operaÁ„o de adicionar. Mensagem:" + ex.getMessage());
+        		System.out.println("Erro ao fechar a opera√ß√£o de adicionar. Mensagem:" + ex.getMessage());
         	}
         }
 	}
@@ -89,14 +89,14 @@ public class DAOGenerico<T> {
 			lista = em.createQuery(query).getResultList();
 			return lista;
 		} catch (Exception ex) {
-			System.out.println("N„o foi possÌvel listar todos. Erro: " + ex.getMessage());
+			System.out.println("N√£o foi poss√≠vel listar todos. Erro: " + ex.getMessage());
 			throw new HibernateException(ex);
 		}  finally {
         	try {
         		// fecha a entity manager
         		em.close();
         	} catch (Throwable ex) {
-        		System.out.println("Erro ao fechar a operaÁ„o de adicionar. Mensagem:" + ex.getMessage());
+        		System.out.println("Erro ao fechar a opera√ß√£o de adicionar. Mensagem:" + ex.getMessage());
         	}
         }
 	}
@@ -108,14 +108,14 @@ public class DAOGenerico<T> {
 			instancia = em.find(classe, id);
 			return instancia;
 		} catch (Exception ex) {
-			System.out.println("N„o foi possÌvel buscar por id. Erro: " + ex.getMessage());
+			System.out.println("N√£o foi poss√≠vel buscar por id. Erro: " + ex.getMessage());
 			throw new HibernateException(ex);
 		}  finally {
         	try {
         		// fecha a entity manager
         		em.close();
         	} catch (Throwable ex) {
-        		System.out.println("Erro ao fechar a operaÁ„o de adicionar. Mensagem:" + ex.getMessage());
+        		System.out.println("Erro ao fechar a opera√ß√£o de adicionar. Mensagem:" + ex.getMessage());
         	}
         }
 	}
@@ -129,14 +129,14 @@ public class DAOGenerico<T> {
 
 			return (int) result;
 		} catch (Exception ex) {
-			System.out.println("N„o foi possÌvel contar todos. Erro: " + ex.getMessage());
+			System.out.println("N√£o foi poss√≠vel contar todos. Erro: " + ex.getMessage());
 			throw new HibernateException(ex);
 		}  finally {
         	try {
         		// fecha a entity manager
         		em.close();
         	} catch (Throwable ex) {
-        		System.out.println("Erro ao fechar a operaÁ„o de adicionar. Mensagem:" + ex.getMessage());
+        		System.out.println("Erro ao fechar a opera√ß√£o de adicionar. Mensagem:" + ex.getMessage());
         	}
         }
 	}
@@ -152,14 +152,14 @@ public class DAOGenerico<T> {
 					.setMaxResults(maxResults).getResultList();
 			return lista;
 		} catch (Exception ex) {
-			System.out.println("N„o foi possÌvel listar todos paginada. Erro: " + ex.getMessage());
+			System.out.println("N√£o foi poss√≠vel listar todos paginada. Erro: " + ex.getMessage());
 			throw new HibernateException(ex);
 		} finally {
         	try {
         		// fecha a entity manager
         		em.close();
         	} catch (Throwable ex) {
-        		System.out.println("Erro ao fechar a operaÁ„o de adicionar. Mensagem:" + ex.getMessage());
+        		System.out.println("Erro ao fechar a opera√ß√£o de adicionar. Mensagem:" + ex.getMessage());
         	}
         }
 	}

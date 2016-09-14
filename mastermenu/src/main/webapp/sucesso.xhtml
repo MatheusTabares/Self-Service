@@ -5,8 +5,9 @@
     xmlns:f="http://java.sun.com/jsf/core">
 <h:head></h:head>
 <h:body>
-    <H2>
-        CLIENTE CADASTRADO.
-    </H2>
+	<h1><h:outputText value="#{clienteBean.cliente.nome}" />, seja Bem-vindo</h1>
+	Seu cadastro foi efetuado com sucesso.
+	<br/>
+	Clique <a href="login.xhtml">aqui</a> para efetuar o login.
 </h:body>
 </html>

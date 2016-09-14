@@ -8,9 +8,6 @@ import javax.persistence.Table;
 @Table(name = "cliente")
 public class Cliente extends Usuario{
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3253914292390210978L;
 	
 	@Column(name = "cupom", length = 100)
