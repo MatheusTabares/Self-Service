@@ -1,6 +1,7 @@
 package br.com.mastermenu.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -12,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "usuario")
@@ -42,9 +44,9 @@ public class Usuario implements Serializable {
 	private String telefone;
 	
 	@Column(name = "dt_nascimento", nullable = false)
-	@Min(8)
-	private String nascimento;
+	private Date nascimento;
 	
+	@NotNull
 	private boolean ativo;
 	
 	@Column(name = "email", length = 50, nullable = false)
@@ -93,10 +95,11 @@ public class Usuario implements Serializable {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-	public String getNascimento() {
+	
+	public Date getNascimento() {
 		return nascimento;
 	}
-	public void setNascimento(String nascimento) {
+	public void setNascimento(Date nascimento) {
 		this.nascimento = nascimento;
 	}
 	public boolean isAtivo() {

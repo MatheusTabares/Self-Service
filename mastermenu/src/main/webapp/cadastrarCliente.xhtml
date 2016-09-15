@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core">
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
 <h:head></h:head>
 <h:body>
     <H2>
@@ -41,12 +42,14 @@
 						</h:inputText>
 						
 						<h:outputLabel value="Data de Nascimento:" for="dtNascimento" />
-						<h:inputText id="dtNascimento" value="#{clienteBean.cliente.nascimento}"
+						<p:calendar id="dtNascimento" effect="fold" locale="pt_BR" navigator="true" yearRange="1900:2016"
+							value="#{clienteBean.cliente.nascimento}"  required="true" requiredMessage="O campo nascimento é obrigatório."></p:calendar>
+						<!-- <h:inputText id="dtNascimento" value="#{clienteBean.cliente.nascimento}"
 							required="true">
 							<f:validateLength minimum="8" />
 							<f:ajax event="blur" render="messageNome" />
 						</h:inputText>
-						
+						 -->
 						<h:outputLabel value="e-Mail:" for="email" />
 						<h:inputText id="email" value="#{clienteBean.cliente.email}"
 							required="true">
