@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+<h:head></h:head>
+<h:body>
+    <H2>
+        <h:outputText value="MASTER-MENU" />
+    </H2>
+    <h:form>
+    		<h:messages/>
+    		<h:inputHidden value="#{profissionalBean.profissional.id}" />
+    		<h:inputHidden value="#{profissionalBean.profissional.ativo}" />
+    		<h:inputHidden value="#{profissionalBean.profissional.imagem}" />
+    		<h:inputHidden value="#{profissionalBean.profissional.tipo}" />
+    		<h:inputHidden value="#{profissionalBean.destinoSalvar}" />
+   			<fieldset>
+				<legend>Cadastrar Profissional</legend>
+				<h:panelGrid columns="2">
+	    				<h:outputLabel value="Nome:" for="nome" />
+						<h:inputText id="nome" value="#{profissionalBean.profissional.nome}"
+							required="true" requiredMessage="O campo 'Nome' é obrigatório.">
+						</h:inputText>
+						
+						<h:outputLabel value="Endereco:" for="endereco" />
+						<h:inputText id="endereco" value="#{profissionalBean.profissional.endereco}"
+							required="true" requiredMessage="O campo 'Endereço' é obrigatório.">
+						</h:inputText>
+						
+						<h:outputLabel value="Telefone:" for="telefone" />
+						<h:inputText id="telefone" value="#{profissionalBean.profissional.telefone}"
+							required="true" requiredMessage="O campo 'Telefone' é obrigatório.">
+						</h:inputText>
+						
+						<h:outputLabel value="e-Mail:" for="email" />
+						<h:inputText id="email" value="#{profissionalBean.profissional.email}"
+							required="true" requiredMessage="O campo 'e-Mail' é obrigatório.">
+						</h:inputText>
+						
+						<h:outputLabel value="CPF:" for="cpf" />
+						<h:inputText id="cpf" value="#{profissionalBean.profissional.cpf}"
+							required="true" requiredMessage="O campo 'Cpf' é obrigatório.">
+						</h:inputText>
+						
+						<h:outputLabel value="PIS:" for="pis" />
+						<h:inputText id="pis" value="#{profissionalBean.profissional.pis}"
+							required="true" requiredMessage="O campo 'PIS' é obrigatório.">
+						</h:inputText>
+					
+						<h:outputLabel value="Senha:" for="senha" />
+						<h:inputSecret id="senha" value="#{profissionalBean.profissional.senha}"
+							required="true" requiredMessage="O campo 'Senha' é obrigatório.">
+						</h:inputSecret>
+						
+						<h:outputLabel value="Confirma Senha:" for="confirmaSenha" />
+						<h:inputSecret id="confirmaSenha" value="#{profissionalBean.confirmarSenha}"
+							required="true" requiredMessage="O campo 'Confirma Senha' é obrigatório.">
+						</h:inputSecret>
+						
+						<h:commandButton value="Salvar" action="#{profissionalBean.salvar}" />
+						<a href="login.xhtml">voltar</a>
+						
+				</h:panelGrid>
+			</fieldset>
+		</h:form>
+</h:body>
+</html>

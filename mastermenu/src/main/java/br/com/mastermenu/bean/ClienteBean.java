@@ -1,11 +1,14 @@
 package br.com.mastermenu.bean;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import br.com.mastermenu.model.Cliente;
-import br.com.mastermenu.persistencia.DAOGenerico;
+import br.com.mastermenu.persistencia.ClienteDAO;
 
 @ManagedBean(name = "clienteBean")
 @SessionScoped
@@ -13,6 +16,8 @@ public class ClienteBean {
 	private Cliente cliente = new Cliente();
 	private String confirmarSenha;
 	private String destinoSalvar;
+	private List<Cliente> lista = new ArrayList<Cliente>();
+	private ClienteDAO  clienteDAO = new ClienteDAO();
 	
 	public String novo() {
 		this.destinoSalvar = "sucesso";
@@ -33,24 +38,41 @@ public class ClienteBean {
 			return null;
 		}
 		Long id = cliente.getId();
+		clienteDAO = new ClienteDAO();
 		if(id == null || id == 0) {
-			new DAOGenerico<Cliente>(Cliente.class).adiciona(this.cliente);
+			clienteDAO.salvar(cliente);
+			FacesMessage facesMessage = new FacesMessage("Cliente cadastrado com sucesso.");
+			context.addMessage(null, facesMessage);
 		} else {
-			new DAOGenerico<Cliente>(Cliente.class).atualiza(this.cliente);
+			clienteDAO.atualizar(cliente);
+			FacesMessage facesMessage = new FacesMessage("Cliente atualizado com sucesso.");
+			context.addMessage(null, facesMessage);
 		}
 		return this.destinoSalvar;
 	}
 	
-	public void excluir(Cliente cliente) {
-		new DAOGenerico<Cliente>(Cliente.class).remove(this.cliente);
+	public void excluir() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		clienteDAO = new ClienteDAO();
+		clienteDAO.excluir(cliente);
+		FacesMessage facesMessage = new FacesMessage("Cliente excluido com sucesso.");
+		context.addMessage(null, facesMessage);
 	}
 	
+	public void listar() {
+		clienteDAO = new ClienteDAO();
+		lista = clienteDAO.listar();
+	}
+	
+	public Cliente buscarPorId() {
+		//NAO IMPLEMENTADO
+		return cliente;
+	}
 	public String alterar() {
-		this.confirmarSenha = this.cliente.getSenha();
+		//this.confirmarSenha = this.cliente.getSenha();
 		return "cadastrarCliente";
 	}
 	
-
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -73,5 +95,22 @@ public class ClienteBean {
 
 	public void setDestinoSalvar(String destinoSalvar) {
 		this.destinoSalvar = destinoSalvar;
+	}
+
+	public ClienteDAO getClienteDAO() {
+		return clienteDAO;
+	}
+
+	public void setClienteDAO(ClienteDAO clienteDAO) {
+		this.clienteDAO = clienteDAO;
+	}
+
+	public List<Cliente> getLista() {
+		lista = clienteDAO.listar();
+		return lista;
+	}
+
+	public void setLista(List<Cliente> lista) {
+		this.lista = lista;
 	}
 }

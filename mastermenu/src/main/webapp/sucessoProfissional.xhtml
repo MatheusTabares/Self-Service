@@ -5,12 +5,9 @@
     xmlns:f="http://java.sun.com/jsf/core">
 <h:head></h:head>
 <h:body>
-	<h1>Login</h1>
-	<hr/>
-	<h:form>
-		<h:commandButton action="#{clienteBean.novo}" value="Cadastre-se" />
-		<h:commandLink action="home.xhtml" value="Voltar" />
-	</h:form>
-	<hr/>
+	<h1><h:outputText value="#{profissionalBean.profissional.nome}" />, seja Bem-vindo</h1>
+	Seu cadastro foi efetuado com sucesso.
+	<br/>
+	Clique <a href="login.xhtml">aqui</a> para efetuar o login.
 </h:body>
 </html>

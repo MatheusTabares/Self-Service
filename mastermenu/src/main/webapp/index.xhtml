@@ -23,9 +23,10 @@
 				<h:commandButton value="Gravar" action="#{itemBean.incluirOuEditar}" />
 
 
+				<!-- 
 				<h:commandButton value="Listar" action="#{itemBean.itens}"
 					update="idTabela" />
-
+				 -->
 				<h:dataTable id="idTabela" value="${itemBean.item}" var="p">
 					<h:column>
 						<h:outputText value="${p.id}" />

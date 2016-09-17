@@ -3,7 +3,8 @@
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:p="http://primefaces.org/ui">
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 <h:head></h:head>
 <h:body>
     <H2>
@@ -19,62 +20,41 @@
     		<h:inputHidden value="#{clienteBean.cliente.token}" />
     		<h:inputHidden value="#{clienteBean.destinoSalvar}" />
    			<fieldset>
-				<legend>Cadastrar Cliente</legend>
+				<legend>Cadastro Cliente</legend>
 				<h:panelGrid columns="2">
 	    				<h:outputLabel value="Nome:" for="nome" />
 						<h:inputText id="nome" value="#{clienteBean.cliente.nome}"
-							required="true">
-							<f:validateLength minimum="2" />
-							<f:ajax event="blur" render="messageNome" />
+							required="true" requiredMessage="O campo 'Nome' é obrigatório.">
 						</h:inputText>
 						
 						<h:outputLabel value="Endereco:" for="endereco" />
 						<h:inputText id="endereco" value="#{clienteBean.cliente.endereco}"
-							required="true">
-							<f:ajax event="blur" render="messageNome" />
+							required="true" requiredMessage="O campo 'Endereço' é obrigatório.">
 						</h:inputText>
 						
 						<h:outputLabel value="Telefone:" for="telefone" />
 						<h:inputText id="telefone" value="#{clienteBean.cliente.telefone}"
-							required="true">
-							<f:validateLength minimum="10" />
-							<f:ajax event="blur" render="messageNome" />
+							required="true" requiredMessage="O campo 'Telefone' é obrigatório.">
 						</h:inputText>
 						
-						<h:outputLabel value="Data de Nascimento:" for="dtNascimento" />
-						<p:calendar id="dtNascimento" effect="fold" locale="pt_BR" navigator="true" yearRange="1900:2016"
-							value="#{clienteBean.cliente.nascimento}"  required="true" requiredMessage="O campo nascimento é obrigatório."></p:calendar>
-						<!-- <h:inputText id="dtNascimento" value="#{clienteBean.cliente.nascimento}"
-							required="true">
-							<f:validateLength minimum="8" />
-							<f:ajax event="blur" render="messageNome" />
-						</h:inputText>
-						 -->
 						<h:outputLabel value="e-Mail:" for="email" />
 						<h:inputText id="email" value="#{clienteBean.cliente.email}"
-							required="true">
-							<f:ajax event="blur" render="messageNome" />
+							required="true" requiredMessage="O campo 'e-Mail' é obrigatório.">
 						</h:inputText>
 						
 						<h:outputLabel value="CPF:" for="cpf" />
 						<h:inputText id="cpf" value="#{clienteBean.cliente.cpf}"
-							required="true">
-							<f:validateLength minimum="11" />
-							<f:ajax event="blur" render="messageNome" />
+							required="true" requiredMessage="O campo 'Cpf' é obrigatório.">
 						</h:inputText>
 					
 						<h:outputLabel value="Senha:" for="senha" />
 						<h:inputSecret id="senha" value="#{clienteBean.cliente.senha}"
-							required="true">
-							<f:validateLength minimum="5" />
-							<f:ajax event="blur" render="messageNome" />
+							required="true" requiredMessage="O campo 'Senha' é obrigatório.">
 						</h:inputSecret>
 						
 						<h:outputLabel value="Confirma Senha:" for="confirmaSenha" />
 						<h:inputSecret id="confirmaSenha" value="#{clienteBean.confirmarSenha}"
-							required="true">
-							<f:validateLength minimum="5" />
-							<f:ajax event="blur" render="messageNome" />
+							required="true" requiredMessage="O campo 'Confirma Senha' é obrigatório.">
 						</h:inputSecret>
 						
 						<h:commandButton value="Salvar" action="#{clienteBean.salvar}" />

@@ -5,42 +5,40 @@
     xmlns:f="http://java.sun.com/jsf/core">
 <h:head></h:head>
 <h:body>
-    <H2>Listagem de Usuários</H2>
+    <H2>Listagem de Profissionais</H2>
     <h:form>
     		<h:messages/>
- 			<h:dataTable style="width: 100%; text-align: left;" value="#{clienteBean.lista}" var="cliente" rules="rows" cellpadding="5" >
+ 			<h:dataTable style="width: 100%; text-align: left;" value="#{profissionalBean.lista}" var="profissional" rules="rows" cellpadding="5" >
     			<f:facet name="caption">
-    				A listagem a seguir exibe a relação de todos os clientes do sistema. Você poderá
-    				realizar ativação e desativação, edição e exclusão para os clientes.
     				<hr/>
     			</f:facet>
     			<f:facet name="footer">Final da Listagem</f:facet>
     			<h:column>
     				<f:facet name="header">Id</f:facet>
-    				<h:outputText value="#{cliente.id}" />
+    				<h:outputText value="#{profissional.id}" />
     			</h:column>
     			<h:column>
     				<f:facet name="header">Nome</f:facet>
-    				<h:outputText value="#{cliente.nome}" />
+    				<h:outputText value="#{profissional.nome}" />
     			</h:column>
     			<h:column>
     				<f:facet name="header">e-Mail</f:facet>
-    				<h:outputText value="#{cliente.email}" />
+    				<h:outputText value="#{profissional.email}" />
     			</h:column>
     			<h:column>
     				<f:facet name="header">Tipo</f:facet>
-    				<h:outputText value="#{cliente.tipo}" />
+    				<h:outputText value="#{profissional.tipo}" />
     			</h:column>
     			<h:column>
-    				<h:commandLink action="#{clienteBean.alterar}" value="alterar">
-    					<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />
-    					<f:setPropertyActionListener value="listagem" target="#{clienteBean.destinoSalvar}" />
+    				<h:commandLink action="#{profissionalBean.alterar}" value="alterar">
+    					<f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.profissional}" />
+    					<f:setPropertyActionListener value="listagemProfissional" target="#{profissionalBean.destinoSalvar}" />
     				</h:commandLink>
     			</h:column>
     			<h:column>
-    				<h:commandLink action="#{clienteBean.excluir}" value="excluir"
+    				<h:commandLink action="#{profissionalBean.excluir}" value="excluir"
     					onclick="if (!confirm('Confirma a exclusão do usuário')) return false;">
-    					<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />
+    					<f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.profissional}" />
     				</h:commandLink>
     			</h:column>
     		</h:dataTable>

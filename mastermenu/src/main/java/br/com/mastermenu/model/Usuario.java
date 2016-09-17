@@ -30,7 +30,6 @@ public class Usuario implements Serializable {
 	private String nome;
 	
 	@Column(name = "senha", length = 20, nullable = false)
-	@Min(5)
 	private String senha;
 	
 	@Column(name = "endereco", nullable = false)
@@ -42,9 +41,6 @@ public class Usuario implements Serializable {
 	@Column(name = "telefone", length = 50, nullable = false)
 	@Min(10)
 	private String telefone;
-	
-	@Column(name = "dt_nascimento", nullable = false)
-	private Date nascimento;
 	
 	@NotNull
 	private boolean ativo;
@@ -96,12 +92,6 @@ public class Usuario implements Serializable {
 		this.telefone = telefone;
 	}
 	
-	public Date getNascimento() {
-		return nascimento;
-	}
-	public void setNascimento(Date nascimento) {
-		this.nascimento = nascimento;
-	}
 	public boolean isAtivo() {
 		return ativo;
 	}
@@ -136,7 +126,6 @@ public class Usuario implements Serializable {
 		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((imagem == null) ? 0 : imagem.hashCode());
-		result = prime * result + ((nascimento == null) ? 0 : nascimento.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
 		result = prime * result + ((telefone == null) ? 0 : telefone.hashCode());
@@ -179,11 +168,6 @@ public class Usuario implements Serializable {
 				return false;
 		} else if (!imagem.equals(other.imagem))
 			return false;
-		if (nascimento == null) {
-			if (other.nascimento != null)
-				return false;
-		} else if (!nascimento.equals(other.nascimento))
-			return false;
 		if (nome == null) {
 			if (other.nome != null)
 				return false;
@@ -209,7 +193,7 @@ public class Usuario implements Serializable {
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", senha=" + senha + ", endereco=" + endereco + ", imagem="
-				+ imagem + ", telefone=" + telefone + ", nascimento=" + nascimento + ", ativo=" + ativo + ", email="
+				+ imagem + ", telefone=" + telefone + ", ativo=" + ativo + ", email="
 				+ email + ", cpf=" + cpf + ", tipo=" + tipo + "]";
 	}
 		
