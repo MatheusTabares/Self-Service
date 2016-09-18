@@ -1,12 +1,15 @@
 package br.com.mastermenu.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+
 import java.io.Serializable;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Column;
-import javax.persistence.Version;
 
 @Entity
 public class Item implements Serializable {
@@ -14,19 +17,22 @@ public class Item implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+	@Column(name = "idItem", updatable = false, nullable = false)
+	private Long idItem;
 	
 	@Column(name = "nome")
 	private String nome;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "item_idProduto", referencedColumnName = "idProduto")
+    private Produto produto;
+	
+	@Column(name = "valor")
+	private double valor;
+	
+	@Column(name = "quantidade")
+	private int quantidade;
 
-	public Long getId() {
-		return this.id;
-	}
-
-	public void setId(final Long id) {
-		this.id = id;
-	}
 
 	public String getNome() {
 		return this.nome;
@@ -36,36 +42,37 @@ public class Item implements Serializable {
 		this.nome = nome;
 	}
 
-	@Override
-	public String toString() {
-		String result = getClass().getSimpleName() + " ";
-		if (id != null)
-			result += "id: " + id;
-		return result;
+	public Long getIdItem() {
+		return idItem;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof Item)) {
-			return false;
-		}
-		Item other = (Item) obj;
-		if (id != null) {
-			if (!id.equals(other.id)) {
-				return false;
-			}
-		}
-		return true;
+	public void setIdItem(Long idItem) {
+		this.idItem = idItem;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+	public Produto getProduto() {
+		return produto;
 	}
+
+	public void setProduto(Produto produto) {
+		this.produto = produto;
+	}
+
+	public double getValor() {
+		return valor;
+	}
+
+	public void setValor(double valor) {
+		this.valor = valor;
+	}
+
+	public int getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(int quantidade) {
+		this.quantidade = quantidade;
+	}
+
+
 }

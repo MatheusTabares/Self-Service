@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 <h:head></h:head>
 <h:body>
 	<H2>
@@ -11,31 +12,137 @@
 
 	<h:form id="autor">
 		<fieldset>
-			<legend>Insira um prato</legend>
-			<h:panelGrid columns="3">
+			<legend>Insira um item</legend>
+			<h:panelGrid columns="2">
 
 				<h:outputLabel value="Nome:" for="nome" />
 				<h:inputText id="nome" value="#{itemBean.item.nome}" required="true">
 					<f:validateLength minimum="5" />
 					<f:ajax event="blur" render="messageNome" />
 				</h:inputText>
+				
+				<h:outputLabel value="Valor:" for="valor" />
+				<h:inputText id="valor" value="#{itemBean.item.valor}" required="true">
+					<f:ajax event="blur" render="messageNome" />
+				</h:inputText>
+				
+				<h:outputLabel value="Quantidade:" for="quantidade" />
+				<h:inputText id="quantidade" value="#{itemBean.item.quantidade}" required="true">
+					<f:ajax event="blur" render="messageNome" />
+				</h:inputText>
 
-				<h:commandButton value="Gravar" action="#{itemBean.incluirOuEditar}" />
+				<h:commandButton value="Gravar" action="#{itemBean.incluir}" />
 
 
-				<!-- 
-				<h:commandButton value="Listar" action="#{itemBean.itens}"
-					update="idTabela" />
-				 -->
-				<h:dataTable id="idTabela" value="${itemBean.item}" var="p">
-					<h:column>
-						<h:outputText value="${p.id}" />
-					</h:column>
-
-					<h:column>
-						<h:outputText value="${p.nome}" />
-					</h:column>
-				</h:dataTable>
+				<h:dataTable style="width: 100%; text-align: left;" value="#{itemBean.itens}" var="item" rules="rows" cellpadding="5" >
+    			<f:facet name="caption">
+    				<hr/>
+    			</f:facet>
+    			<f:facet name="footer">Itens</f:facet>
+    			<h:column>
+    				<f:facet name="header">Id</f:facet>
+    				<h:outputText value="#{item.idItem}" />
+    			</h:column>
+    			<h:column>
+    				<f:facet name="header">Nome</f:facet>
+    				<h:outputText value="#{item.nome}" />
+    			</h:column>
+    			<h:column>
+    				<f:facet name="header">Valor</f:facet>
+    				<h:outputText value="#{item.valor}" />
+    			</h:column>
+    			<h:column>
+    				<f:facet name="header">quantidade</f:facet>
+    				<h:outputText value="#{item.quantidade}" />
+    			</h:column>
+    			
+    				<f:facet name="header">produto</f:facet>
+                    <p:selectOneMenu id="produto" value="#{item.produto}" required="true" effect="fold" editable="true" requiredMessage="O campo funcionario é obrigatório.">
+                        <f:selectItem itemLabel="Selecione o funcionario" itemValue="" />
+                        <f:selectItems value="#{itemBean.}" var="f" itemValue="#{f.idFuncionario}" itemLabel="#{f.nome}" />
+                    </p:selectOneMenu>
+    			
+    			<h:column>
+    				<h:commandLink action="#{clienteBean.alterar}" value="alterar">
+    					<f:setPropertyActionListener value="#{item}" target="#{itemBean.item}" />
+    					<f:setPropertyActionListener value="listagem" target="#{itemBean.incluirOuEditar}" />
+    				</h:commandLink>
+    			</h:column>
+    			<h:column>
+    				<h:commandLink action="#{itemBean.excluir}" value="excluir"
+    					onclick="if (!confirm('Confirma a exclusão do usuário')) return false;">
+    					<f:setPropertyActionListener value="#{item}" target="#{itemBean.item}" />
+    				</h:commandLink>
+    			</h:column>
+    		</h:dataTable>
+     	
+     	<a href="login.xhtml">voltar</a>
+     	
+     	</h:panelGrid>
+		</fieldset>
+		</h:form>	
+		
+		
+		<h:form>
+		<fieldset>
+		<legend>Insira um produto</legend>
+		<h:panelGrid columns="2">
+		
+		<h:outputLabel value="Nome:" for="nome" />
+				<h:inputText id="nome" value="#{produtoBean.produto.nome}" required="true">
+					<f:validateLength minimum="5" />
+					<f:ajax event="blur" render="messageNome" />
+				</h:inputText>
+				
+				<h:outputLabel value="Valor:" for="valor" />
+				<h:inputText id="produto" value="#{produtoBean.produto.valor}" required="true">
+					<f:ajax event="blur" render="messageNome" />
+				</h:inputText>
+				
+				<h:outputLabel value="Descrição:" for="descricao" />
+				<h:inputText id="descricao" value="#{produtoBean.produto.descricao}" required="true">
+					<f:ajax event="blur" render="messageNome" />
+				</h:inputText>
+				
+				<h:commandButton value="Gravar" action="#{produtoBean.incluir}" />
+		
+		
+     	<h:dataTable style="width: 100%; text-align: left;" value="#{produtoBean.produtos}" var="produto" rules="rows" cellpadding="5" >
+    			<f:facet name="caption">
+    				<hr/>
+    			</f:facet>
+    			<f:facet name="footer">Itens</f:facet>
+    			<h:column>
+    				<f:facet name="header">Id</f:facet>
+    				<h:outputText value="#{produto.idProduto}" />
+    			</h:column>
+    			<h:column>
+    				<f:facet name="header">Nome</f:facet>
+    				<h:outputText value="#{produto.nome}" />
+    			</h:column>
+    			<h:column>
+    				<f:facet name="header">Valor</f:facet>
+    				<h:outputText value="#{produto.valor}" />
+    			</h:column>
+    			<h:column>
+    				<f:facet name="header">quantidade</f:facet>
+    				<h:outputText value="#{produto.descricao}" />
+    			</h:column>
+    			<h:column>
+    				<h:commandLink action="#{produtoBean.alterar}" value="alterar">
+    					<f:setPropertyActionListener value="#{produto}" target="#{produtoBean.produto}" />
+    					<f:setPropertyActionListener value="listar" target="#{produtoBean.incluirOuEditar}" />
+    				</h:commandLink>
+    			</h:column>
+    			<h:column>
+    				<h:commandLink action="#{produtoBean.excluir}" value="excluir"
+    					onclick="if (!confirm('Confirma a exclusão do produto')) return false;">
+    					<f:setPropertyActionListener value="#{produto}" target="#{produtoBean.produto}" />
+    				</h:commandLink>
+    			</h:column>
+    		</h:dataTable>
+     	
+     	<a href="login.xhtml">voltar</a>
 
 
 			</h:panelGrid>

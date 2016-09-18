@@ -19,13 +19,17 @@ public class Produto implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", updatable = false, nullable = false)
-	private Long id;
+	@Column(name = "idProduto", updatable = false, nullable = false)
+	private Long idProduto;
 	
 	@Column(name = "nome", updatable = false, nullable = false)
 	private String nome;
 	
+	@Column(name = "descricao", updatable = false)
+	private String descricao;
 	
+	@Column(name = "valor", updatable = false)
+	private double valor;
 
 	public String getNome() {
 		return nome;
@@ -35,44 +39,30 @@ public class Produto implements Serializable {
 		this.nome = nome;
 	}
 
-	public Long getId() {
-		return this.id;
+
+	public Long getIdProduto() {
+		return idProduto;
 	}
 
-	public void setId(final Long id) {
-		this.id = id;
+	public void setIdProduto(Long idProduto) {
+		this.idProduto = idProduto;
 	}
 
-	@Override
-	public String toString() {
-		String result = getClass().getSimpleName() + " ";
-		if (id != null)
-			result += "id: " + id;
-		return result;
+	public double getValor() {
+		return valor;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (!(obj instanceof Produto)) {
-			return false;
-		}
-		Produto other = (Produto) obj;
-		if (id != null) {
-			if (!id.equals(other.id)) {
-				return false;
-			}
-		}
-		return true;
+	public void setValor(double valor) {
+		this.valor = valor;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+	public String getDescricao() {
+		return descricao;
 	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
+
+	
 }
