@@ -1,0 +1,16 @@
+body{
+        background-color: #0099FF ;
+        border: 0px;
+        padding: 0px;
+}
+.conteiner{
+    width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    font-size: 85%;
+}
+
+.ui-state-default .icon-login{
+    background-image: url(../img/icones/senha.png);
+}

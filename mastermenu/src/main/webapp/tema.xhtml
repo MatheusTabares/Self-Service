@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Dentosul</title>
+        <h:outputStylesheet library="css" name="estilo.css" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet library="css" name="login.css" />
+        <h:outputScript library="js" name="scripts.js" />
+    </h:head>
+    <h:body>
+        <p:growl id="msgGlobal" life="3000" />
+        <p:layout id="corpo" fullPage="true">
+            <p:layoutUnit id="topo" position="north" size="150">
+                <p:graphicImage library="img" name="odonto.png" height="100"/>
+                <ui:insert name="menu"></ui:insert>
+            </p:layoutUnit>
+            <p:layoutUnit id="direito" position="east" size="300">
+               <p:graphicImage library="img" name="cadeira.png" height="100"/>
+               agende sua consulta
+               <br></br><hr></hr>
+            </p:layoutUnit>
+            <p:layoutUnit position="center" size="100%">
+                <ui:insert name="conteudo"></ui:insert>
+            </p:layoutUnit>
+            <p:layoutUnit id="rodape" position="south " size="50">
+                <center> ‎Copyright © direitos reservados construido por Paulo Henrique S. Faria</center>
+            </p:layoutUnit>
+        </p:layout>
+    </h:body>
+</html>

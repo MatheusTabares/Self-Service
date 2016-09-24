@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <h:form>
+        <div id="relogio">
+            <p:clock pattern="HH:mm:ss dd.MM.yyyy" />
+        </div>
+        <p:menubar>
+
+            <p:submenu label="Item">
+                <p:menuitem value="Gerenciar" url="/faces/clientes.xhtml" />
+            </p:submenu>
+
+            <p:submenu label="Produto">
+                <p:menuitem value="Gerenciar" url="/faces/funcionarios.xhtml" />
+            </p:submenu>
+
+            <p:submenu label="Cliente">
+                <p:menuitem value="Gerenciar" url="/faces/consultas.xhtml" />
+            </p:submenu>
+            
+            <p:submenu label="Profissional">
+                <p:menuitem value="Gerenciar" url="/faces/consultas.xhtml" />
+            </p:submenu>
+            
+            <p:submenu label="Estabelecimento">
+                <p:menuitem value="Gerenciar" url="/faces/consultas.xhtml" />
+            </p:submenu>
+            <p:menuitem value="Sair" url="/faces/index.xhtml"/>
+
+
+        </p:menubar>
+
+    </h:form>
+
+
+</ui:composition>

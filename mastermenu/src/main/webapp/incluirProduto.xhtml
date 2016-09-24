@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="tema.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="menu">
+        <ui:include src="/includes/menuPrincipal.xhtml" />
+    </ui:define>
+    <h:outputScript library="js" name="script.js" />
+
+    <ui:define name="conteudo">
+        <h:form id="frmClienteListagem">
+            <p:dataTable id="tblClientes" widgetVar="tabelaClientes" paginator="true" 
+                         emptyMessage="Nenhum cliente encontrado."
+                         var="cliente" filteredValue="#{itemBean.itensFiltrados}"
+                         value="#{itemBean.itens}">
+
+                <f:facet name="header">
+                    Itens
+                </f:facet>
+
+
+                <p:column headerText="id" sortBy="#{item.idItem}" filterBy="#{item.idItem}">
+                    <h:outputText value="#{item.idItem}"/>
+                </p:column>
+
+                <p:column headerText="Nome" filterBy="#{item.nome}" sortBy="#{item.nome}">
+                    <h:outputText value="#{item.nome}"/>
+                </p:column>
+
+                <p:column headerText="Quantidade" filterBy="#{item.quantidade}" sortBy="#{item.quantidade}">
+                    <h:outputText value="#{item.quantidade}"/>
+                </p:column>
+                
+                <p:column headerText="Valor" filterBy="#{item.valor}" sortBy="#{item.valor}">
+                    <h:outputText value="#{item.valor}"/>
+                </p:column>
+
+                <p:column headerText="Ações">
+                    <p:commandButton icon="ui-icon-circle-zoomin" oncomplete="PF('dlgClienteConsultar').show();" update=":frmClienteConsultar:pnlClienteConsultar">
+                        <f:setPropertyActionListener target="#{itemBean.item}" value="#{item}" />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-trash" oncomplete="PF('dlgClienteExcluir').show();" update=":frmClienteExcluir:pnlClienteExcluir">
+                        <f:setPropertyActionListener target="#{itemBean.item}" value="#{item}" />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-pencil" oncomplete="PF('dlgClienteEditar').show();" update=":frmClienteEditar:pnlClienteEditar">
+                        <f:setPropertyActionListener target="#{itemBean.item}" value="#{item}" />
+                    </p:commandButton>
+                </p:column>     
+
+                <f:facet name="footer">
+                    <p:commandButton value="Novo" update=":frmClienteNovo:pnlClienteNovo" actionListener="#{itemBean.preparaNovo()}" oncomplete="PF('dlgCadCliente').show();">
+                        <f:setPropertyActionListener target="#{itemBean.item}" value="#{item}" />
+                    </p:commandButton>
+                </f:facet>
+
+            </p:dataTable>
+        </h:form>
+        <p:dialog widgetVar="dlgCadCliente" closable="true" 
+                  header="Cliente - Novo" modal="true" appendTo="@(body)" draggable="false" resizable="false">
+
+            <h:form id="frmClienteNovo">           
+                <h:panelGrid id="pnlClienteNovo" columns="2">
+                    <p:outputLabel value="Nome:" for="txtNome"/>
+                    <p:inputText id="txtNome" maxlength="50" required="true" requiredMessage="O campo nome é obrigatório." size="20" value="#{itemBean.item.nome}" pt:pattern="[a-z\s]+$" pt:placeholder="Entre com seu Nome">
+
+                    </p:inputText>
+                    <p:outputLabel value="Produto:" for="txtProduto"/>
+                    <p:inputText id="txtProduto" maxlength="50" required="true" requiredMessage="O campo Produto é obrigatório." size="20" value="#{itemBean.item.produto}" pt:placeholder="Entre com seu Produto">
+                    </p:inputText>
+                     <p:outputLabel for="omProduto" value="Produto" />
+                    <p:selectOneMenu id="omProduto" value="#{item.produto}" required="true" effect="fold" editable="true" requiredMessage="O campo produtos é obrigatório.">
+                        <f:selectItem itemLabel="Selecione o produto" itemValue="" />
+                        <f:selectItems value="#{itemBean.item.produto}" var="f" itemValue="#{f.idProduto}" itemLabel="#{f.nome}" />
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Valor:" for="txtValor"/>
+                    <p:inputText id="txtValor" maxlength="11" required="true" validatorMessage="Digite um valor válido no campo Valor." requiredMessage="O campo valor é obrigatório." size="15" value="#{itemBean.item.valor}" pt:placeholder="Entre com o Valor">
+                    </p:inputText>                    
+                    <p:outputLabel value="Quantidade" for="txtQuantidade"/>
+                    <p:inputText id="txtQuantidade" maxlength="50" required="true" requiredMessage="O campo Quantidade é obrigatório." size="20" value="#{itemBean.item.quantidade}"  pt:type="quantidade" pt:placeholder="Entre com seu Quantidade">
+                    </p:inputText>
+                </h:panelGrid>
+                <p:panelGrid columns="2">
+                    <p:commandButton value="Gravar" update=":frmClienteListagem:tblClientes :msgGlobal" actionListener="#{itemBean.incluirItem}" oncomplete="verificar(xhr, status, args, 'dlgCadCliente', 'tabelaClientes');">
+                        <f:ajax render="pnlClienteNovo" resetValues="true"/>
+                        <p:resetInput id="txtNome" target="pnlClienteNovo" />
+                    </p:commandButton>
+                    <p:commandButton value="Fechar" onclick="PF('dlgCadCliente').hide();"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+
+        <p:dialog widgetVar="dlgClienteExcluir" header="Item - Excluir" closable="false" draggable="false" resizable="false" modal="true" appendTo="@(body)">
+            <h:form id="frmClienteExcluir">
+                <h:panelGrid id="pnlClienteExcluir" columns="2">
+                    <p:outputLabel value="Código: " />
+                    <h:outputText value="#{itemBean.item.idItem}" />
+                    <p:outputLabel value="Nome: " />
+                    <h:outputText value="#{itemBean.item.nome}" />
+                </h:panelGrid>
+                <p:commandButton value="Excluir" actionListener="#{itemBean.excluir()}" oncomplete="PF('dlgClienteExcluir').hide();" update=":frmClienteListagem:tblClientes :msgGlobal" />
+                <p:commandButton value="Cancelar" onclick="PF('dlgClienteExcluir').hide();" />
+            </h:form>
+        </p:dialog>
+
+        <p:dialog widgetVar="dlgClienteEditar" closable="false" draggable="false" resizable="false" modal="true" appendTo="@(body)" header="Item - Editar">
+            <h:form id="frmClienteEditar">
+                <h:panelGrid id="pnlClienteEditar" columns="2">
+                    <h:outputLabel value="Nome:" for="txtNome"/>
+                    <p:inputText id="txtNome" maxlength="50" required="true" requiredMessage="O campo nome é obrigatório." size="20" value="#{itemBean.item.nome}" pt:pattern="[a-z\s]+$" pt:placeholder="Entre com seu Nome">
+
+                    </p:inputText>
+                    <h:outputLabel value="Produto:" for="txtProduto"/>
+                    <p:inputText id="txtProduto" maxlength="50" required="true" requiredMessage="O campo Sobrenome é obrigatório." size="20" value="#{itemBean.item.produto}" pt:placeholder="Entre com o Produto">
+                    </p:inputText>
+                    <h:outputLabel value="Valor:" for="txtValor"/>
+                    <p:inputText id="txtValor" maxlength="11" required="true" validatorMessage="Digite um valor válido no campo Valor." requiredMessage="O campo valor é obrigatório." size="15" value="#{itemBean.item.valor}" pt:placeholder="Entre com seu Valor">
+                    </p:inputText>                    
+                    <h:outputLabel value="Quantidade" for="txtQuantidade"/>
+                    <p:inputText id="txtQuantidade" maxlength="50" required="true" requiredMessage="O campo quantidade é obrigatório." size="20" value="#{itemBean.item.quantidade}"  pt:placeholder="Entre com a sua Quantidade">
+                    </p:inputText>
+                </h:panelGrid>
+                <h:panelGrid columns="2" >
+                    <p:commandButton value="Editar" actionListener="#{itemBean.editar}" oncomplete="verificar(xhr, status, args, 'dlgClienteEditar', 'tabelaClientes');" update=":frmClienteListagem:tblClientes :msgGlobal" />
+                    <p:commandButton value="Cancelar" onclick="PF('dlgClienteEditar').hide();" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog widgetVar="dlgClienteConsultar" header="Item - Consultar" closable="false" draggable="false" resizable="false" modal="true" appendTo="@(body)">
+            <h:form id="frmClienteConsultar">
+                <h:panelGrid id="pnlClienteConsultar" columns="2">
+                    <h:outputLabel value="Id: " />
+                    <h:outputText value="#{itemBean.item.idItem}" />
+                    <h:outputLabel value="Nome: " />
+                    <h:outputText value="#{itemBean.item.nome}" />
+                    <h:outputLabel value="Valor: " />
+                    <h:outputText value="#{itemBean.item.valor}" />
+                    <h:outputLabel value="Quantidade: " />
+                    <h:outputText value="#{itemBean.item.quantidade}" />
+                </h:panelGrid>
+
+                <p:commandButton value="Voltar" onclick="PF('dlgClienteConsultar').hide();" />
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Column;
 import javax.persistence.Version;
 
+import br.com.mastermenu.enums.Tipo;
+
 @Entity
 @Table(name = "Produto")
 public class Produto implements Serializable {
@@ -22,14 +24,16 @@ public class Produto implements Serializable {
 	@Column(name = "idProduto", updatable = false, nullable = false)
 	private Long idProduto;
 	
-	@Column(name = "nome", updatable = false, nullable = false)
+	@Column(name = "nome", nullable = false)
 	private String nome;
 	
-	@Column(name = "descricao", updatable = false)
+	@Column(name = "descricao")
 	private String descricao;
 	
-	@Column(name = "valor", updatable = false)
+	@Column(name = "valor")
 	private double valor;
+	
+	private Tipo tipo;
 
 	public String getNome() {
 		return nome;
@@ -63,6 +67,15 @@ public class Produto implements Serializable {
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
+
+	public Tipo getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(Tipo tipo) {
+		this.tipo = tipo;
+	}
+	
 
 	
 }

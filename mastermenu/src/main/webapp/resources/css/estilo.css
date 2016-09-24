@@ -1,0 +1,49 @@
+body{
+    background-color: #0099FF;
+    border:0px;
+    padding: 0px;
+    padding-top: 0px;
+    
+}
+.ui-layout-north {
+    background-color: blue;
+    z-index:20 !important;
+    overflow:visible !important;;
+}
+
+.ui-layout-north .ui-layout-unit-content {
+    overflow:visible !important;
+}
+
+.ui-widget, .ui-widget .ui-widget {
+    font-size: 12px !important;
+}
+
+#relogio {
+    position: absolute;
+    margin-top:13px;
+    margin-left: 89%;
+    z-index:1;
+    
+}
+
+#conteudo{
+    border: 0px;
+    background-color: #0099FF ;
+    padding: 0px;
+    padding-top: 0px;
+}
+#topo{background-color: #0099FF;
+border: 0px;
+padding: 0px;
+}
+#direito{background-color: #0099FF;
+border: 0px;
+padding: -10px;
+padding-left: opx;
+}
+#corpo{background-color: #0099FF ;
+ border: -25px;}
+#msgGlobal{background-color: blue;
+ border: 0px;
+padding: 0px;}
