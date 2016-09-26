@@ -15,10 +15,10 @@
     <h:outputScript library="js" name="script.js" />
 
     <ui:define name="conteudo">
-        <h:form id="frmClienteListagem">
-            <p:dataTable id="tblClientes" widgetVar="tabelaClientes" paginator="true" 
-                         emptyMessage="Nenhum cliente encontrado."
-                         var="cliente" filteredValue="#{itemBean.itensFiltrados}"
+        <h:form id="frmItemListagem">
+            <p:dataTable id="tblItens" widgetVar="tabelaItens" paginator="true" 
+                         emptyMessage="Nenhum item encontrado."
+                         var="item" filteredValue="#{itemBean.itensFiltrados}"
                          value="#{itemBean.itens}">
 
                 <f:facet name="header">
@@ -43,32 +43,32 @@
                 </p:column>
 
                 <p:column headerText="Ações">
-                    <p:commandButton icon="ui-icon-circle-zoomin" oncomplete="PF('dlgClienteConsultar').show();" update=":frmClienteConsultar:pnlClienteConsultar">
+                    <p:commandButton icon="ui-icon-circle-zoomin" oncomplete="PF('dlgItemConsultar').show();" update=":frmItemConsultar:pnlItemConsultar">
                         <f:setPropertyActionListener target="#{itemBean.item}" value="#{item}" />
                     </p:commandButton>
-                    <p:commandButton icon="ui-icon-trash" oncomplete="PF('dlgClienteExcluir').show();" update=":frmClienteExcluir:pnlClienteExcluir">
+                    <p:commandButton icon="ui-icon-trash" oncomplete="PF('dlgItemExcluir').show();" update=":frmItemExcluir:pnlItemExcluir">
                         <f:setPropertyActionListener target="#{itemBean.item}" value="#{item}" />
                     </p:commandButton>
-                    <p:commandButton icon="ui-icon-pencil" oncomplete="PF('dlgClienteEditar').show();" update=":frmClienteEditar:pnlClienteEditar">
+                    <p:commandButton icon="ui-icon-pencil" oncomplete="PF('dlgItemEditar').show();" update=":frmItemEditar:pnlItemEditar">
                         <f:setPropertyActionListener target="#{itemBean.item}" value="#{item}" />
                     </p:commandButton>
                 </p:column>     
 
                 <f:facet name="footer">
-                    <p:commandButton value="Novo" update=":frmClienteNovo:pnlClienteNovo" actionListener="#{itemBean.preparaNovo()}" oncomplete="PF('dlgCadCliente').show();">
+                    <p:commandButton value="Novo" update=":frmItemNovo:pnlItemNovo" actionListener="#{itemBean.preparaNovo()}" oncomplete="PF('dlgCadItem').show();">
                         <f:setPropertyActionListener target="#{itemBean.item}" value="#{item}" />
                     </p:commandButton>
                 </f:facet>
 
             </p:dataTable>
         </h:form>
-        <p:dialog widgetVar="dlgCadCliente" closable="true" 
-                  header="Cliente - Novo" modal="true" appendTo="@(body)" draggable="false" resizable="false">
+        <p:dialog widgetVar="dlgCadItem" closable="true" 
+                  header="Item - Novo" modal="true" appendTo="@(body)" draggable="false" resizable="false">
 
-            <h:form id="frmClienteNovo">           
-                <h:panelGrid id="pnlClienteNovo" columns="2">
+            <h:form id="frmItemNovo">           
+                <h:panelGrid id="pnlItemNovo" columns="2">
                     <p:outputLabel value="Nome:" for="txtNome"/>
-                    <p:inputText id="txtNome" maxlength="50" required="true" requiredMessage="O campo nome é obrigatório." size="20" value="#{itemBean.item.nome}" pt:pattern="[a-z\s]+$" pt:placeholder="Entre com seu Nome">
+                    <p:inputText id="txtNome" maxlength="50" required="true" requiredMessage="O campo nome é obrigatório." size="20" value="#{itemBean.item.nome}" pt:pattern="[a-z\s]+$" pt:placeholder="Entre com o nome do item">
 
                     </p:inputText>
                     <p:outputLabel value="Produto:" for="txtProduto"/>
@@ -87,38 +87,38 @@
                     </p:inputText>
                 </h:panelGrid>
                 <p:panelGrid columns="2">
-                    <p:commandButton value="Gravar" update=":frmClienteListagem:tblClientes :msgGlobal" actionListener="#{itemBean.incluirItem}" oncomplete="verificar(xhr, status, args, 'dlgCadCliente', 'tabelaClientes');">
-                        <f:ajax render="pnlClienteNovo" resetValues="true"/>
-                        <p:resetInput id="txtNome" target="pnlClienteNovo" />
+                    <p:commandButton value="Gravar" update=":frmItemListagem:tblItens :msgGlobal" actionListener="#{itemBean.incluirItem}" oncomplete="verificar(xhr, status, args, 'dlgCadItem', 'tabelaItens');">
+                        <f:ajax render="pnlItemNovo" resetValues="true"/>
+                        <p:resetInput id="txtNome" target="pnlItemNovo" />
                     </p:commandButton>
-                    <p:commandButton value="Fechar" onclick="PF('dlgCadCliente').hide();"/>
+                    <p:commandButton value="Fechar" onclick="PF('dlgCadItem').hide();"/>
                 </p:panelGrid>
             </h:form>
         </p:dialog>
 
 
-        <p:dialog widgetVar="dlgClienteExcluir" header="Item - Excluir" closable="false" draggable="false" resizable="false" modal="true" appendTo="@(body)">
-            <h:form id="frmClienteExcluir">
-                <h:panelGrid id="pnlClienteExcluir" columns="2">
+        <p:dialog widgetVar="dlgItemExcluir" header="Item - Excluir" closable="false" draggable="false" resizable="false" modal="true" appendTo="@(body)">
+            <h:form id="frmItemExcluir">
+                <h:panelGrid id="pnlItemExcluir" columns="2">
                     <p:outputLabel value="Código: " />
                     <h:outputText value="#{itemBean.item.idItem}" />
                     <p:outputLabel value="Nome: " />
                     <h:outputText value="#{itemBean.item.nome}" />
                 </h:panelGrid>
-                <p:commandButton value="Excluir" actionListener="#{itemBean.excluir()}" oncomplete="PF('dlgClienteExcluir').hide();" update=":frmClienteListagem:tblClientes :msgGlobal" />
-                <p:commandButton value="Cancelar" onclick="PF('dlgClienteExcluir').hide();" />
+                <p:commandButton value="Excluir" actionListener="#{itemBean.excluir()}" oncomplete="PF('dlgItemExcluir').hide();" update=":frmItemListagem:tblItens :msgGlobal" />
+                <p:commandButton value="Cancelar" onclick="PF('dlgItemExcluir').hide();" />
             </h:form>
         </p:dialog>
 
-        <p:dialog widgetVar="dlgClienteEditar" closable="false" draggable="false" resizable="false" modal="true" appendTo="@(body)" header="Item - Editar">
-            <h:form id="frmClienteEditar">
-                <h:panelGrid id="pnlClienteEditar" columns="2">
+        <p:dialog widgetVar="dlgItemEditar" closable="false" draggable="false" resizable="false" modal="true" appendTo="@(body)" header="Item - Editar">
+            <h:form id="frmItemEditar">
+                <h:panelGrid id="pnlItemEditar" columns="2">
                     <h:outputLabel value="Nome:" for="txtNome"/>
-                    <p:inputText id="txtNome" maxlength="50" required="true" requiredMessage="O campo nome é obrigatório." size="20" value="#{itemBean.item.nome}" pt:pattern="[a-z\s]+$" pt:placeholder="Entre com seu Nome">
+                    <p:inputText id="txtNome" maxlength="50" required="true" requiredMessage="O campo nome é obrigatório." size="20" value="#{itemBean.item.nome}" pt:pattern="[a-z\s]+$" pt:placeholder="Entre com o nome do item">
 
                     </p:inputText>
                     <h:outputLabel value="Produto:" for="txtProduto"/>
-                    <p:inputText id="txtProduto" maxlength="50" required="true" requiredMessage="O campo Sobrenome é obrigatório." size="20" value="#{itemBean.item.produto}" pt:placeholder="Entre com o Produto">
+                    <p:inputText id="txtProduto" maxlength="50" required="true" requiredMessage="O campo Produto é obrigatório." size="20" value="#{itemBean.item.produto}" pt:placeholder="Entre com o Produto">
                     </p:inputText>
                     <h:outputLabel value="Valor:" for="txtValor"/>
                     <p:inputText id="txtValor" maxlength="11" required="true" validatorMessage="Digite um valor válido no campo Valor." requiredMessage="O campo valor é obrigatório." size="15" value="#{itemBean.item.valor}" pt:placeholder="Entre com seu Valor">
@@ -128,15 +128,15 @@
                     </p:inputText>
                 </h:panelGrid>
                 <h:panelGrid columns="2" >
-                    <p:commandButton value="Editar" actionListener="#{itemBean.editar}" oncomplete="verificar(xhr, status, args, 'dlgClienteEditar', 'tabelaClientes');" update=":frmClienteListagem:tblClientes :msgGlobal" />
-                    <p:commandButton value="Cancelar" onclick="PF('dlgClienteEditar').hide();" />
+                    <p:commandButton value="Editar" actionListener="#{itemBean.editar}" oncomplete="verificar(xhr, status, args, 'dlgItemEditar', 'tabelaItens');" update=":frmItemListagem:tblItens :msgGlobal" />
+                    <p:commandButton value="Cancelar" onclick="PF('dlgItemEditar').hide();" />
                 </h:panelGrid>
             </h:form>
         </p:dialog>
 
-        <p:dialog widgetVar="dlgClienteConsultar" header="Item - Consultar" closable="false" draggable="false" resizable="false" modal="true" appendTo="@(body)">
-            <h:form id="frmClienteConsultar">
-                <h:panelGrid id="pnlClienteConsultar" columns="2">
+        <p:dialog widgetVar="dlgItemConsultar" header="Item - Consultar" closable="false" draggable="false" resizable="false" modal="true" appendTo="@(body)">
+            <h:form id="frmItemConsultar">
+                <h:panelGrid id="pnlItemConsultar" columns="2">
                     <h:outputLabel value="Id: " />
                     <h:outputText value="#{itemBean.item.idItem}" />
                     <h:outputLabel value="Nome: " />
@@ -147,7 +147,7 @@
                     <h:outputText value="#{itemBean.item.quantidade}" />
                 </h:panelGrid>
 
-                <p:commandButton value="Voltar" onclick="PF('dlgClienteConsultar').hide();" />
+                <p:commandButton value="Voltar" onclick="PF('dlgItemConsultar').hide();" />
             </h:form>
         </p:dialog>
 

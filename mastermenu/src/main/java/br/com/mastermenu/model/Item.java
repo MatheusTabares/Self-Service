@@ -1,15 +1,19 @@
 package br.com.mastermenu.model;
 
+import java.io.Serializable;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-
-import java.io.Serializable;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Column;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.Cascade;
 
 @Entity
 public class Item implements Serializable {
@@ -23,9 +27,11 @@ public class Item implements Serializable {
 	@Column(name = "nome")
 	private String nome;
 	
-	@ManyToOne(fetch = FetchType.EAGER)
+	@OneToMany(targetEntity = Produto.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "item_idProduto", referencedColumnName = "idProduto")
-    private Produto produto;
+    private List<Produto> produtos;
+	
+	
 	
 	@Column(name = "valor")
 	private double valor;
@@ -50,12 +56,13 @@ public class Item implements Serializable {
 		this.idItem = idItem;
 	}
 
-	public Produto getProduto() {
-		return produto;
+
+	public List<Produto> getProdutos() {
+		return produtos;
 	}
 
-	public void setProduto(Produto produto) {
-		this.produto = produto;
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
 	}
 
 	public double getValor() {
