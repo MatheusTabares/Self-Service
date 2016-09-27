@@ -31,7 +31,8 @@ public class Item implements Serializable {
 	@JoinColumn(name = "item_idProduto", referencedColumnName = "idProduto")
     private List<Produto> produtos;
 	
-	
+	@Column(name= "ativo")
+	private boolean ativo = true;
 	
 	@Column(name = "valor")
 	private double valor;
@@ -79,6 +80,14 @@ public class Item implements Serializable {
 
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
 	}
 
 

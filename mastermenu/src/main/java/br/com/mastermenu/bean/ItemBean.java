@@ -54,17 +54,30 @@ public class ItemBean {
         return null;
     }
 
-  public void excluir() {
+  public void exclusaoLogica() {
         try{
     
         ItemDAO dao = new ItemDAO();
-        dao.remover(getItem());
+        item.setAtivo(false);
+        dao.alterar(getItem());
         setItens(dao.listar());
         }catch(Exception ex){
            ex.printStackTrace();
            ex.getMessage();
         }
     }
+  
+  public void exclusaoFisica() {
+      try{
+  
+      ItemDAO dao = new ItemDAO();
+      dao.remover(getItem());
+      setItens(dao.listar());
+      }catch(Exception ex){
+         ex.printStackTrace();
+         ex.getMessage();
+      }
+  }
   
   public void editar(){
         try{
