@@ -56,7 +56,6 @@
 
                 <f:facet name="footer">
                     <p:commandButton value="Novo" update=":frmItemNovo:pnlItemNovo" actionListener="#{itemBean.preparaNovo()}" oncomplete="PF('dlgCadItem').show();">
-                        <f:setPropertyActionListener target="#{itemBean.item}" value="#{item}" />
                     </p:commandButton>
                 </f:facet>
 
@@ -71,14 +70,6 @@
                     <p:inputText id="txtNome" maxlength="50" required="true" requiredMessage="O campo nome é obrigatório." size="20" value="#{itemBean.item.nome}" pt:pattern="[a-z\s]+$" pt:placeholder="Entre com o nome do item">
 
                     </p:inputText>
-                    <p:outputLabel value="Produto:" for="txtProduto"/>
-                    <p:inputText id="txtProduto" maxlength="50" required="true" requiredMessage="O campo Produto é obrigatório." size="20" value="#{itemBean.item.produto}" pt:placeholder="Entre com seu Produto">
-                    </p:inputText>
-                     <p:outputLabel for="omProduto" value="Produto" />
-                    <p:selectOneMenu id="omProduto" value="#{item.produto}" required="true" effect="fold" editable="true" requiredMessage="O campo produtos é obrigatório.">
-                        <f:selectItem itemLabel="Selecione o produto" itemValue="" />
-                        <f:selectItems value="#{itemBean.item.produto}" var="f" itemValue="#{f.idProduto}" itemLabel="#{f.nome}" />
-                    </p:selectOneMenu>
                     <p:outputLabel value="Valor:" for="txtValor"/>
                     <p:inputText id="txtValor" maxlength="11" required="true" validatorMessage="Digite um valor válido no campo Valor." requiredMessage="O campo valor é obrigatório." size="15" value="#{itemBean.item.valor}" pt:placeholder="Entre com o Valor">
                     </p:inputText>                    
@@ -115,10 +106,6 @@
                 <h:panelGrid id="pnlItemEditar" columns="2">
                     <h:outputLabel value="Nome:" for="txtNome"/>
                     <p:inputText id="txtNome" maxlength="50" required="true" requiredMessage="O campo nome é obrigatório." size="20" value="#{itemBean.item.nome}" pt:pattern="[a-z\s]+$" pt:placeholder="Entre com o nome do item">
-
-                    </p:inputText>
-                    <h:outputLabel value="Produto:" for="txtProduto"/>
-                    <p:inputText id="txtProduto" maxlength="50" required="true" requiredMessage="O campo Produto é obrigatório." size="20" value="#{itemBean.item.produto}" pt:placeholder="Entre com o Produto">
                     </p:inputText>
                     <h:outputLabel value="Valor:" for="txtValor"/>
                     <p:inputText id="txtValor" maxlength="11" required="true" validatorMessage="Digite um valor válido no campo Valor." requiredMessage="O campo valor é obrigatório." size="15" value="#{itemBean.item.valor}" pt:placeholder="Entre com seu Valor">
