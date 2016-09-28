@@ -2,10 +2,13 @@ package br.com.mastermenu.persistencia;
 
 
 import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
 import br.com.mastermenu.model.Item;
-import org.hibernate.Query;
 
 public class ItemDAO {
 	
@@ -65,20 +68,29 @@ public class ItemDAO {
 	        }
 	    }
 	    
-	    @SuppressWarnings("Unchecked")
-	    public List<Item> listar(){
-	    Session sessao = HibernateUtil.getSessionFactory().openSession();
-	    List<Item> itens = null;
-	    
-	        try {
-	            Query consulta = sessao.getNamedQuery("Item.listar");
-	            itens = consulta.list();
-	        }catch (Exception ex) {
-	           
-	        } finally{
-	            sessao.close();
+	    public List<Item> listar() {
+			Session sessao = null;
+			Transaction transacao = null;
+			Query consulta = null;
+			List<Item> lista = null;
+			try {
+				sessao = HibernateUtil.getSessionFactory().openSession();
+				transacao = sessao.beginTransaction();
+	        	consulta = sessao.createQuery("from Item");
+	        	lista = consulta.list();
+	        	transacao.commit();
+	        	return lista;
+			} catch (Exception ex) {
+				System.out.println("Não foi possível listar todos. Erro: " + ex.getMessage());
+				throw new HibernateException(ex);
+			}  finally {
+	        	try {
+	        		// fecha a entity manager
+	        		sessao.close();
+	        	} catch (Throwable ex) {
+	        		System.out.println("Erro ao fechar a operação de adicionar. Mensagem:" + ex.getMessage());
+	        	}
 	        }
-	        return itens;
 	    }
 	    
 	    public Item carregar(int id) throws Exception {

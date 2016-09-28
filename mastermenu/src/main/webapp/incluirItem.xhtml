@@ -78,7 +78,7 @@
                     </p:inputText>
                 </h:panelGrid>
                 <p:panelGrid columns="2">
-                    <p:commandButton value="Gravar" update=":frmItemListagem:tblItens :msgGlobal" actionListener="#{itemBean.incluirItem}" oncomplete="verificar(xhr, status, args, 'dlgCadItem', 'tabelaItens');">
+                    <p:commandButton value="Gravar" update=":frmItemListagem:tblItens :msgGlobal" actionListener="#{itemBean.incluir}" oncomplete="verificar(xhr, status, args, 'dlgCadItem', 'tabelaItens');">
                         <f:ajax render="pnlItemNovo" resetValues="true"/>
                         <p:resetInput id="txtNome" target="pnlItemNovo" />
                     </p:commandButton>

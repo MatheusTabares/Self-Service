@@ -7,10 +7,8 @@ package br.com.mastermenu.bean;
 
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 import br.com.mastermenu.model.Item;
 import br.com.mastermenu.persistencia.ItemDAO;
 
@@ -34,14 +32,11 @@ public class ItemBean {
          }
      }
      
-     
      public void preparaNovo(){
-         Item item = new Item();
+         item = new Item();
      }
     
-     public String incluir() {
-        FacesContext context = FacesContext.getCurrentInstance();
-        FacesMessage msg;
+     public void incluir() {
         try {
             ItemDAO dao = new ItemDAO();
             dao.incluir(getItem());
@@ -51,7 +46,7 @@ public class ItemBean {
                   
         }
         
-        return null;
+        item = new Item();
     }
 
   public void exclusaoLogica() {

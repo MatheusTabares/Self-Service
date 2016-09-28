@@ -16,7 +16,7 @@
 		<mapping class="br.com.mastermenu.model.Cliente"/>
 		<mapping class="br.com.mastermenu.model.Usuario"/>
 		<mapping class="br.com.mastermenu.model.Item"/>
-		<mapping class="br.com.mastermenu.model.Produto"/>		
+		<mapping class="br.com.mastermenu.model.Ingrediente"/>		
 		<mapping class="br.com.mastermenu.model.Profissional"/>
 	</session-factory>
 </hibernate-configuration>
