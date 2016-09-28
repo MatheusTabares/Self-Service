@@ -8,11 +8,14 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import br.com.mastermenu.model.Cliente;
+import br.com.mastermenu.model.Endereco;
 import br.com.mastermenu.persistencia.ClienteDAO;
 
 @ManagedBean(name = "clienteBean")
 @SessionScoped
 public class ClienteBean {
+	private EnderecoBean enderecoBean = new EnderecoBean();
+	private Endereco endereco = new Endereco();
 	private Cliente cliente = new Cliente();
 	private String confirmarSenha;
 	private String destinoSalvar;
@@ -25,7 +28,7 @@ public class ClienteBean {
 		this.cliente.setAtivo(true);
 		this.cliente.setTipo("cliente");
 		this.cliente.setImagem("imagem");
-		return "cadastrarCliente";
+		return "testaCep";
 	}
 	
 	public String salvar() {
@@ -37,10 +40,14 @@ public class ClienteBean {
 			context.addMessage(null, facesMessage);
 			return null;
 		}
-		Long id = cliente.getId();
-		clienteDAO = new ClienteDAO();
+		Long id = this.cliente.getId();
+		this.clienteDAO = new ClienteDAO();
+		this.enderecoBean = new EnderecoBean();
 		if(id == null || id == 0) {
-			clienteDAO.salvar(cliente);
+			this.cliente.setEndereco(this.endereco);
+			this.clienteDAO.salvar(this.cliente);
+			this.endereco.setUsuario(this.clienteDAO.carregar(this.cliente.getId()));
+			this.enderecoBean.salvar(endereco);
 			FacesMessage facesMessage = new FacesMessage("Cliente cadastrado com sucesso.");
 			context.addMessage(null, facesMessage);
 		} else {
@@ -113,4 +120,21 @@ public class ClienteBean {
 	public void setLista(List<Cliente> lista) {
 		this.lista = lista;
 	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
+	public EnderecoBean getEnderecoBean() {
+		return enderecoBean;
+	}
+
+	public void setEnderecoBean(EnderecoBean enderecoBean) {
+		this.enderecoBean = enderecoBean;
+	}
+	
 }

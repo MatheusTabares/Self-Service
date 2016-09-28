@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -32,8 +33,8 @@ public class Usuario implements Serializable {
 	@Column(name = "senha", length = 20, nullable = false)
 	private String senha;
 	
-	@Column(name = "endereco", nullable = false)
-	private String endereco;
+	@OneToOne(mappedBy = "usuario")
+    private Endereco endereco;
 	
 	@Column(name = "imagem", length = 200)
 	private String imagem;
@@ -73,12 +74,7 @@ public class Usuario implements Serializable {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public String getEndereco() {
-		return endereco;
-	}
-	public void setEndereco(String endereco) {
-		this.endereco = endereco;
-	}
+	
 	public String getImagem() {
 		return imagem;
 	}
@@ -115,6 +111,12 @@ public class Usuario implements Serializable {
 	}
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
+	}
+	public Endereco getEndereco() {
+		return endereco;
+	}
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 	@Override
 	public int hashCode() {
@@ -193,9 +195,9 @@ public class Usuario implements Serializable {
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", senha=" + senha + ", endereco=" + endereco + ", imagem="
-				+ imagem + ", telefone=" + telefone + ", ativo=" + ativo + ", email="
-				+ email + ", cpf=" + cpf + ", tipo=" + tipo + "]";
+				+ imagem + ", telefone=" + telefone + ", ativo=" + ativo + ", email=" + email + ", cpf=" + cpf
+				+ ", tipo=" + tipo + "]";
 	}
-		
+			
 		
 }
