@@ -74,7 +74,7 @@ public class IngredienteDAO {
 			try {
 				sessao = HibernateUtil.getSessionFactory().openSession();
 				transacao = sessao.beginTransaction();
-	        	consulta = sessao.createQuery("from Ingrediente");
+	        	consulta = sessao.createQuery("from Ingrediente where ativo = 1");
 	        	lista = consulta.list();
 	        	transacao.commit();
 	        	return lista;

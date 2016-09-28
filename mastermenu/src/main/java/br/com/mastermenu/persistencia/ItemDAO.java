@@ -76,7 +76,7 @@ public class ItemDAO {
 			try {
 				sessao = HibernateUtil.getSessionFactory().openSession();
 				transacao = sessao.beginTransaction();
-	        	consulta = sessao.createQuery("from Item");
+	        	consulta = sessao.createQuery("from Item where ativo = 1");
 	        	lista = consulta.list();
 	        	transacao.commit();
 	        	return lista;

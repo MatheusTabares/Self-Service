@@ -12,109 +12,99 @@ import javax.faces.bean.ViewScoped;
 import br.com.mastermenu.model.Item;
 import br.com.mastermenu.persistencia.ItemDAO;
 
-
 @ManagedBean
 @ViewScoped
 public class ItemBean {
-    
-     private Item item = new Item();
-     private List<Item> itens;
-     private List<Item> itensFiltrados;
-     
-     
-@PostConstruct     
-     public void prepararPesquisa(){
-         try{
-         ItemDAO dao = new ItemDAO();
-         setItens(dao.listar());
-         }catch(Exception ex){
-             ex.printStackTrace();
-         }
-     }
-     
-     public void preparaNovo(){
-         item = new Item();
-     }
-    
-     public void incluir() {
-        try {
-            ItemDAO dao = new ItemDAO();
-            dao.incluir(getItem());
-            setItens(dao.listar());
-        } catch (Exception ex) {
-            ex.getMessage();
-                  
-        }
-        
-        item = new Item();
-    }
 
-  public void exclusaoLogica() {
-        try{
-    
-        ItemDAO dao = new ItemDAO();
-        item.setAtivo(false);
-        dao.alterar(getItem());
-        setItens(dao.listar());
-        }catch(Exception ex){
-           ex.printStackTrace();
-           ex.getMessage();
-        }
-    }
-  
-  public void exclusaoFisica() {
-      try{
-  
-      ItemDAO dao = new ItemDAO();
-      dao.remover(getItem());
-      setItens(dao.listar());
-      }catch(Exception ex){
-         ex.printStackTrace();
-         ex.getMessage();
-      }
-  }
-  
-  public void editar(){
-        try{
-        ItemDAO dao = new ItemDAO();
-        dao.alterar(getItem());
-        
-        setItens(dao.listar());
-        }catch(Exception ex){
-            ex.printStackTrace();
-        }
-    }
+	private Item item = new Item();
+	private List<Item> itens;
+	private List<Item> itensFiltrados;
 
+	@PostConstruct
+	public void prepararPesquisa() {
+		try {
+			ItemDAO dao = new ItemDAO();
+			setItens(dao.listar());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 
-public Item getItem() {
-	return item;
-}
+	public void preparaNovo() {
+		item = new Item();
+	}
 
+	public void incluir() {
+		try {
+			ItemDAO dao = new ItemDAO();
+			dao.incluir(getItem());
+			setItens(dao.listar());
+		} catch (Exception ex) {
+			ex.getMessage();
 
-public void setItem(Item item) {
-	this.item = item;
-}
+		}
 
+		item = new Item();
+	}
 
-public List<Item> getItens() {
-	return itens;
-}
+	public void exclusaoLogica() {
+		try {
 
+			ItemDAO dao = new ItemDAO();
+			item.setAtivo(false);
+			dao.alterar(getItem());
+			setItens(dao.listar());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			ex.getMessage();
+		}
+	}
 
-public void setItens(List<Item> itens) {
-	this.itens = itens;
-}
+	public void exclusaoFisica() {
+		try {
 
+			ItemDAO dao = new ItemDAO();
+			dao.remover(getItem());
+			setItens(dao.listar());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			ex.getMessage();
+		}
+	}
 
-public List<Item> getItensFiltrados() {
-	return itensFiltrados;
-}
+	public void editar() {
+		try {
+			ItemDAO dao = new ItemDAO();
+			dao.alterar(getItem());
 
+			setItens(dao.listar());
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+	}
 
-public void setItensFiltrados(List<Item> itensFiltrados) {
-	this.itensFiltrados = itensFiltrados;
-}
+	public Item getItem() {
+		return item;
+	}
 
-  
+	public void setItem(Item item) {
+		this.item = item;
+	}
+
+	public List<Item> getItens() {
+		return itens;
+	}
+
+	public void setItens(List<Item> itens) {
+		this.itens = itens;
+	}
+
+	public List<Item> getItensFiltrados() {
+		return itensFiltrados;
+	}
+
+	public void setItensFiltrados(List<Item> itensFiltrados) {
+		this.itensFiltrados = itensFiltrados;
+	}
 
 }
