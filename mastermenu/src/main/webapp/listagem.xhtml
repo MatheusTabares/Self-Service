@@ -38,6 +38,11 @@
     				</h:commandLink>
     			</h:column>
     			<h:column>
+    				<h:commandLink action="#{clienteBean.visualizar}" value="Visualizar">
+    					<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />
+    				</h:commandLink>
+    			</h:column>
+    			<h:column>
     				<h:commandLink action="#{clienteBean.excluir}" value="excluir"
     					onclick="if (!confirm('Confirma a exclusão do usuário')) return false;">
     					<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />

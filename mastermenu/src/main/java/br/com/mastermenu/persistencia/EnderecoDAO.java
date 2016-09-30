@@ -33,7 +33,7 @@ public class EnderecoDAO {
         }
     }
 
-    public Endereco carregar(int id) {
+    public Endereco carregar(Long id) {
     	Endereco endereco = new Endereco();
     	try {
         	endereco =  (Endereco)sessao.get(Endereco.class, id);
@@ -68,7 +68,7 @@ public class EnderecoDAO {
         }
     }
 
-    public void excluir(int id) {
+    public void excluir(Long id) {
         try {
         	Transaction t = sessao.beginTransaction();
         	sessao.delete(carregar(id));

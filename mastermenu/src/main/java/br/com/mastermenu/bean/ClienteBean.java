@@ -28,7 +28,7 @@ public class ClienteBean {
 		this.cliente.setAtivo(true);
 		this.cliente.setTipo("cliente");
 		this.cliente.setImagem("imagem");
-		return "testaCep";
+		return "cadastrarCliente";
 	}
 	
 	public String salvar() {
@@ -52,6 +52,7 @@ public class ClienteBean {
 			context.addMessage(null, facesMessage);
 		} else {
 			clienteDAO.atualizar(cliente);
+			this.enderecoBean.atualizar(this.endereco);
 			FacesMessage facesMessage = new FacesMessage("Cliente atualizado com sucesso.");
 			context.addMessage(null, facesMessage);
 		}
@@ -71,13 +72,13 @@ public class ClienteBean {
 		lista = clienteDAO.listar();
 	}
 	
-	public Cliente buscarPorId() {
-		//NAO IMPLEMENTADO
-		return cliente;
-	}
 	public String alterar() {
 		//this.confirmarSenha = this.cliente.getSenha();
 		return "cadastrarCliente";
+	}
+	
+	public String visualizar() {
+		return "visualizarCliente";
 	}
 	
 	public Cliente getCliente() {

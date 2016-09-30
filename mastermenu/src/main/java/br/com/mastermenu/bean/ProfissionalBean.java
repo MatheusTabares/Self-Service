@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import br.com.mastermenu.model.Endereco;
 import br.com.mastermenu.model.Profissional;
 import br.com.mastermenu.persistencia.ClienteDAO;
 import br.com.mastermenu.persistencia.ProfissionalDAO;
@@ -15,6 +16,8 @@ import br.com.mastermenu.persistencia.ProfissionalDAO;
 @SessionScoped
 @ManagedBean(name = "profissionalBean")
 public class ProfissionalBean {
+	private EnderecoBean enderecoBean = new EnderecoBean(); 
+	private Endereco endereco = new Endereco();
 	private ProfissionalDAO profissionalDAO = new ProfissionalDAO();
 	private Profissional profissional = new Profissional();
 	private String destinoSalvar;
@@ -40,14 +43,19 @@ public class ProfissionalBean {
 			context.addMessage(null, facesMessage);
 			return null;
 		}
-		Long id = profissional.getId();
-		profissionalDAO = new ProfissionalDAO();
+		Long id = this.profissional.getId();
+		this.profissionalDAO = new ProfissionalDAO();
+		this.enderecoBean= new EnderecoBean();
 		if(id == null || id == 0) {
-			profissionalDAO.salvar(profissional);
+			this.profissional.setEndereco(this.endereco);
+			this.profissionalDAO.salvar(this.profissional);
+			this.endereco.setUsuario(this.profissionalDAO.carregar(this.profissional.getId()));
+			this.enderecoBean.salvar(endereco);
 			FacesMessage facesMessage = new FacesMessage("Profissional cadastrado com sucesso.");
 			context.addMessage(null, facesMessage);
 		} else {
-			profissionalDAO.atualizar(profissional);
+			this.profissionalDAO.atualizar(this.profissional);
+			this.enderecoBean.atualizar(this.endereco);
 			FacesMessage facesMessage = new FacesMessage("Profissional atualizado com sucesso.");
 			context.addMessage(null, facesMessage);
 		}
@@ -70,6 +78,10 @@ public class ProfissionalBean {
 	public String alterar() {
 		//this.confirmarSenha = this.cliente.getSenha();
 		return "cadastrarProfissional";
+	}
+	
+	public String visualizar() {
+		return "visualizarProfissional";
 	}
 	
 	public Profissional getProfissional() {
@@ -112,6 +124,20 @@ public class ProfissionalBean {
 	public void setLista(List<Profissional> lista) {
 		this.lista = lista;
 	}
-	
-	
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
+	}
+
+	public EnderecoBean getEnderecoBean() {
+		return enderecoBean;
+	}
+
+	public void setEnderecoBean(EnderecoBean enderecoBean) {
+		this.enderecoBean = enderecoBean;
+	}	
 }

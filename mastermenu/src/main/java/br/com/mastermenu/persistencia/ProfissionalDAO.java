@@ -77,24 +77,24 @@ public class ProfissionalDAO {
         }
 	}
 	
-	/*public Cliente buscarPorId(Long id) {
-		EntityManager em = new JPAUtil().getEntityManager();
-		Cliente cliente;
-		try {
-			cliente = em.find(Cliente.class, id);
-			return cliente;
-		} catch (Exception ex) {
-			System.out.println("Não foi possível buscar por id. Erro: " + ex.getMessage());
-			throw new HibernateException(ex);
-		}  finally {
+	public Profissional carregar(Long id) {
+    	Profissional profissional = new Profissional();
+    	Session sessao = null;
+    	try {
+    		sessao = HibernateUtil.getSessionFactory().openSession();
+        	profissional =  (Profissional)sessao.get(Profissional.class, id);
+        } catch (HibernateException ex) {
+            System.out.println("Não foi possível carregar o profissional. Erro: " + ex.getMessage());
+        } finally {
         	try {
         		// fecha a entity manager
-        		em.close();
+        		sessao.close();
         	} catch (Throwable ex) {
-        		System.out.println("Erro ao fechar a operação de adicionar. Mensagem:" + ex.getMessage());
+        		System.out.println("Erro ao fechar a operação de carregar profissional. Mensagem:" + ex.getMessage());
         	}
         }
-	}*/
+        return profissional;
+    }
 	
 	public List<Profissional> listar() {
 		Session sessao = null;

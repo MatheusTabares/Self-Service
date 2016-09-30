@@ -15,7 +15,17 @@ public class EnderecoBean{
 		enderecoDAO = new EnderecoDAO();
 		enderecoDAO.salvar(endereco);
 	}
-
+	
+	public void atualizar(Endereco endereco) {
+		enderecoDAO = new EnderecoDAO();
+		enderecoDAO.atualizar(endereco);
+	}
+	
+	public void excluir(Long id) {
+		enderecoDAO = new EnderecoDAO();
+		enderecoDAO.excluir(id);
+	}
+	
 	public EnderecoDAO getEnderecoDAO() {
 		return enderecoDAO;
 	}

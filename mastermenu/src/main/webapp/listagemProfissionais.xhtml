@@ -36,6 +36,11 @@
     				</h:commandLink>
     			</h:column>
     			<h:column>
+    				<h:commandLink action="#{profissionalBean.visualizar}" value="Visualizar">
+    					<f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.profissional}" />
+    				</h:commandLink>
+    			</h:column>
+    			<h:column>
     				<h:commandLink action="#{profissionalBean.excluir}" value="excluir"
     					onclick="if (!confirm('Confirma a exclusão do usuário')) return false;">
     					<f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.profissional}" />
