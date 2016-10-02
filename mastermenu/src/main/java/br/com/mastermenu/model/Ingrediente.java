@@ -1,11 +1,20 @@
 package br.com.mastermenu.model;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import javax.persistence.Table;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import br.com.mastermenu.enums.Tipo;
 
@@ -24,6 +33,7 @@ public class Ingrediente implements Serializable {
 	
 	@Column(name = "nome", nullable = false)
 	private String nome;
+	
 	
 	@Column(name = "descricao")
 	private String descricao;
@@ -133,7 +143,5 @@ public class Ingrediente implements Serializable {
 			return false;
 		return true;
 	}
-	
-	
 	
 }
