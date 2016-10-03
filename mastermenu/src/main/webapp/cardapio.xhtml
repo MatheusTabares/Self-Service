@@ -17,7 +17,7 @@
     <ui:define name="conteudo">
         <h:form id="form">
     <p:dataGrid var="item" value="#{itemBean.itens}" columns="3" layout="grid"
-        rows="12" paginator="true" id="itens"
+        rows="12" paginator="true" id="itens" emptyMessage="Nenhum item encontrado."
         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
         rowsPerPageTemplate="6,12,16">
  
@@ -27,7 +27,6 @@
  
         <p:panel header="#{item.idItem}" style="text-align:center">
             <h:panelGrid columns="1" style="width:100%">
-                <p:graphicImage name="ALaMinuta.jpg"/> 
  
                 <h:outputText value="#{item.nome}" />
  
