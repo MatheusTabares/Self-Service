@@ -8,7 +8,7 @@
     <H2>Listagem de Usuários</H2>
     <h:form>
     		<h:messages/>
- 			<h:dataTable style="width: 100%; text-align: left;" value="#{clienteBean.lista}" var="cliente" rules="rows" cellpadding="5" >
+ 			<h:dataTable style="width: 100%; text-align: left;" value="#{clienteBean.listaAtivos}" var="cliente" rules="rows" cellpadding="5" >
     			<f:facet name="caption">
     				A listagem a seguir exibe a relação de todos os clientes do sistema. Você poderá
     				realizar ativação e desativação, edição e exclusão para os clientes.
@@ -28,10 +28,6 @@
     				<h:outputText value="#{cliente.email}" />
     			</h:column>
     			<h:column>
-    				<f:facet name="header">Tipo</f:facet>
-    				<h:outputText value="#{cliente.tipo}" />
-    			</h:column>
-    			<h:column>
     				<h:commandLink action="#{clienteBean.alterar}" value="alterar">
     					<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />
     					<f:setPropertyActionListener value="listagem" target="#{clienteBean.destinoSalvar}" />
@@ -43,7 +39,7 @@
     				</h:commandLink>
     			</h:column>
     			<h:column>
-    				<h:commandLink action="#{clienteBean.excluir}" value="excluir"
+    				<h:commandLink action="#{clienteBean.excluirLogicamente}" value="excluir"
     					onclick="if (!confirm('Confirma a exclusão do usuário')) return false;">
     					<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />
     				</h:commandLink>

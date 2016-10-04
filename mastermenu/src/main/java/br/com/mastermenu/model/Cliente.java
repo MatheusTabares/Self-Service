@@ -13,9 +13,6 @@ public class Cliente extends Usuario{
 	@Column(name = "cupom", length = 100)
 	private String cupom;
 	
-	@Column(name = "token", length = 100)
-	private String token;
-
 	public String getCupom() {
 		return cupom;
 	}
@@ -24,20 +21,11 @@ public class Cliente extends Usuario{
 		this.cupom = cupom;
 	}
 
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
 		result = prime * result + ((cupom == null) ? 0 : cupom.hashCode());
-		result = prime * result + ((token == null) ? 0 : token.hashCode());
 		return result;
 	}
 
@@ -55,17 +43,12 @@ public class Cliente extends Usuario{
 				return false;
 		} else if (!cupom.equals(other.cupom))
 			return false;
-		if (token == null) {
-			if (other.token != null)
-				return false;
-		} else if (!token.equals(other.token))
-			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Cliente [cupom=" + cupom + ", token=" + token + "]";
+		return "Cliente [cupom=" + cupom + "]";
 	}
 	
 	

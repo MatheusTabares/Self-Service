@@ -9,6 +9,7 @@ import org.hibernate.Transaction;
 
 import br.com.mastermenu.model.Cliente;
 import br.com.mastermenu.model.Profissional;
+import br.com.mastermenu.util.HibernateUtil;
 
 public class ProfissionalDAO {
 	public void salvar(Profissional profissional) {
@@ -120,5 +121,26 @@ public class ProfissionalDAO {
         	}
         }
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Profissional> listarAtivos() {
+    	boolean ativo = true;
+		Session sessao = null;
+    	List<Profissional> listaAtivos = null;
+    	try {
+    		sessao = HibernateUtil.getSessionFactory().openSession();
+    		listaAtivos = sessao.createQuery("FROM Profissional WHERE ativo = :ativo").setBoolean("ativo", ativo).list();
+        } catch (HibernateException ex) {
+            System.out.println("Não foi possível listar profissionais ativos. Erro: " + ex.getMessage());
+        } finally {
+        	try {
+        		// fecha a entity manager
+        		sessao.close();
+        	} catch (Throwable ex) {
+        		System.out.println("Erro ao fechar a operação de listar profissionais ativos. Mensagem:" + ex.getMessage());
+        	}
+        }
+        return listaAtivos;
+    }
 
 }

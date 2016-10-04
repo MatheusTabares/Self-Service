@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<h:head></h:head>
+<h:body>
+
+	<h:form prependId="false" >
+				
+                <p:panelGrid columns="2" id="formulario" layout="grid" columnClasses="label , inputs">
+                    <f:facet name="header">
+                        ALTERAR SENHA CLIENTE
+                    </f:facet>
+					<p:inputText value="#{clienteBean.cliente.nome}"/>
+					
+                    <p:outputLabel value="Senha atual:" for="txtSenhaAtual"/>
+                    <p:inputText id="txtSenhaAtual" maxlength="100" value="#{clienteBean.senha}"/>
+
+					<p:outputLabel value="Nova Senha:" for="txtNovaSenha"/>
+                    <p:inputText id="txtNovaSenha" maxlength="100" value="#{clienteBean.novaSenha}"/>
+					
+                    <p:outputLabel value="Confirmar:" for="txtConfirmarNovaSenha"/>
+                    <p:inputText id="txtConfirmarNovaSenha" maxlength="100" value="#{clienteBean.confirmarSenha}"/>
+                    <f:facet name="footer">
+                        <h:panelGroup>
+                            <p:commandButton ajax="false" value="Cadastrar"  action="#{clienteBean.alterarSenha}" style="width: 49%"  />
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <p:commandButton ajax="false" value="Cancelar" action="home?faces-redirect=true" immediate="true" style="width: 49%; float: right"  />     
+                        </h:panelGroup>
+                        <p:growl id="messages" showDetail="true" autoUpdate="true" life="5000" />
+
+                    </f:facet>
+                </p:panelGrid>                
+            </h:form>
+</h:body>
+</html>

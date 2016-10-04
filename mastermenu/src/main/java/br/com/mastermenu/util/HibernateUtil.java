@@ -1,4 +1,4 @@
-package br.com.mastermenu.persistencia;
+package br.com.mastermenu.util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

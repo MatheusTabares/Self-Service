@@ -30,7 +30,7 @@ public class Usuario implements Serializable {
 	@Column(name = "nome", length = 150, nullable = false)
 	private String nome;
 	
-	@Column(name = "senha", length = 20, nullable = false)
+	@Column(name = "senha", nullable = false)
 	private String senha;
 	
 	@OneToOne(mappedBy = "usuario")
@@ -53,8 +53,10 @@ public class Usuario implements Serializable {
 	@Min(11)
 	private String cpf;
 	
-	@Column(nullable = false)
-	private String tipo;
+	private String token;
+	
+	@OneToOne(mappedBy = "usuario")
+    private SegurancaSenha segurancaSenha;
 	
 	public Long getId() {
 		return id;
@@ -105,18 +107,25 @@ public class Usuario implements Serializable {
 	}
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
-	}
-	public String getTipo() {
-		return tipo;
-	}
-	public void setTipo(String tipo) {
-		this.tipo = tipo;
-	}
-	public Endereco getEndereco() {
+	}public Endereco getEndereco() {
 		return endereco;
 	}
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+	
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	
+	public SegurancaSenha getSegurancaSenha() {
+		return segurancaSenha;
+	}
+	public void setSegurancaSenha(SegurancaSenha segurancaSenha) {
+		this.segurancaSenha = segurancaSenha;
 	}
 	@Override
 	public int hashCode() {
@@ -129,9 +138,10 @@ public class Usuario implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((imagem == null) ? 0 : imagem.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((segurancaSenha == null) ? 0 : segurancaSenha.hashCode());
 		result = prime * result + ((senha == null) ? 0 : senha.hashCode());
 		result = prime * result + ((telefone == null) ? 0 : telefone.hashCode());
-		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
+		result = prime * result + ((token == null) ? 0 : token.hashCode());
 		return result;
 	}
 	@Override
@@ -175,6 +185,11 @@ public class Usuario implements Serializable {
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
+		if (segurancaSenha == null) {
+			if (other.segurancaSenha != null)
+				return false;
+		} else if (!segurancaSenha.equals(other.segurancaSenha))
+			return false;
 		if (senha == null) {
 			if (other.senha != null)
 				return false;
@@ -185,10 +200,10 @@ public class Usuario implements Serializable {
 				return false;
 		} else if (!telefone.equals(other.telefone))
 			return false;
-		if (tipo == null) {
-			if (other.tipo != null)
+		if (token == null) {
+			if (other.token != null)
 				return false;
-		} else if (!tipo.equals(other.tipo))
+		} else if (!token.equals(other.token))
 			return false;
 		return true;
 	}
@@ -196,8 +211,8 @@ public class Usuario implements Serializable {
 	public String toString() {
 		return "Usuario [id=" + id + ", nome=" + nome + ", senha=" + senha + ", endereco=" + endereco + ", imagem="
 				+ imagem + ", telefone=" + telefone + ", ativo=" + ativo + ", email=" + email + ", cpf=" + cpf
-				+ ", tipo=" + tipo + "]";
+				+ ", token=" + token + ", segurancaSenha=" + segurancaSenha + "]";
 	}
-			
+
 		
 }

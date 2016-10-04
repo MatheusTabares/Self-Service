@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import br.com.mastermenu.model.Endereco;
+import br.com.mastermenu.util.HibernateUtil;
 
 public class EnderecoDAO {
 
@@ -37,6 +38,23 @@ public class EnderecoDAO {
     	Endereco endereco = new Endereco();
     	try {
         	endereco =  (Endereco)sessao.get(Endereco.class, id);
+        } catch (HibernateException ex) {
+            System.out.println("Não foi possível carregar o endereço. Erro: " + ex.getMessage());
+        } finally {
+        	try {
+        		// fecha a entity manager
+        		sessao.close();
+        	} catch (Throwable ex) {
+        		System.out.println("Erro ao fechar a operação de carregar endereço. Mensagem:" + ex.getMessage());
+        	}
+        }
+        return endereco;
+    }
+    
+    public Endereco encontrarPorIdUsuario(Long idUsuario) {
+    	Endereco endereco = new Endereco();
+    	try {
+        	endereco =  (Endereco)sessao.get(Endereco.class, idUsuario);
         } catch (HibernateException ex) {
             System.out.println("Não foi possível carregar o endereço. Erro: " + ex.getMessage());
         } finally {

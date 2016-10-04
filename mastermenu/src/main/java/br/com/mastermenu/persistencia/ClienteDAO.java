@@ -1,17 +1,12 @@
 package br.com.mastermenu.persistencia;
 
 import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaQuery;
-
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-
 import br.com.mastermenu.model.Cliente;
-import br.com.mastermenu.model.Endereco;
+import br.com.mastermenu.util.HibernateUtil;
 
 public class ClienteDAO {
 	public void salvar(Cliente cliente) {
@@ -99,6 +94,7 @@ public class ClienteDAO {
         return cliente;
     }
 	
+	@SuppressWarnings("unchecked")
 	public List<Cliente> listar() {
 		Session sessao = null;
 		Transaction transacao = null;
@@ -123,5 +119,26 @@ public class ClienteDAO {
         	}
         }
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Cliente> listarAtivos() {
+    	boolean ativo = true;
+		Session sessao = null;
+    	List<Cliente> listaAtivos = null;
+    	try {
+    		sessao = HibernateUtil.getSessionFactory().openSession();
+    		listaAtivos = sessao.createQuery("FROM Cliente WHERE ativo = :ativo").setBoolean("ativo", ativo).list();
+        } catch (HibernateException ex) {
+            System.out.println("Não foi possível listar clientes ativos. Erro: " + ex.getMessage());
+        } finally {
+        	try {
+        		// fecha a entity manager
+        		sessao.close();
+        	} catch (Throwable ex) {
+        		System.out.println("Erro ao fechar a operação de listar clientes ativos. Mensagem:" + ex.getMessage());
+        	}
+        }
+        return listaAtivos;
+    }
 
 }

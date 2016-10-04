@@ -10,15 +10,15 @@
 		<property name="connection.username">root</property>
 		<property name="connection.password">root</property>
 		<property name="current_session_context_class">thread</property>
-		
 		<property name="show_sql">true</property>
 		
 		<property name="hibernate.hbm2ddl.auto">update</property>
-		<mapping class="br.com.mastermenu.model.Cliente"/>
 		<mapping class="br.com.mastermenu.model.Usuario"/>
-		<mapping class="br.com.mastermenu.model.Item"/>
-		<mapping class="br.com.mastermenu.model.Ingrediente"/>		
+		<mapping class="br.com.mastermenu.model.Cliente"/>
 		<mapping class="br.com.mastermenu.model.Profissional"/>
 		<mapping class="br.com.mastermenu.model.Endereco"/>
+		<mapping class="br.com.mastermenu.model.SegurancaSenha"/>
+		<mapping class="br.com.mastermenu.model.Item"/>
+		<mapping class="br.com.mastermenu.model.Ingrediente"/>		
 	</session-factory>
 </hibernate-configuration>

@@ -8,7 +8,7 @@
     <H2>Listagem de Profissionais</H2>
     <h:form>
     		<h:messages/>
- 			<h:dataTable style="width: 100%; text-align: left;" value="#{profissionalBean.lista}" var="profissional" rules="rows" cellpadding="5" >
+ 			<h:dataTable style="width: 100%; text-align: left;" value="#{profissionalBean.listaAtivos}" var="profissional" rules="rows" cellpadding="5" >
     			<f:facet name="caption">
     				<hr/>
     			</f:facet>
@@ -26,10 +26,6 @@
     				<h:outputText value="#{profissional.email}" />
     			</h:column>
     			<h:column>
-    				<f:facet name="header">Tipo</f:facet>
-    				<h:outputText value="#{profissional.tipo}" />
-    			</h:column>
-    			<h:column>
     				<h:commandLink action="#{profissionalBean.alterar}" value="alterar">
     					<f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.profissional}" />
     					<f:setPropertyActionListener value="listagemProfissional" target="#{profissionalBean.destinoSalvar}" />
@@ -41,7 +37,7 @@
     				</h:commandLink>
     			</h:column>
     			<h:column>
-    				<h:commandLink action="#{profissionalBean.excluir}" value="excluir"
+    				<h:commandLink action="#{profissionalBean.excluirLogicamente}" value="excluir"
     					onclick="if (!confirm('Confirma a exclusão do usuário')) return false;">
     					<f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.profissional}" />
     				</h:commandLink>
