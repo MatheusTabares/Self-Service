@@ -9,17 +9,20 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+
+import org.apache.log4j.Logger;
+
 import br.com.mastermenu.model.Item;
 import br.com.mastermenu.persistencia.ItemDAO;
 
 @ManagedBean
 @ViewScoped
 public class ItemBean {
-
+	
 	private Item item = new Item();
 	private List<Item> itens;
 	private List<Item> itensFiltrados;
-
+	
 	@PostConstruct
 	public void prepararPesquisa() {
 		try {

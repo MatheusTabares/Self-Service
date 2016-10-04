@@ -6,42 +6,41 @@ and open the template in the editor.
 -->
 <!DOCTYPE html>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
-                xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-    <h:form>
-        <div id="relogio">
-            <p:clock pattern="HH:mm:ss dd.MM.yyyy" />
-        </div>
-        <p:menubar>
+	<h:form>
+		<div id="relogio">
+			<p:clock pattern="HH:mm:ss dd.MM.yyyy" />
+		</div>
+		<p:menubar>
 
-            <p:submenu label="Itens">
-                <p:menuitem value="Gerenciar" url="/faces/itens.xhtml" />
-            </p:submenu>
+			<p:submenu label="Itens">
+				<p:menuitem value="Gerenciar" url="itens.xhtml" />
+			</p:submenu>
 
-            <p:submenu label="Ingredientes">
-                <p:menuitem value="Gerenciar" url="/faces/ingredientes.xhtml" />
-            </p:submenu>
+			<p:submenu label="Ingredientes">
+				<p:menuitem value="Gerenciar" url="ingredientes.xhtml" />
+			</p:submenu>
 
-            <p:submenu label="Clientes">
-                <p:menuitem value="Gerenciar" url="/faces/clientes.xhtml" />
-            </p:submenu>
-            
-            <p:submenu label="Profissionais">
-                <p:menuitem value="Gerenciar" url="/faces/consultas.xhtml" />
-            </p:submenu>
-            
-            <p:submenu label="Estabelecimento">
-                <p:menuitem value="Gerenciar" url="/faces/consultas.xhtml" />
-            </p:submenu>
-            <p:menuitem value="Sair" url="/faces/index.xhtml"/>
+			<p:submenu label="Profissionais">
+				<p:menuitem value="Gerenciar" url="cadastrarProfissional.xhtml" />
+			</p:submenu>
 
+			<p:submenu label="Clientes">
+				<p:menuitem value="Gerenciar" url="cadastrarCliente.xhtml" />
+			</p:submenu>
 
-        </p:menubar>
+			<p:submenu label="Estabelecimento">
+				<p:menuitem value="Gerenciar" url="consultas.xhtml" />
+			</p:submenu>
+			<p:menuitem value="Sair" url="/login.xhtml" />
 
-    </h:form>
+		</p:menubar>
+
+	</h:form>
 
 
 </ui:composition>
