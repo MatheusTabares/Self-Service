@@ -45,6 +45,7 @@ public class Ingrediente implements Serializable {
 	private boolean ativo = true;
 	
 	private Tipo tipo;
+	
 
 	public String getNome() {
 		return nome;
@@ -94,6 +95,14 @@ public class Ingrediente implements Serializable {
 
 	public void setIdIngrediente(Long idIngrediente) {
 		this.idIngrediente = idIngrediente;
+	}
+	
+	
+
+
+	@Override
+	public String toString() {
+		return nome;
 	}
 
 	@Override

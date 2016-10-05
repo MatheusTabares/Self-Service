@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import br.com.mastermenu.model.Ingrediente;
+import br.com.mastermenu.util.HibernateUtil;
 
 public class IngredienteDAO {
 	

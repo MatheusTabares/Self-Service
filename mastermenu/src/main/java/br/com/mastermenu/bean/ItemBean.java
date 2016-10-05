@@ -12,6 +12,7 @@ import javax.faces.bean.ViewScoped;
 
 import org.apache.log4j.Logger;
 
+import br.com.mastermenu.model.Ingrediente;
 import br.com.mastermenu.model.Item;
 import br.com.mastermenu.persistencia.ItemDAO;
 
@@ -22,6 +23,7 @@ public class ItemBean {
 	private Item item = new Item();
 	private List<Item> itens;
 	private List<Item> itensFiltrados;
+	private List<Ingrediente> ingredientesSelecionados;
 	
 	@PostConstruct
 	public void prepararPesquisa() {
@@ -40,6 +42,7 @@ public class ItemBean {
 	public void incluir() {
 		try {
 			ItemDAO dao = new ItemDAO();
+			item.setIngredientes(ingredientesSelecionados);
 			dao.incluir(getItem());
 			setItens(dao.listar());
 		} catch (Exception ex) {
@@ -108,6 +111,14 @@ public class ItemBean {
 
 	public void setItensFiltrados(List<Item> itensFiltrados) {
 		this.itensFiltrados = itensFiltrados;
+	}
+
+	public List<Ingrediente> getIngredientesSelecionados() {
+		return ingredientesSelecionados;
+	}
+
+	public void setIngredientesSelecionados(List<Ingrediente> ingredientesSelecionados) {
+		this.ingredientesSelecionados = ingredientesSelecionados;
 	}
 
 }
