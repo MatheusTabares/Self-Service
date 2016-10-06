@@ -15,6 +15,7 @@ public class IngredienteBean {
 	private Ingrediente ingrediente = new Ingrediente();
 	private List<Ingrediente> ingredientes;
 	private List<Ingrediente> ingredientesFiltrados;
+	
 
 	@PostConstruct
 	public void prepararPesquisa() {
