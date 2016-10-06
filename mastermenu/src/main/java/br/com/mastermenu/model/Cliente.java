@@ -1,16 +1,18 @@
 package br.com.mastermenu.model;
 
-import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
+@DiscriminatorValue(value = "C")
 @Table(name = "cliente")
 public class Cliente extends Usuario{
 
 	private static final long serialVersionUID = 3253914292390210978L;
 	
-	@Column(name = "cupom", length = 100)
+	@Length(max = 20)
 	private String cupom;
 	
 	public String getCupom() {

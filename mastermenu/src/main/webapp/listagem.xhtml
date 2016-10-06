@@ -1,11 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core">
-<h:head></h:head>
-<h:body>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    template="tema.xhtml">
     <H2>Listagem de Usuários</H2>
+    <ui:define name="menu">
+        <ui:include src="/includes/menuPrincipal.xhtml" />
+    </ui:define>
+    
+	<ui:define name="conteudo">
     <h:form>
     		<h:messages/>
  			<h:dataTable style="width: 100%; text-align: left;" value="#{clienteBean.listaAtivos}" var="cliente" rules="rows" cellpadding="5" >
@@ -47,5 +51,5 @@
     		</h:dataTable>
      	</h:form>
      	<a href="admin.xhtml">voltar</a>
-</h:body>
-</html>
+</ui:define>
+</ui:composition>

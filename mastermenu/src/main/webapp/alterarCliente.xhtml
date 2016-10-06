@@ -1,14 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    template="tema.xhtml">
 
-<h:head></h:head>
-<h:body>
-
+<ui:define name="menu">
+        <ui:include src="/includes/menuPrincipal.xhtml" />
+    </ui:define>
+    
+<ui:define name="conteudo">
 	<h:form prependId="false" >
 				<h:inputHidden value="#{clienteBean.cliente.id}" />
 	    		<h:inputHidden value="#{clienteBean.cliente.ativo}" />
@@ -18,10 +21,6 @@
 	    		<h:inputHidden value="#{clienteBean.destinoSalvar}" />
 
                 <p:panelGrid columns="2" id="formulario" layout="grid" columnClasses="label , inputs">
-                    <f:facet name="header">
-                        CADASTRO CLIENTE
-                    </f:facet>
-
                     <p:outputLabel value="Nome:" for="txtNome"/>
                     <p:inputText id="txtNome" maxlength="100" value="#{clienteBean.cliente.nome}"/>
 
@@ -79,6 +78,5 @@
                 </p:panelGrid>                
             </h:form>
             <h:outputScript library="js" name="cep.js"/>
-
-</h:body>
-</html>
+</ui:define>
+</ui:composition>

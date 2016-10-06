@@ -1,10 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core">
-<h:head></h:head>
-<h:body>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    template="tema.xhtml">
+	
+	<ui:define name="menu">
+        <ui:include src="/includes/menuPrincipal.xhtml" />
+    </ui:define>
+    
+    <ui:define name="conteudo">
     <H2>Listagem de Profissionais</H2>
     <h:form>
     		<h:messages/>
@@ -32,6 +37,11 @@
     				</h:commandLink>
     			</h:column>
     			<h:column>
+    				<h:commandLink action="alterarSenhaProfissional.xhtml" value="alterar senha">
+    					<f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.profissional}" />
+    				</h:commandLink>
+    			</h:column>
+    			<h:column>
     				<h:commandLink action="#{profissionalBean.visualizar}" value="Visualizar">
     					<f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.profissional}" />
     				</h:commandLink>
@@ -44,6 +54,6 @@
     			</h:column>
     		</h:dataTable>
      	</h:form>
-     	<a href="admin.xhtml">voltar</a>
-</h:body>
-</html>
+     	<a href="index.xhtml">voltar</a>
+     </ui:define>
+</ui:composition>

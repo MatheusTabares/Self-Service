@@ -1,19 +1,21 @@
 package br.com.mastermenu.model;
 
-import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@DiscriminatorValue(value = "P")
 @Table(name = "profissional")
 public class Profissional extends Usuario {
 
 	private static final long serialVersionUID = 5375414652966008113L;
 	
-	@Column(name = "pis", nullable = true)
+	@NotNull
 	private String pis;
 	
-	@Column(name = "salario", nullable = true)
+	@NotNull
 	private float salario;
 	
 	public String getPis() {

@@ -50,29 +50,16 @@ public class ProfissionalBean {
 			context.addMessage(null, facesMessage);
 			return null;
 		}
-		Long id = this.profissional.getId();
+		
 		this.profissionalDAO = new ProfissionalDAO();
 		this.enderecoBean= new EnderecoBean();
-		if(id == null || id == 0) {
-			this.profissional.setSenha(HashUtil.geraHash(this.profissional.getSenha(), this.segurancaSenha.getSALT()));
-			this.profissional.setEndereco(this.endereco);
-			this.profissionalDAO.salvar(this.profissional);
-			this.endereco.setUsuario(this.profissionalDAO.carregar(this.profissional.getId()));
-			this.enderecoBean.salvar(endereco);
-			FacesMessage facesMessage = new FacesMessage("Profissional cadastrado com sucesso.");
-			context.addMessage(null, facesMessage);
-		} else {
-			String confirmarSenha = HashUtil.geraHash(this.confirmarSenha, this.segurancaSenha.getSALT());
-			if(!senha.trim().equals(confirmarSenha)) {
-				FacesMessage facesMessage = new FacesMessage("A senha nao foi confirmada corretamente");
-				context.addMessage(null, facesMessage);
-				return null;
-			}
-			this.profissionalDAO.atualizar(this.profissional);
-			this.enderecoBean.atualizar(this.endereco);
-			FacesMessage facesMessage = new FacesMessage("Profissional atualizado com sucesso.");
-			context.addMessage(null, facesMessage);
-		}
+		this.profissional.setSenha(HashUtil.geraHash(this.profissional.getSenha(), this.segurancaSenha.getSALT()));
+		this.profissional.setEndereco(this.endereco);
+		this.profissionalDAO.salvar(this.profissional);
+		this.endereco.setUsuario(this.profissionalDAO.carregar(this.profissional.getId()));
+		this.enderecoBean.salvar(endereco);
+		FacesMessage facesMessage = new FacesMessage("Profissional cadastrado com sucesso.");
+		context.addMessage(null, facesMessage);
 		return this.destinoSalvar;
 	}
 	

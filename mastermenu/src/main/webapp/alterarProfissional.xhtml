@@ -1,16 +1,18 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui"
-    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
-<h:head></h:head>
-<h:body>
-    <H2>
-        <h:outputText value="MASTER-MENU" />
-    </H2>
-   	<h:form prependId="false" >
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    template="tema.xhtml">
+	
+	<ui:define name="menu">
+        <ui:include src="/includes/menuPrincipal.xhtml" />
+    </ui:define>
+    
+    <ui:define name="conteudo">
+    <h:form prependId="false" >
 			<h:messages/>
     		<h:inputHidden value="#{profissionalBean.profissional.id}" />
     		<h:inputHidden value="#{profissionalBean.profissional.ativo}" />
@@ -18,10 +20,7 @@
     		<h:inputHidden value="#{profissionalBean.profissional.token}" />
     		<h:inputHidden value="#{profissionalBean.destinoSalvar}" />
                 <p:panelGrid columns="2" id="formulario" layout="grid" columnClasses="label , inputs">
-                    <f:facet name="header">
-                        CADASTRO PROFISSIONAL
-                    </f:facet>
-
+                 
                     <p:outputLabel value="Nome:" for="txtNome"/>
                     <p:inputText id="txtNome" maxlength="100" value="#{profissionalBean.profissional.nome}"/>
 
@@ -74,14 +73,13 @@
                             <p:commandButton ajax="false" value="Cadastrar"  action="#{profissionalBean.atualizar}" style="width: 49%"  />
                         </h:panelGroup>
                         <h:panelGroup>
-                            <p:commandButton ajax="false" value="Cancelar" action="home?faces-redirect=true" immediate="true" style="width: 49%; float: right"  />     
+                            <p:commandButton ajax="false" value="Cancelar" action="index.xhtml" immediate="true" style="width: 49%; float: right"  />     
                         </h:panelGroup>
                         <p:growl id="messages" showDetail="true" autoUpdate="true" life="5000" />
 
                     </f:facet>
                 </p:panelGrid>                
             </h:form>
-            <h:outputScript library="js" name="cep.js"/>
-   	
-</h:body>
-</html>
+</ui:define>
+<h:outputScript library="js" name="cep.js"/>
+</ui:composition>

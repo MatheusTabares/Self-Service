@@ -12,9 +12,6 @@ and open the template in the editor.
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 	<h:form>
-		<div id="relogio">
-			<p:clock pattern="HH:mm:ss dd.MM.yyyy" />
-		</div>
 		<p:menubar>
 
 			<p:submenu label="Itens">
@@ -26,11 +23,13 @@ and open the template in the editor.
 			</p:submenu>
 
 			<p:submenu label="Profissionais">
-				<p:menuitem value="Gerenciar" url="cadastrarProfissional.xhtml" />
+				<p:menuitem value="Cadastrar" action="#{profissionalBean.novo}" />
+				<p:menuitem value="Listar" url="listagemProfissionais.xhtml" />
 			</p:submenu>
 
 			<p:submenu label="Clientes">
-				<p:menuitem value="Gerenciar" url="cadastrarCliente.xhtml" />
+				<p:menuitem value="Cadastrar" action="#{clienteBean.novo}" />
+				<p:menuitem value="Listar" url="listagem.xhtml" />
 			</p:submenu>
 
 			<p:submenu label="Estabelecimento">

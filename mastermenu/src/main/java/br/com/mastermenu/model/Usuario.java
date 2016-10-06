@@ -1,22 +1,26 @@
 package br.com.mastermenu.model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+
 @Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "tipo", length = 1, discriminatorType = DiscriminatorType.STRING)
+@DiscriminatorValue("U")
 @Table(name = "usuario")
 public class Usuario implements Serializable {
 	
@@ -27,36 +31,40 @@ public class Usuario implements Serializable {
 	@Column(name = "id_usuario", updatable = false, nullable = false)
 	private Long id;
 	
-	@Column(name = "nome", length = 150, nullable = false)
+	@Column(length = 150, nullable = false)
 	private String nome;
 	
-	@Column(name = "senha", nullable = false)
+	@Column(nullable = false)
 	private String senha;
 	
 	@OneToOne(mappedBy = "usuario")
     private Endereco endereco;
 	
-	@Column(name = "imagem", length = 200)
+	@Length(max = 20)
 	private String imagem;
 	
-	@Column(name = "telefone", length = 50, nullable = false)
-	@Min(10)
+	@NotNull
+	@Length(min = 8, max = 15)
 	private String telefone;
 	
 	@NotNull
 	private boolean ativo;
 	
-	@Column(name = "email", length = 50, nullable = false)
+	@NotNull
+	@Length(min = 8, max = 50)
 	private String email;
 	
-	@Column(name = "cpf", length = 12, nullable = false)
-	@Min(11)
+	@NotNull
+	@Length(min = 11, max = 11)
 	private String cpf;
 	
 	private String token;
 	
 	@OneToOne(mappedBy = "usuario")
     private SegurancaSenha segurancaSenha;
+	
+	@Column(insertable=false, updatable=false)
+    private String tipo;
 	
 	public Long getId() {
 		return id;
@@ -124,9 +132,19 @@ public class Usuario implements Serializable {
 	public SegurancaSenha getSegurancaSenha() {
 		return segurancaSenha;
 	}
+	
 	public void setSegurancaSenha(SegurancaSenha segurancaSenha) {
 		this.segurancaSenha = segurancaSenha;
 	}
+
+	public String getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

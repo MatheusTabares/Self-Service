@@ -1,14 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
-
-<h:head></h:head>
-<h:body>
-
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:p="http://primefaces.org/ui"
+			    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+			    template="tema.xhtml">
+	<ui:define name="menu">
+        <ui:include src="/includes/menuPrincipal.xhtml" />
+    </ui:define>
+    <ui:define name="conteudo">
 	<h:form prependId="false" >
 				<h:inputHidden value="#{clienteBean.cliente.id}" />
 	    		<h:inputHidden value="#{clienteBean.cliente.ativo}" />
@@ -23,12 +24,10 @@
                     </f:facet>
 
                     <p:outputLabel value="Nome:" for="txtNome"/>
-                    <p:inputText id="txtNome" maxlength="100" value="#{clienteBean.cliente.nome}"/>
-
+                    <p:inputText id="txtNome" maxlength="150" value="#{clienteBean.cliente.nome}"/>
 
                     <p:outputLabel value="E-mail:" for="txtEmail"/>
-                    <p:inputText id="txtEmail" maxlength="100" value="#{clienteBean.cliente.email}"/> 
-
+                    <p:inputText id="txtEmail" maxlength="50" value="#{clienteBean.cliente.email}"/> 
 
                     <p:outputLabel value="Senha:" for="txtSenha"/>
                     <p:inputText id="txtSenha"  value="#{clienteBean.cliente.senha}"/> 
@@ -71,14 +70,13 @@
                             <p:commandButton ajax="false" value="Cadastrar"  action="#{clienteBean.salvar}" style="width: 49%"  />
                         </h:panelGroup>
                         <h:panelGroup>
-                            <p:commandButton ajax="false" value="Cancelar" action="home?faces-redirect=true" immediate="true" style="width: 49%; float: right"  />     
+                            <p:commandButton ajax="false" value="Cancelar" action="index.xhtml" immediate="true" style="width: 49%; float: right"  />     
                         </h:panelGroup>
                         <p:growl id="messages" showDetail="true" autoUpdate="true" life="5000" />
 
                     </f:facet>
                 </p:panelGrid>                
             </h:form>
-            <h:outputScript library="js" name="cep.js"/>
-
-</h:body>
-</html>
+      </ui:define>
+      <h:outputScript library="js" name="cep.js"/>
+</ui:composition>
