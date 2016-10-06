@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import br.com.mastermenu.model.Item;
+import br.com.mastermenu.util.HibernateUtil;
 
 public class ItemDAO {
 	
