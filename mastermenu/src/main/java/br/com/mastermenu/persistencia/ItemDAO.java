@@ -20,13 +20,12 @@ public class ItemDAO {
 	    public void incluir(Item i) throws Exception {
 	        sessao = HibernateUtil.getSessionFactory().openSession();
 	        Transaction t = null;
-	    
 	        try {
 	            t = sessao.beginTransaction();
 	            sessao.save(i);
 	            t.commit();
 	        }catch(Exception ex){
-	            if(t != null){
+	            if(t == null){
 	                t.rollback();
 	            }
 	        } finally {
