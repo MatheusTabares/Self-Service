@@ -151,10 +151,6 @@
 		</p:dialog>
 
 
-
-
-
-
 		<p:dialog widgetVar="dlgItemExcluir" header="Item - Excluir"
 			closable="false" draggable="false" resizable="false" modal="true"
 			appendTo="@(body)">
@@ -202,8 +198,12 @@
 			            <f:selectItem itemLabel="Bebida" itemValue="Bebida" />
 			            <f:selectItem itemLabel="Outro" itemValue="Outro" />
 			        </p:selectOneMenu>
-					
-					
+			        <p:panelGrid>
+			        <p:commandButton style="horizontal-align:center" value="Ingredientes"
+						update=":frmIngredienteNovo:pnlIngredienteSelecionar"
+						oncomplete="PF('dlgIngredienteSelecionar').show();">
+					</p:commandButton>					
+					</p:panelGrid>
 				</h:panelGrid>
 				<h:panelGrid columns="2">
 					<p:commandButton value="Editar" actionListener="#{itemBean.editar}"
@@ -219,7 +219,7 @@
 			closable="false" draggable="false" resizable="false" modal="true"
 			appendTo="@(body)">
 			<h:form id="frmItemConsultar">
-				<h:panelGrid id="pnlItemConsultar" columns="2">
+				<h:panelGrid id="pnlItemConsultar" columns="2" style="width:300px; height:150px;">
 					<h:outputLabel value="Id: " />
 					<h:outputText value="#{itemBean.item.idItem}" />
 					<h:outputLabel value="Nome: " />
