@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Login Profissionais</title>
+</h:head>
+<h:body>
+	<p:growl id="message" />
+	<p:dialog header="Autenticacão" visible="true" closable="false" draggable="false" resizable="false" modal="true">
+	<h:form>		
+		<h:panelGrid columns="2">
+			<p:outputLabel for="login" value="E-mail: " />
+			<p:inputText value="#{authenticationProfissionalBean.profissionalLogado.email}" required="true" requiredMessage="informe seu email " id="login" />
+			<p:outputLabel for="senha" value="Senha: " />
+			<p:password value="#{authenticationProfissionalBean.profissionalLogado.senha}" required="true" requiredMessage="informe sua senha" id="senha" />
+		</h:panelGrid>
+		<h:panelGrid columns="1">
+			<p:commandButton value="Entrar" update=":message" actionListener="#{authenticationProfissionalBean.autenticar()}" />
+		</h:panelGrid>
+		</h:form>
+	</p:dialog>
+</h:body>
+</html>

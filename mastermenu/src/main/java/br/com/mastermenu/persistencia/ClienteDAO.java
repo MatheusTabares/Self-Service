@@ -120,6 +120,45 @@ public class ClienteDAO {
         }
 	}
 	
+	public Cliente carregarPorEmail(String email) {
+		Session sessao = null;
+		Cliente cliente = null;
+		try {
+			sessao = HibernateUtil.getSessionFactory().openSession();
+			cliente = (Cliente) sessao.createQuery("FROM Usuario WHERE email=:email").setString("email", email).uniqueResult();
+		} catch (HibernateException ex) {
+			System.out.println("Não foi possível listar clientes ativos. Erro: " + ex.getMessage());
+		} finally {
+			try {
+				// fecha a entity manager
+				sessao.close();
+			} catch (Throwable ex) {
+				System.out.println("Erro ao fechar a operação de listar clientes ativos. Mensagem:" + ex.getMessage());
+			}
+		}
+		return cliente;
+	}
+	
+	// Authentication
+		public Cliente authentication(String email, String senha) {
+
+			Session sessao = HibernateUtil.getSessionFactory().openSession();
+			Cliente cliente = null;
+			try {
+				Query consulta = sessao.getNamedQuery("cliente.authentication");
+				consulta.setString("email", email);
+				consulta.setString("senha", senha);
+				cliente = (Cliente) consulta.uniqueResult();
+
+			} catch (Exception ex) {
+				throw ex;
+			} finally {
+				sessao.close();
+			}
+
+			return cliente;
+		}
+	
 	@SuppressWarnings("unchecked")
 	public List<Cliente> listarAtivos() {
     	boolean ativo = true;

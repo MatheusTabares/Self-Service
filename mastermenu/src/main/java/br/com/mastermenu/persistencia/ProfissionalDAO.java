@@ -56,6 +56,45 @@ public class ProfissionalDAO {
         }
 	}
 	
+	public Profissional carregarPorEmail(String email) {
+		Session sessao = null;
+		Profissional profissional = new Profissional();
+		try {
+			sessao = HibernateUtil.getSessionFactory().openSession();
+			profissional = (Profissional) sessao.createQuery("FROM Usuario WHERE email=:email").setString("email", email).uniqueResult();
+		} catch (HibernateException ex) {
+			System.out.println("Não foi possível encontrar o profissional por email. Erro: " + ex.getMessage());
+		} finally {
+			try {
+				// fecha a entity manager
+				sessao.close();
+			} catch (Throwable ex) {
+				System.out.println("Erro ao fechar a operação de carregar por email. Mensagem:" + ex.getMessage());
+			}
+		}
+		return profissional;
+	}
+	
+	//Authentication
+	public Profissional authentication (String email, String senha){
+		
+		Session sessao = HibernateUtil.getSessionFactory().openSession();
+		Profissional prof = null;
+		try {
+				Query consulta = sessao.getNamedQuery("profissional.authentication");
+				consulta.setString("email", email);
+				consulta.setString("senha", senha);
+				prof = (Profissional) consulta.uniqueResult();
+			
+		} catch (Exception ex) {
+			throw ex;
+		}finally {
+			sessao.close();
+		}
+		
+		return prof;
+	}
+
 	public void excluir(Profissional profissional) {
 		Session sessao = null;
 		Transaction transacao = null;
