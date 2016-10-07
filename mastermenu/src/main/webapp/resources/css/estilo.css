@@ -1,12 +1,17 @@
+@import 'https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300';
+
 * {
     margin: 0;
     padding:0;
 }
 
 p{
-	font-size: 38pt;
+	font-family: 'Open Sans Condensed', sans-serif;
 }
 
+.letra-menu-principal {
+	font-family: 'Open Sans Condensed', sans-serif; 
+}
 .corpo {
 	background-image: url("#{resource['img/garfo-e-faca.png']}");
 	background-repeat: no-repeat; 
@@ -48,9 +53,10 @@ body{
     padding: 0px;
     padding-top: 0px;
 }
-#topo{background-color: #0099FF;
-border: 0px;
-padding: 0px;
+#topo{
+	background-color: #0099FF;
+	border: 0px;
+	padding: 0px;
 }
 #direito{background-color: #0099FF;
 border: 0px;

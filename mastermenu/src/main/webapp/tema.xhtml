@@ -15,26 +15,20 @@ and open the template in the editor.
         <h:outputStylesheet library="css" name="estilo.css" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <h:outputStylesheet library="css" name="login.css" />
-        <h:outputScript library="js" name="scripts.js" />
-        
+        <h:outputScript library="js" name="scripts.js" />     
     </h:head>
     <h:body>
         <p:growl id="msgGlobal" life="3000" />
         <p:layout id="corpo" fullPage="true">
             <p:layoutUnit id="topo" position="north" size="150">
-                <p:graphicImage library="img" name="odonto.png" height="100"/>
+                <p:graphicImage library="img" name="odonto.png" height="100" style="margin-left:44%;"/>
                 <ui:insert name="menu"></ui:insert>
-            </p:layoutUnit>
-            <p:layoutUnit id="direito" position="east" size="300">
-               <p:graphicImage library="img" name="cadeira.png" height="100"/>
-               Seu restaurante modernizado.
-               <br></br><hr></hr>
             </p:layoutUnit>
             <p:layoutUnit position="center" size="100%">
                 <ui:insert name="conteudo"></ui:insert>
             </p:layoutUnit>
             <p:layoutUnit id="rodape" position="south " size="25">
-                <center> ‎Copyright © direitos reservados construido por Paulo Henrique S. Faria, Matheus Tabares, Renan Tabares</center>
+                <center><p style="font-size: 7pt; font-weight: bold;"> ‎Todos os direitos reservados - Copyright © 2016 </p></center>
             </p:layoutUnit>
         </p:layout>
     </h:body>
