@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<h:outputStylesheet library="css" name="estilo.css" />
+</h:head>
+<h:body class="corpo">
+	<div>
+		<h:graphicImage library="img" name="odonto.png" style="margin-left:45%; width:100px; height:60px"/>
+	</div>
+	<hr/>
+	<br/>
+	<div style="width:100%; margin-left:33%; margin-top: 3%;" >
+		<p:commandButton value="COMO CLIENTE" action="loginCliente.xhtml" style="width: 200px; height: 200px;"/>
+		<h:outputText value="&#160;" />
+		<h:outputText value="&#160;" />
+		<p:commandButton value="COMO PROFISSIONAL" action="loginProfissional.xhtml" style="width: 200px; height: 200px;"/>
+	</div>
+
+</h:body>
+</html>

@@ -34,7 +34,7 @@ public class Endereco implements Serializable{
     private String logradouro;
 
     @NotNull
-    private int numero;
+    private String numero;
 
     private String complemento = "";
 
@@ -70,16 +70,16 @@ public class Endereco implements Serializable{
     public void setLogradouro(String logradouro) {
         this.logradouro = logradouro;
     }
+    
+    public String getNumero() {
+		return numero;
+	}
 
-    public int getNumero() {
-        return this.numero;
-    }
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
 
-    public void setNumero(int numero) {
-        this.numero = numero;
-    }
-
-    public String getComplemento() {
+	public String getComplemento() {
         return complemento;
     }
 

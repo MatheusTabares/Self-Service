@@ -14,7 +14,7 @@ public class SegurancaSenha {
     private long id;
 
     @OneToOne
-    private Usuario usuario;
+    private Usuario usuario = new Usuario();
 
     private String SALT;
 

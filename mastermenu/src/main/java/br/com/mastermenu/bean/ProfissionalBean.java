@@ -56,6 +56,8 @@ public class ProfissionalBean {
 		this.profissional.setSenha(HashUtil.geraHash(this.profissional.getSenha(), this.segurancaSenha.getSALT()));
 		this.profissional.setEndereco(this.endereco);
 		this.profissionalDAO.salvar(this.profissional);
+		this.segurancaSenha.setUsuario(this.profissionalDAO.carregar(this.profissional.getId()));
+		this.segurancaSenhaDAO.salvar(this.segurancaSenha);
 		this.endereco.setUsuario(this.profissionalDAO.carregar(this.profissional.getId()));
 		this.enderecoBean.salvar(endereco);
 		FacesMessage facesMessage = new FacesMessage("Profissional cadastrado com sucesso.");

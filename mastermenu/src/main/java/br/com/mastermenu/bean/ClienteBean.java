@@ -30,6 +30,14 @@ public class ClienteBean {
 	private SegurancaSenha segurancaSenha = new SegurancaSenha();
 	private SegurancaSenhaDAO segurancaSenhaDAO = new SegurancaSenhaDAO();
 	
+	public ClienteBean() {
+		this.destinoSalvar = "sucesso";
+		this.cliente = new Cliente();
+		this.cliente.setAtivo(true);
+		this.cliente.setToken("token");
+		this.cliente.setImagem("imagem");
+	}
+	
 	public String novo() {
 		this.destinoSalvar = "sucesso";
 		this.cliente = new Cliente();
