@@ -44,9 +44,6 @@ public class Ingrediente implements Serializable {
 	@Column(name = "ativo")
 	private boolean ativo = true;
 	
-	private Tipo tipo;
-	
-
 	public String getNome() {
 		return nome;
 	}
@@ -70,14 +67,6 @@ public class Ingrediente implements Serializable {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-
-	public Tipo getTipo() {
-		return tipo;
-	}
-
-	public void setTipo(Tipo tipo) {
-		this.tipo = tipo;
 	}
 
 	public boolean isAtivo() {
@@ -113,7 +102,6 @@ public class Ingrediente implements Serializable {
 		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
 		result = prime * result + ((idIngrediente == null) ? 0 : idIngrediente.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(valor);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -146,11 +134,11 @@ public class Ingrediente implements Serializable {
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
-		if (tipo != other.tipo)
-			return false;
 		if (Double.doubleToLongBits(valor) != Double.doubleToLongBits(other.valor))
 			return false;
 		return true;
 	}
+
+	
 	
 }

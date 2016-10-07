@@ -2,31 +2,33 @@ package br.com.mastermenu.converter;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.convert.ConverterException;
 import javax.faces.convert.FacesConverter;
 
-@FacesConverter("entityConverter")
+import br.com.mastermenu.model.Ingrediente;
+
+@FacesConverter("contratoConverter")
 public class EntityConverter implements Converter {
- 
-    public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
-        if(value != null && value.trim().length() > 0) {
-            try {
-                IngredienteService service = (ThemeService) fc.getExternalContext().getApplicationMap().get("themeService");
-                return service.getThemes().get(Integer.parseInt(value));
-            } catch(NumberFormatException e) {
-                throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error", "Not a valid theme."));
-            }
+
+	@Override
+	public Object getAsObject(FacesContext fc, UIComponent uic, String value) {
+		if(value != null && !value.isEmpty()){
+            return (Ingrediente) uic.getAttributes().get(value);
         }
-        else {
-            return null;
+        return null;
+	}
+
+	@Override
+	public String getAsString(FacesContext fc, UIComponent uic, Object obj) {
+		//verificando se o objeto é uma instancia da classe
+    	System.out.println(obj);
+        if(obj instanceof Ingrediente) {
+                        //obtendo o objeto
+        	Ingrediente entity = (Ingrediente) obj;                        
+            uic.getAttributes().put(String.valueOf(entity.getIdIngrediente()) , entity);
+                        //retornando o codigo do serviço
+            return String.valueOf(entity.getIdIngrediente());
         }
-    }
- 
-    public String getAsString(FacesContext fc, UIComponent uic, Object object) {
-        if(object != null) {
-            return String.valueOf(((Theme) object).getId());
-        }
-        else {
-            return null;
-        }
-    }   
+        return "";
+	}
 } 

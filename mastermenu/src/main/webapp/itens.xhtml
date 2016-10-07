@@ -34,14 +34,14 @@
 					<h:outputText value="#{item.nome}" />
 				</p:column>
 
-				<p:column headerText="Quantidade" filterBy="#{item.quantidade}"
-					sortBy="#{item.quantidade}">
-					<h:outputText value="#{item.quantidade}" />
-				</p:column>
-
 				<p:column headerText="Valor" filterBy="#{item.valor}"
 					sortBy="#{item.valor}">
 					<h:outputText value="#{item.valor}" />
+				</p:column>
+				
+				<p:column headerText="Tipo" filterBy="#{item.tipo}"
+					sortBy="#{item.tipo}">
+					<h:outputText value="#{item.tipo}" />
 				</p:column>
 
 				<p:column headerText="Ações">
@@ -92,30 +92,18 @@
 						requiredMessage="O campo valor é obrigatório." size="15"
 						value="#{itemBean.item.valor}" pt:placeholder="Entre com o Valor">
 					</p:inputText>
-					<p:outputLabel value="Quantidade" for="txtQuantidade" />
-					<p:inputText id="txtQuantidade" maxlength="50" required="true"
-						requiredMessage="O campo Quantidade é obrigatório." size="20"
-						value="#{itemBean.item.quantidade}" pt:type="quantidade"
-						pt:placeholder="Entre com seu Quantidade">
-					</p:inputText>
+					<p:outputLabel value="Tipo:" />
+			        <p:selectOneMenu id="tipoOM" value="#{itemBean.item.tipo}" style="width:125px">
+			            <f:selectItem itemLabel="Comida" itemValue="Comida" />
+			            <f:selectItem itemLabel="Bebida" itemValue="Bebida" />
+			            <f:selectItem itemLabel="Outro" itemValue="Outro" />
+			        </p:selectOneMenu>
 
 					<p:commandButton value="Ingredientes"
 						update=":frmIngredienteNovo:pnlIngredienteSelecionar"
 						oncomplete="PF('dlgIngredienteSelecionar').show();">
 					</p:commandButton>
 
-					<!-- <h3 style="margin-top: 0">Ingredientes</h3>
-					<ui:repeat var="i" value="#{ingredienteBean.ingredientes}" varStatus="status">
-					
-						<p:selectOneRadio id="ingrediente" value="#{ingredienteBean.ingrediente}">
-						<ui:repeat var="in" value="ingredienteBean.ingrediente">
-							<f:selectItem itemLabel="#{i.nome}" itemValue="#{ingredienteBean.ingrediente}" />
-							</ui:repeat>
-							<f:selectItem itemLabel="PS4" itemValue="PS4" />
-							<f:selectItem itemLabel="Wii U" itemValue="Wii U" />
-						</p:selectOneRadio>
-					</ui:repeat>
-						 -->
 
 				</h:panelGrid>
 				<p:panelGrid columns="2">
@@ -141,10 +129,10 @@
 				<h:form id="pnlIngredienteSelecionar">
 					<h:panelGrid columns="3" cellpadding="5">
 						<h:outputLabel for="menu" value="Ingredientes:" />
-						<p:selectCheckboxMenu id="menu"
+						<p:selectCheckboxMenu id="menu" converter="contratoConverter"
 							value="#{itemBean.ingredientesSelecionados}" label="Itens"
 							filter="true" filterMatchMode="startsWith"
-							panelStyle="width:550px">
+							panelStyle="width:350px">
 							<f:selectItems value="#{ingredienteBean.ingredientes}" />
 						</p:selectCheckboxMenu>
 						<p:commandLink value="Enviar" update="display" />
@@ -208,12 +196,14 @@
 						value="#{itemBean.item.valor}"
 						pt:placeholder="Entre com seu Valor">
 					</p:inputText>
-					<h:outputLabel value="Quantidade" for="txtQuantidade" />
-					<p:inputText id="txtQuantidade" maxlength="50" required="true"
-						requiredMessage="O campo quantidade é obrigatório." size="20"
-						value="#{itemBean.item.quantidade}"
-						pt:placeholder="Entre com a sua Quantidade">
-					</p:inputText>
+					<p:outputLabel value="Tipo:" />
+			        <p:selectOneMenu id="tipoEOM" value="#{itemBean.item.tipo}" style="width:125px">
+			            <f:selectItem itemLabel="Comida" itemValue="Comida" />
+			            <f:selectItem itemLabel="Bebida" itemValue="Bebida" />
+			            <f:selectItem itemLabel="Outro" itemValue="Outro" />
+			        </p:selectOneMenu>
+					
+					
 				</h:panelGrid>
 				<h:panelGrid columns="2">
 					<p:commandButton value="Editar" actionListener="#{itemBean.editar}"
@@ -236,8 +226,15 @@
 					<h:outputText value="#{itemBean.item.nome}" />
 					<h:outputLabel value="Valor: " />
 					<h:outputText value="#{itemBean.item.valor}" />
-					<h:outputLabel value="Quantidade: " />
-					<h:outputText value="#{itemBean.item.quantidade}" />
+					<h:outputLabel value="Tipo: " />
+					<h:outputText value="#{itemBean.item.tipo}" />
+					<h:outputLabel value="Ingredientes: " />
+					 <p:dataList value="#{itemBean.item.ingredientes}" var="ing" type="ordered">
+					        <f:facet name="Ingredientes">
+					            Basic
+					        </f:facet>
+					        #{ing.nome}
+					  </p:dataList>
 				</h:panelGrid>
 
 				<p:commandButton value="Voltar"

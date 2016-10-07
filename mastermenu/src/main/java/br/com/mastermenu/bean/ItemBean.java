@@ -43,9 +43,6 @@ public class ItemBean {
 		try {
 			ItemDAO dao = new ItemDAO();
 			item.setIngredientes(ingredientesSelecionados);
-			for (Object ingrediente : ingredientesSelecionados) {
-				System.out.println("class: " + ingrediente.getClass());
-			}
 			dao.incluir(getItem());
 			setItens(dao.listar());
 		} catch (Exception ex) {

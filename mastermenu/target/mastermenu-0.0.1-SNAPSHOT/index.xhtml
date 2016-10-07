@@ -2,29 +2,81 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core">
-<h:head></h:head>
-<h:body>
-    <H2>
-        <h:outputText value="MASTER-MENU" />
-    </H2>
-    
-    <h:form id="autor">
-				<fieldset>
-					<legend>Insira um prato</legend>
-					<h:panelGrid columns="3">
-    
-    <h:outputLabel value="Nome:" for="nome" />
-						<h:inputText id="nome" value="#{pratoPrincipalBean.prato.nome}"
-							required="true">
-							<f:validateLength minimum="5" />
-							<f:ajax event="blur" render="messageNome" />
-						</h:inputText>
-						
-							<h:commandButton value="Gravar" action="#{pratoPrincipalBean.incluirPratoPrincipal}" />
-					</h:panelGrid>
-				</fieldset>
-			</h:form>
-    
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<h:outputStylesheet library="css" name="estilo.css" />
+</h:head>
+<h:body class="corpo">
+	<div>
+		<h:graphicImage library="img" name="odonto.png" style="margin-left:45%; width:100px; height:60px"/>
+	</div>
+	
+	<div style="width:100%;">
+		<hr/>
+		<div style="float:right; margin-right:2%">
+			<p:button value="ENTRAR" href="escolherLogin.xhtml"/>	
+		</div>
+		<hr/>
+	</div>
+	<br/>
+			<h:form id="cadastroCliente">
+			<p:panelGrid columns="2" style="float:right; margin-right: 2%;">
+				<p:outputLabel value="Nome:" for="txtNome"/>
+               <p:inputText id="txtNome" maxlength="150" value="#{clienteBean.cliente.nome}"/>
+
+               <p:outputLabel value="E-mail:" for="txtEmail"/>
+               <p:inputText id="txtEmail" maxlength="50" value="#{clienteBean.cliente.email}"/> 
+
+               <p:outputLabel value="Senha:" for="txtSenha"/>
+               <p:inputText id="txtSenha"  value="#{clienteBean.cliente.senha}"/> 
+
+				<p:outputLabel value="Confirma Senha:" for="txtConfirmaSenha"/>
+               <p:inputText id="txtConfirmaSenha"  value="#{clienteBean.confirmarSenha}"/> 
+
+               <p:outputLabel value="CPF:" for="txtCPF"/>
+               <p:inputText id="txtCPF" maxlength="12" value="#{clienteBean.cliente.cpf}"/>  
+
+               <p:outputLabel value="CEP:" for="txtCEP"/>                                           
+               <p:inputText id="txtCEP" maxlength="8" value="#{clienteBean.endereco.CEP}"/>
+
+               <p:outputLabel value="Complemento: " for="txtComplemento"/>
+               <p:inputText id="txtComplemento" maxlength="20" value="#{clienteBean.endereco.complemento}"/> 
+
+               <p:outputLabel value="Logradouro: " for="txtLogradouro"/>
+               <p:inputText id="txtLogradouro" maxlength="100" value="#{clienteBean.endereco.logradouro}"/> 
+
+			   <p:outputLabel value="Nº: " for="txtNumero"/>
+               <p:inputText id="txtNumero" maxlength="5" value="#{clienteBean.endereco.numero}" />
+
+               <p:outputLabel value="Bairro: " for="txtBairro"/>
+               <p:inputText id="txtBairro" maxlength="30" value="#{clienteBean.endereco.bairro}" />
+
+
+               <p:outputLabel value="Cidade: " for="txtCidade" />
+               <p:inputText id="txtCidade" maxlength="30" value="#{clienteBean.endereco.cidade}" />
+
+
+               <p:outputLabel value="UF:" for="txtUF"/>
+               <p:inputText id="txtUF" maxlength="30" value="#{clienteBean.endereco.UF}" /> 
+
+
+               <p:outputLabel value="Telefone: " for="txtTelefone"/>
+               <p:inputText id="txtTelefone" maxlength="15" value="#{clienteBean.cliente.telefone}"/> 
+                
+             
+    	       <f:facet name="footer">
+                    <h:panelGroup>
+                        <p:commandButton ajax="false" value="Cadastrar"  action="#{clienteBean.salvar}" style="width: 100%"  />
+                    </h:panelGroup>
+                    <p:growl id="messages" showDetail="true" autoUpdate="true" life="5000" />
+	           </f:facet>
+	
+            </p:panelGrid>
+	</h:form>
+	<div style="width: 40%; margin-left:15%; margin-top:5%;">
+		<p>Master menu é um sistema de solicitações de pedidos através do seu smartphone.</p>
+	</div>
 </h:body>
+<h:outputScript library="js" name="cep.js" />
 </html>

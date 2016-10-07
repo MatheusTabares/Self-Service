@@ -14,7 +14,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+
+import br.com.mastermenu.enums.Tipo;
 
 
 @Entity
@@ -29,9 +32,9 @@ public class Item implements Serializable {
 	@Column(name = "nome")
 	private String nome;
 	
-	@OneToMany(targetEntity = Ingrediente.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(targetEntity = Ingrediente.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "Item_Ingredientes",
-	joinColumns = @JoinColumn(name = "ingrediente_id")) 
+	joinColumns = @JoinColumn(unique=false, name = "ingrediente_id")) 
     private Collection<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
 	
 	@Column(name= "ativo")
@@ -40,8 +43,7 @@ public class Item implements Serializable {
 	@Column(name = "valor")
 	private double valor;
 	
-	@Column(name = "quantidade")
-	private int quantidade;
+	private Tipo tipo;
 
 
 	public String getNome() {
@@ -76,14 +78,7 @@ public class Item implements Serializable {
 		this.valor = valor;
 	}
 
-	public int getQuantidade() {
-		return quantidade;
-	}
-
-	public void setQuantidade(int quantidade) {
-		this.quantidade = quantidade;
-	}
-
+	
 	public boolean isAtivo() {
 		return ativo;
 	}
@@ -99,6 +94,16 @@ public class Item implements Serializable {
 		return nome;
 	}
 
+	
+
+	public Tipo getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(Tipo tipo) {
+		this.tipo = tipo;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -107,7 +112,7 @@ public class Item implements Serializable {
 		result = prime * result + ((idItem == null) ? 0 : idItem.hashCode());
 		result = prime * result + ((ingredientes == null) ? 0 : ingredientes.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + quantidade;
+		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(valor);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -140,7 +145,7 @@ public class Item implements Serializable {
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
-		if (quantidade != other.quantidade)
+		if (tipo != other.tipo)
 			return false;
 		if (Double.doubleToLongBits(valor) != Double.doubleToLongBits(other.valor))
 			return false;
@@ -148,6 +153,5 @@ public class Item implements Serializable {
 	}
 	
 	
-
 
 }
