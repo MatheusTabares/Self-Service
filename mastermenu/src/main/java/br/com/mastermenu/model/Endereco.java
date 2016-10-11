@@ -27,25 +27,33 @@ public class Endereco implements Serializable{
     @OneToOne
     private Usuario usuario;
 
-    @Length(min = 8, max = 8)
+    @Length(min = 8, max = 8, message = "CEP deve conter somente 8 dígitos.")
+    @NotNull(message = "CEP Obrigatório.")
     private String CEP;
     
-    @Length(min = 6, max = 40)
-    private String logradouro;
+    @Length(min = 2, max = 2, message="UF deve conter somente 2 caracteres.")
+    @NotNull(message = "UF obrigatório.")
+    private String UF;
 
-    @NotNull
-    private String numero;
 
-    private String complemento = "";
-
-    @Length(min = 3, max = 40)
-    private String bairro;
-
-    @Length(min = 6, max = 40)
+    @Length(min = 3, max = 40, message = "Cidade entre 6 e 40 caracteres.")
+    @NotNull(message = "Cidade obrigatório.")
     private String cidade;
 
-    @Length(min = 2, max = 2)
-    private String UF;
+    @Length(min = 3, max = 40, message = "Bairro entre 3 e 40 caracteres.")
+    @NotNull(message = "Bairro obrigatório.")
+    private String bairro;
+    
+    @NotNull(message = "Logradouro obrigatório.")
+    @Length(min = 6, max = 40, message = "Logradouro entre 6 e 40 caracteres.")
+    private String logradouro;
+
+    @NotNull(message = "Numero Obrigatório.")
+    @Length(max = 20, message = "Máximo 20 dígitos.")
+    private String numero;
+
+    @Length(max = 20, message = "Complemento máximo 20 caracteres.")
+    private String complemento = "";
 
     public int getId() {
         return id;

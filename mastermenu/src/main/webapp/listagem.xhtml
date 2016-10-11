@@ -38,6 +38,11 @@
     				</h:commandLink>
     			</h:column>
     			<h:column>
+    				<h:commandLink action="alterarSenhaCliente.xhtml" value="alterar senha">
+    					<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />
+    				</h:commandLink>
+    			</h:column>
+    			<h:column>
     				<h:commandLink action="#{clienteBean.visualizar}" value="Visualizar">
     					<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />
     				</h:commandLink>

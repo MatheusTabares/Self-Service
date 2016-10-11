@@ -9,8 +9,10 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import br.com.mastermenu.model.Cliente;
 import br.com.mastermenu.model.Endereco;
+import br.com.mastermenu.model.Profissional;
 import br.com.mastermenu.model.SegurancaSenha;
 import br.com.mastermenu.persistencia.ClienteDAO;
+import br.com.mastermenu.persistencia.ProfissionalDAO;
 import br.com.mastermenu.persistencia.SegurancaSenhaDAO;
 import br.com.mastermenu.util.HashUtil;
 
@@ -56,28 +58,32 @@ public class ClienteBean {
 			context.addMessage(null, facesMessage);
 			return null;
 		}
+		
 		this.clienteDAO = new ClienteDAO();
-		this.enderecoBean = new EnderecoBean();
+		this.enderecoBean= new EnderecoBean();
 		this.cliente.setSenha(HashUtil.geraHash(this.cliente.getSenha(), this.segurancaSenha.getSALT()));
 		this.cliente.setEndereco(this.endereco);
 		this.clienteDAO.salvar(this.cliente);
-		this.segurancaSenha.setUsuario(this.clienteDAO.carregar(this.cliente.getId()));
-	    this.segurancaSenhaDAO.salvar(this.segurancaSenha);
-		this.endereco.setUsuario(this.clienteDAO.carregar(this.cliente.getId()));
+		Cliente cliente = new Cliente();
+		cliente = this.clienteDAO.carregarPorEmail(this.cliente.getEmail());
+		this.segurancaSenha.setUsuario(cliente);
+		this.segurancaSenhaDAO.salvar(this.segurancaSenha);
+		this.endereco.setUsuario(cliente);
 		this.enderecoBean.salvar(endereco);
-		
-		FacesMessage facesMessage = new FacesMessage("Cliente cadastrado com sucesso.");
+		FacesMessage facesMessage = new FacesMessage("Cliente" +this.cliente.getNome()+ " cadastrado com sucesso!");
 		context.addMessage(null, facesMessage);
+		this.cliente = new Cliente();
 		this.confirmarSenha = "";
-		return this.destinoSalvar;
+		this.listar();
+		return "listagem";
 	}
 	
 	public String atualizar() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		
-		String confirmarSenha = HashUtil.geraHash(this.confirmarSenha, this.segurancaSenha.getSALT());
-		String senha = this.cliente.getSenha();
-		if(!senha.trim().equals(confirmarSenha)) {
+		String senhaTela = HashUtil.geraHash(this.senha, this.cliente.getSegurancaSenha().getSALT());
+		String senhaCliente = this.cliente.getSenha();
+		if(!senhaTela.trim().equals(senhaCliente)) {
 			FacesMessage facesMessage = new FacesMessage("A senha nao foi confirmada corretamente");
 			context.addMessage(null, facesMessage);
 			return null;
@@ -87,33 +93,53 @@ public class ClienteBean {
 		this.enderecoBean.atualizar(this.endereco);
 		FacesMessage facesMessage = new FacesMessage("Cliente atualizado com sucesso.");
 		context.addMessage(null, facesMessage);
-		this.confirmarSenha = "";
-		return this.destinoSalvar;
+		this.senha = "";
+		this.cliente = new Cliente();
+		return "listagem";
 	}
 	
 	public String alterarSenha() {
+		FacesContext context = FacesContext.getCurrentInstance();
 		if(this.senha.trim().equals("") || this.senha.trim().equals(null)
 				|| this.novaSenha.trim().equals("") || this.novaSenha.trim().equals(null)
 					|| this.confirmarSenha.trim().equals("") || this.confirmarSenha.trim().equals(null)) {
 			FacesMessage facesMessage = new FacesMessage("Senha(s) inválida(s).");
+			context.addMessage(null, facesMessage);
 			return null;
 		}
-		String senha = HashUtil.geraHash(this.senha, this.segurancaSenha.getSALT());
-		if(!senha.trim().equals(this.cliente.getSenha()) ||
-				!this.novaSenha.trim().equals(this.confirmarSenha)) {
-			FacesMessage facesMessage = new FacesMessage("Senhas diferentes.");
+		
+		if(this.novaSenha.trim().equals(this.senha.trim()) || 
+				this.confirmarSenha.trim().equals(this.senha.trim())) {
+			FacesMessage facesMessage = new FacesMessage("Nova senha ou Confirma Senha igual a senha atual.");
+			context.addMessage(null, facesMessage);
+			return null;
+		}
+		
+		if(!this.novaSenha.trim().equals(this.confirmarSenha.trim())) {
+			FacesMessage facesMessage = new FacesMessage("Confirme a senha corretamente.");
+			context.addMessage(null, facesMessage);
+			return null;
+		}
+		
+		String senha = HashUtil.geraHash(this.senha, this.cliente.getSegurancaSenha().getSALT());
+		
+		if(!senha.trim().equals(this.cliente.getSenha())) {
+			FacesMessage facesMessage = new FacesMessage("Erro ao preencher a senha atual.");
+			context.addMessage(null, facesMessage);
 			return null;
 		} else {
-			String novaSenha = HashUtil.geraHash(this.novaSenha, segurancaSenha.getSALT());
+			String novaSenha = HashUtil.geraHash(this.novaSenha, this.cliente.getSegurancaSenha().getSALT());
 			this.cliente.setSenha(novaSenha);	
-			atualizar();
+			this.clienteDAO = new ClienteDAO();
+			this.clienteDAO.atualizar(this.cliente);
 			FacesMessage facesMessage = new FacesMessage("Senha alterada com sucesso.");
+			context.addMessage(null, facesMessage);
 		}
 		this.senha = "";
 		this.novaSenha = "";
 		this.confirmarSenha = "";
 		
-		return "visualizarCliente";
+		return "visualizarProfissional";
 	}
 	
 	public void excluir() {

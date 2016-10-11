@@ -13,74 +13,139 @@
     </ui:define>
     <ui:define name="conteudo">
    		<h:form prependId="false" >
-			<h:messages/>
-    		<h:inputHidden value="#{profissionalBean.profissional.id}" />
+			<h:inputHidden value="#{profissionalBean.profissional.id}" />
     		<h:inputHidden value="#{profissionalBean.profissional.ativo}" />
     		<h:inputHidden value="#{profissionalBean.profissional.imagem}" />
     		<h:inputHidden value="#{profissionalBean.profissional.token}" />
     		<h:inputHidden value="#{profissionalBean.destinoSalvar}" />
     		
-        	<p:panelGrid columns="2" id="formulario" layout="grid" columnClasses="label , inputs">
+        	<p:panelGrid columns="3" id="formulario" layout="grid" columnClasses="label , inputs">
 
 	            <f:facet name="header">
 	                CADASTRO PROFISSIONAL
 	            </f:facet>
 
-                <p:outputLabel value="Nome:" for="txtNome"/>
-                <p:inputText id="txtNome" maxlength="100" value="#{profissionalBean.profissional.nome}"/>
-
-                <p:outputLabel value="E-mail:" for="txtEmail"/>
-                <p:inputText id="txtEmail" maxlength="100" value="#{profissionalBean.profissional.email}"/> 
-
-
-                <p:outputLabel value="Senha:" for="txtSenha"/>
-                <p:inputText id="txtSenha"  value="#{profissionalBean.profissional.senha}"/> 
-
-				<p:outputLabel value="Confirma Senha:" for="txtConfirmaSenha"/>
-                <p:inputText id="txtConfirmaSenha"  value="#{profissionalBean.confirmarSenha}"/> 
-	
-                <p:outputLabel value="CPF:" for="txtCPF"/>
-                <p:inputText id="txtCPF" maxlength="12" value="#{profissionalBean.profissional.cpf}"/>  
-
-                <p:outputLabel value="CEP:" for="txtCEP"/>                                           
-                <p:inputText id="txtCEP" maxlength="8" value="#{profissionalBean.endereco.CEP}"/>
-
-                <p:outputLabel value="Nº: " for="txtNumero"/>
-                <p:inputText id="txtNumero" maxlength="5" value="#{profissionalBean.endereco.numero}" />
-
-                <p:outputLabel value="Complemento: " for="txtComplemento"/>
-                <p:inputText id="txtComplemento" maxlength="20" value="#{profissionalBean.endereco.complemento}"/> 
-
-                <p:outputLabel value="Logradouro: " for="txtLogradouro"/>
-                <p:inputText id="txtLogradouro" maxlength="100" value="#{profissionalBean.endereco.logradouro}"/> 
-
-                <p:outputLabel value="Bairro: " for="txtBairro"/>
-                <p:inputText id="txtBairro" maxlength="30" value="#{profissionalBean.endereco.bairro}" />
-
-
-                <p:outputLabel value="Cidade: " for="txtCidade" />
-                <p:inputText id="txtCidade" maxlength="30" value="#{profissionalBean.endereco.cidade}" />
-
-
-                <p:outputLabel value="UF:" for="txtUF"/>
-                <p:inputText id="txtUF" maxlength="30" value="#{profissionalBean.endereco.UF}" /> 
-
-
-                <p:outputLabel value="Telefone: " for="txtTelefone"/>
-                <p:inputText id="txtTelefone" maxlength="15" value="#{profissionalBean.profissional.telefone}"/> 
-	
-				<p:outputLabel value="PIS: " for="txtPIS"/>
-                <p:inputText id="txtPIS" maxlength="11" value="#{profissionalBean.profissional.pis}"/> 
-
+                <p:outputLabel value="Nome:" for="nome"/>
+                <p:inputText id="nome" maxlength="15" value="#{profissionalBean.profissional.nome}" 
+                	required="true" validatorMessage="Nome deve conter no mínimo 2 caracteres.">
+					<f:validateLength minimum="2" maximum="150"/>
+					<p:clientValidator event="keyup"/>                	
+                </p:inputText>
+				<p:message for="nome"/>
+				
+                <p:outputLabel value="E-mail:" for="email"/>
+                <p:inputText id="email" maxlength="150" value="#{profissionalBean.profissional.email}" 
+                	required="true" validatorMessage="Inválido formato de E-mail.">
+                	<f:validateLength minimum="2" maximum="150"/>
+                	<f:validateRegex
+						pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" />
+					<p:clientValidator event="keyup"/>                
+                </p:inputText>
+				<p:message for="email"/>
+				
+				<p:outputLabel value="Telefone:" for="telefone"/>
+                <p:inputText id="telefone" maxlength="15" value="#{profissionalBean.profissional.telefone}" 
+                	required="true" validatorMessage="Telefone deve conter no mínimo 8 dígitos.">
+                	<f:validateLength minimum="8" maximum="15"/>
+					<p:clientValidator event="keyup"/>                
+                </p:inputText>
+                <p:message for="telefone"/>
+                
+                <p:outputLabel value="PIS:" for="pis"/>
+                <p:inputText id="pis" maxlength="11" value="#{profissionalBean.profissional.pis}" 
+                	required="true" validatorMessage="PIS deve conter 11 dígitos.">
+                	<f:validateLength minimum="11" maximum="11"/>
+					<p:clientValidator event="keyup"/>                
+                </p:inputText>
+				<p:message for="pis"/>
+				
+				<p:outputLabel value="CPF:" for="cpf"/>
+                <p:inputText id="cpf" maxlength="11" value="#{profissionalBean.profissional.cpf}" 
+                	required="true" validatorMessage="CPF deve conter 11 dígitos.">
+                	<f:validateLength minimum="11" maximum="11"/>
+					<p:clientValidator event="keyup"/>                
+                </p:inputText>
+				<p:message for="cpf"/>
+				
+				<p:outputLabel value="CEP:" for="cep"/>
+                <p:inputText id="cep" maxlength="8" value="#{profissionalBean.endereco.CEP}" 
+                	required="true" validatorMessage="CEP deve conter 8 dígitos.">
+                	<f:validateLength minimum="8" maximum="8"/>
+					<p:clientValidator event="keyup"/>                
+                </p:inputText>
+                <p:message for="cep"/>
+                
+                <p:outputLabel value="UF:" for="uf"/>
+                <p:inputText id="uf" maxlength="2" value="#{profissionalBean.endereco.UF}" 
+                	required="true" validatorMessage="UF deve conter 2 caracteres.">
+                	<f:validateLength minimum="2" maximum="2"/>
+					<p:clientValidator event="keyup"/>                
+                </p:inputText>
+				<p:message for="uf"/>
+				
+				<p:outputLabel value="Cidade:" for="cidade"/>
+                <p:inputText id="cidade" maxlength="40" value="#{profissionalBean.endereco.cidade}" 
+                	required="true" validatorMessage="Cidade mínimo 3 caracteres.">
+                	<f:validateLength minimum="3" maximum="40"/>
+					<p:clientValidator event="keyup"/>                
+                </p:inputText>
+				<p:message for="cidade"/>
+				
+				<p:outputLabel value="Bairro:" for="bairro"/>
+                <p:inputText id="bairro" maxlength="40" value="#{profissionalBean.endereco.bairro}" 
+                	required="true" validatorMessage="Bairro mínimo 3 caracteres.">
+                	<f:validateLength minimum="3" maximum="40"/>
+					<p:clientValidator event="keyup"/>                
+                </p:inputText>				
+                <p:message for="bairro"/>
+                
+                <p:outputLabel value="Logradouro:" for="logradouro"/>
+                <p:inputText id="logradouro" maxlength="40" value="#{profissionalBean.endereco.logradouro}" 
+                	required="true" validatorMessage="Logradouro mínimo 3 caracteres.">
+                	<f:validateLength minimum="6" maximum="40"/>
+					<p:clientValidator event="keyup"/>                
+                </p:inputText>
+                <p:message for="logradouro"/>
+                
+                <p:outputLabel value="Número:" for="numero"/>
+                <p:inputText id="numero" maxlength="20" value="#{profissionalBean.endereco.numero}" 
+                	required="true" validatorMessage="Número mínimo 1 dígito.">
+                	<f:validateLength minimum="1" maximum="20"/>
+					<p:clientValidator event="keyup"/>                
+                </p:inputText>
+                <p:message for="numero"/>
+                
+                <p:outputLabel value="Complemento:" for="complemento"/>
+                <p:inputText id="complemento" maxlength="20" value="#{profissionalBean.endereco.complemento}" required="false">
+                	<f:validateLength maximum="20"/>
+					<p:clientValidator event="keyup"/>                
+                </p:inputText>
+                <p:message for="complemento"/>
+                
+     		    <p:outputLabel value="Senha:" for="senha"/>
+                <p:password id="senha" maxlength="20" value="#{profissionalBean.profissional.senha}" 
+                	required="true" validatorMessage="Senha mínimo 1 dígito.">
+                	<f:validateLength  minimum="1" maximum="20"/>
+					<p:clientValidator event="keyup"/>                
+                </p:password>
+     		    <p:message for="senha"/>
+     		    
+				<p:outputLabel value="Confirma Senha:" for="confirmaSenha"/>
+                <p:password id="confirmaSenha" maxlength="20" value="#{profissionalBean.confirmarSenha}" 
+                	required="true" validatorMessage="Confirma senha mínimo 1 dígito.">
+                	<f:validateLength minimum="1" maximum="20"/>
+					<p:clientValidator event="keyup"/>                
+                </p:password>
+                <p:message for="confirmaSenha"/>
+				
                 <f:facet name="footer">
                     <h:panelGroup>
-                        <p:commandButton ajax="false" value="Cadastrar"  action="#{profissionalBean.salvar}" style="width: 49%"  />
+                        <p:commandButton value="Cadastrar"  action="#{profissionalBean.salvar}" style="width: 49%"  validateClient="true"/>
                     </h:panelGroup>
                     <h:panelGroup>
-                        <p:commandButton ajax="false" value="Cancelar" action="index.xhtml" immediate="true" style="width: 49%; float: right"  />     
+                        <p:commandButton ajax="false" value="Cancelar" action="home.xhtml" immediate="true" style="width: 49%; float: right"  />     
 		            </h:panelGroup>
-		            <p:growl id="messages" showDetail="true" autoUpdate="true" life="5000" />
-	            </f:facet>
+		        </f:facet>
             </p:panelGrid>                
         </h:form>
 	</ui:define>

@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import br.com.mastermenu.model.Cliente;
 import br.com.mastermenu.model.Endereco;
 import br.com.mastermenu.model.Profissional;
 import br.com.mastermenu.model.SegurancaSenha;
@@ -56,51 +57,79 @@ public class ProfissionalBean {
 		this.profissional.setSenha(HashUtil.geraHash(this.profissional.getSenha(), this.segurancaSenha.getSALT()));
 		this.profissional.setEndereco(this.endereco);
 		this.profissionalDAO.salvar(this.profissional);
-		this.segurancaSenha.setUsuario(this.profissionalDAO.carregar(this.profissional.getId()));
+		Profissional profissional = new Profissional();
+		profissional = this.profissionalDAO.carregarPorEmail(this.profissional.getEmail());
+		this.segurancaSenha.setUsuario(profissional);
 		this.segurancaSenhaDAO.salvar(this.segurancaSenha);
-		this.endereco.setUsuario(this.profissionalDAO.carregar(this.profissional.getId()));
+		this.endereco.setUsuario(profissional);
 		this.enderecoBean.salvar(endereco);
-		FacesMessage facesMessage = new FacesMessage("Profissional cadastrado com sucesso.");
+		FacesMessage facesMessage = new FacesMessage("Profissional " +this.profissional.getNome()+ " cadastrado com sucesso!");
 		context.addMessage(null, facesMessage);
-		return this.destinoSalvar;
+		this.profissional = new Profissional();
+		this.confirmarSenha = "";
+		this.listar();
+		return "listagemProfissionais";
 	}
 	
 	public String atualizar() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		
-		String confirmarSenha = HashUtil.geraHash(this.confirmarSenha, this.segurancaSenha.getSALT());
-		String senha = this.profissional.getSenha();
-		if(!senha.trim().equals(confirmarSenha)) {
+		String senhaTela = HashUtil.geraHash(this.senha, this.profissional.getSegurancaSenha().getSALT());
+		String senhaCliente = this.profissional.getSenha();
+		if(!senhaTela.trim().equals(senhaCliente)) {
 			FacesMessage facesMessage = new FacesMessage("A senha nao foi confirmada corretamente");
 			context.addMessage(null, facesMessage);
 			return null;
 		}
-		this.profissionalDAO = new ProfissionalDAO();
-		this.profissionalDAO.atualizar(profissional);
+		
+		this.profissionalDAO.atualizar(this.profissional);
+		this.endereco = new Endereco();
+		this.endereco = this.profissional.getEndereco();
 		this.enderecoBean.atualizar(this.endereco);
 		FacesMessage facesMessage = new FacesMessage("Profissional atualizado com sucesso.");
 		context.addMessage(null, facesMessage);
-		this.confirmarSenha = "";
-		return this.destinoSalvar;
+		this.senha = "";
+		this.profissional = new Profissional();
+		this.listar();
+		return "listagemProfissionais";
 	}
 	
 	public String alterarSenha() {
+		FacesContext context = FacesContext.getCurrentInstance();
 		if(this.senha.trim().equals("") || this.senha.trim().equals(null)
 				|| this.novaSenha.trim().equals("") || this.novaSenha.trim().equals(null)
 					|| this.confirmarSenha.trim().equals("") || this.confirmarSenha.trim().equals(null)) {
 			FacesMessage facesMessage = new FacesMessage("Senha(s) inválida(s).");
+			context.addMessage(null, facesMessage);
 			return null;
 		}
-		String senha = HashUtil.geraHash(this.senha, this.segurancaSenha.getSALT());
-		if(!senha.trim().equals(this.profissional.getSenha()) ||
-				!this.novaSenha.trim().equals(this.confirmarSenha)) {
-			FacesMessage facesMessage = new FacesMessage("Senhas diferentes.");
+		
+		if(this.novaSenha.trim().equals(this.senha.trim()) || 
+				this.confirmarSenha.trim().equals(this.senha.trim())) {
+			FacesMessage facesMessage = new FacesMessage("Nova senha ou Confirma Senha igual a senha atual.");
+			context.addMessage(null, facesMessage);
+			return null;
+		}
+		
+		if(!this.novaSenha.trim().equals(this.confirmarSenha.trim())) {
+			FacesMessage facesMessage = new FacesMessage("Confirme a senha corretamente.");
+			context.addMessage(null, facesMessage);
+			return null;
+		}
+		
+		String senha = HashUtil.geraHash(this.senha, this.profissional.getSegurancaSenha().getSALT());
+		
+		if(!senha.trim().equals(this.profissional.getSenha())) {
+			FacesMessage facesMessage = new FacesMessage("Erro ao preencher a senha atual.");
+			context.addMessage(null, facesMessage);
 			return null;
 		} else {
-			String novaSenha = HashUtil.geraHash(this.novaSenha, segurancaSenha.getSALT());
+			String novaSenha = HashUtil.geraHash(this.novaSenha, this.profissional.getSegurancaSenha().getSALT());
 			this.profissional.setSenha(novaSenha);	
-			atualizar();
+			this.profissionalDAO = new ProfissionalDAO();
+			this.profissionalDAO.atualizar(this.profissional);
 			FacesMessage facesMessage = new FacesMessage("Senha alterada com sucesso.");
+			context.addMessage(null, facesMessage);
 		}
 		this.senha = "";
 		this.novaSenha = "";
@@ -127,8 +156,8 @@ public class ProfissionalBean {
 	}
 	
 	public void listar() {
-		profissionalDAO = new ProfissionalDAO();
-		lista = profissionalDAO.listar();
+		this.profissionalDAO = new ProfissionalDAO();
+		this.lista = this.profissionalDAO.listar();
 	}
 	
 	public String alterar() {

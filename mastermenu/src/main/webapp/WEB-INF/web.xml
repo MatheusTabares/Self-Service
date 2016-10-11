@@ -3,7 +3,12 @@
         xmlns="http://java.sun.com/xml/ns/javaee"
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
         id="WebApp_ID" version="3.0">
- 
+ 			<context-param>
+ 				<param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
+ 				<param-value>true</param-value>
+ 			</context-param>
+ 			
+ 			
             <!-- Nome da sua aplicação -->
             <display-name>books_jsf</display-name>
  

@@ -17,26 +17,20 @@
 	        DADOS CLIENTE
         </f:facet>
 		<p:panelGrid columns="1" layout="grid">		
-			<p:outputLabel value="#{clienteBean.cliente.id}"/>
-			<p:outputLabel value="#{clienteBean.cliente.ativo}"/>
-			<p:outputLabel value="#{clienteBean.cliente.imagem}"/>
-			<p:outputLabel value="#{clienteBean.cliente.cupom}"/>
-			<p:outputLabel value="#{clienteBean.cliente.token}"/>
 			<p:outputLabel value="#{clienteBean.cliente.nome}"/>
 			<p:outputLabel value="#{clienteBean.cliente.email}"/>
+	     	<p:outputLabel value="#{clienteBean.cliente.telefone}"/>
 			<p:outputLabel value="#{clienteBean.cliente.cpf}"/>
-			<p:outputLabel value="#{clienteBean.cliente.telefone}"/>
-			<p:outputLabel value="#{clienteBean.endereco.CEP}"/>
-			<p:outputLabel value="#{clienteBean.endereco.complemento}"/>
-			<p:outputLabel value="#{clienteBean.endereco.logradouro}"/>
-			<p:outputLabel value="#{clienteBean.endereco.numero}"/>
-			<p:outputLabel value="#{clienteBean.endereco.bairro}"/>
-			<p:outputLabel value="#{clienteBean.endereco.cidade}"/>
-			<p:outputLabel value="#{clienteBean.endereco.UF}"/>
-			<p:outputLabel value="#{clienteBean.cliente.senha}"/>
-	        <p:commandButton ajax="false" value="Voltar" action="index.xhtml" immediate="true" style="width: 49%; float: right"  />     
+			<p:outputLabel value="#{clienteBean.cliente.endereco.CEP}"/>
+			<p:outputLabel value="#{clienteBean.cliente.endereco.UF}"/>
+			<p:outputLabel value="#{clienteBean.cliente.endereco.cidade}"/>
+			<p:outputLabel value="#{clienteBean.cliente.endereco.bairro}"/>
+			<p:outputLabel value="#{clienteBean.cliente.endereco.logradouro}"/>
+			<p:outputLabel value="#{clienteBean.cliente.endereco.numero}"/>
+			<p:outputLabel value="#{clienteBean.cliente.endereco.complemento}"/>			
+			
+	        <p:commandButton ajax="false" value="Voltar" action="listagem.xhtml" immediate="true" style="width: 49%; float: right"  />     
         </p:panelGrid>
-        <p:growl id="messages" showDetail="true" autoUpdate="true" life="5000" />
-        </h:form>
+    </h:form>
 </ui:define>
 </ui:composition>

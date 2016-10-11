@@ -15,6 +15,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -31,10 +32,25 @@ public class Usuario implements Serializable {
 	@Column(name = "id_usuario", updatable = false, nullable = false)
 	private Long id;
 	
-	@Column(length = 150, nullable = false)
+	@Length(max = 150, message = "Máximo 150 caracteres.")
+	@NotNull(message = "Nome obrigatório.")
 	private String nome;
 	
-	@Column(nullable = false)
+	@NotNull(message = "E-mail Obrigatório.")
+	@Email(message= "E-mail inválido.")
+	private String email;
+	
+	@NotNull(message = "Telefone obrigatório.")
+	@Length(min = 8, max = 15, message = "Telefone entre 8 e 15 numeros.")
+	private String telefone;
+	
+	@NotNull(message = "CPF Obrigatório.")
+	@Length(min = 11, max = 11, message="CPF contém 11 dígitos.")
+	private String cpf;
+	
+	
+	@NotNull(message = "Senha Obrigatória.")
+	@Length(min = 1, max = 200, message = "Máximo 200 dígitos.")
 	private String senha;
 	
 	@OneToOne(mappedBy = "usuario")
@@ -44,19 +60,7 @@ public class Usuario implements Serializable {
 	private String imagem;
 	
 	@NotNull
-	@Length(min = 8, max = 15)
-	private String telefone;
-	
-	@NotNull
 	private boolean ativo;
-	
-	@NotNull
-	@Length(min = 8, max = 50)
-	private String email;
-	
-	@NotNull
-	@Length(min = 11, max = 11)
-	private String cpf;
 	
 	private String token;
 	

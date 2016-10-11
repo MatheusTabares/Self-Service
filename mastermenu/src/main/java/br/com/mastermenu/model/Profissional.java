@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+
 @Entity
 @DiscriminatorValue(value = "P")
 @Table(name = "profissional")
@@ -12,10 +14,11 @@ public class Profissional extends Usuario {
 
 	private static final long serialVersionUID = 5375414652966008113L;
 	
-	@NotNull
+	@NotNull(message = "PIS obrigatório.")
+	@Length(min = 11, max = 11, message = "PIS contém 11 dígitos.")
 	private String pis;
 	
-	@NotNull
+	@NotNull(message = "Salario não pode ser vazio.")
 	private float salario;
 	
 	public String getPis() {

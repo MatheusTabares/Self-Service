@@ -2,18 +2,18 @@
 
 
 $(document).ready(function () {
-    $("#txtNumero").val("");
+    $("#numero").val("");
     //alert('oi');
     function limpa_formulário_cep() {
         // Limpa valores do formulário de cep.
-        $("#txtLogradouro").val("");
-        $("#txtBairro").val("");
-        $("#txtCidade").val("");
-        $("#txtUF").val("");
+        $("#logradouro").val("");
+        $("#bairro").val("");
+        $("#cidade").val("");
+        $("#uf").val("");
     }
 
     //Quando o campo cep perde o foco.
-    $("#txtCEP").blur(function () {
+    $("#cep").blur(function () {
 
         //Nova variável "cep" somente com dígitos.
         var cep = $(this).val().replace(/\D/g, '');
@@ -28,10 +28,10 @@ $(document).ready(function () {
             if (validacep.test(cep)) {
 
                 //Preenche os campos com "..." enquanto consulta webservice.
-                $("#txtLogradouro").val("Carregando...");
-                $("#txtBairro").val("...");
-                $("#txtCidade").val("...");
-                $("#txtUF").val("...");
+                $("#logradouro").val("Carregando...");
+                $("#bairro").val("...");
+                $("#cidade").val("...");
+                $("#uf").val("...");
                 //$("#ibge").val("...");
 
                 //Consulta o webservice viacep.com.br/
@@ -39,10 +39,10 @@ $(document).ready(function () {
 
                     if (!("erro" in dados)) {
                         //Atualiza os campos com os valores da consulta.
-                        $("#txtLogradouro").val(dados.logradouro);
-                        $("#txtBairro").val(dados.bairro);
-                        $("#txtCidade").val(dados.localidade);
-                        $("#txtUF").val(dados.uf);
+                        $("#logradouro").val(dados.logradouro);
+                        $("#bairro").val(dados.bairro);
+                        $("#cidade").val(dados.localidade);
+                        $("#uf").val(dados.uf);
 
                     } //end if.
                     else {

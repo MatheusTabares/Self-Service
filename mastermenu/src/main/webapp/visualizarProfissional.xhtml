@@ -1,38 +1,37 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-    xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:p="http://primefaces.org/ui"
-    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-    template="tema.xhtml">
+			    xmlns:ui="http://java.sun.com/jsf/facelets"
+			    xmlns:h="http://java.sun.com/jsf/html"
+			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:p="http://primefaces.org/ui"
+			    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+			    template="tema.xhtml">
 
-	<ui:define name="menu">
+<ui:define name="menu">
         <ui:include src="/includes/menuPrincipal.xhtml" />
     </ui:define>
-    <ui:define name="conteudo">
+    
+<ui:define name="conteudo">
 	<h:form prependId="false" >
 	    <f:facet name="header">
 	        DADOS PROFISSIONAL
         </f:facet>
-		<p:panelGrid columns="1" layout="grid">	
-			<p:outputLabel value="#{profissionalBean.profissional.id}"/>
-			<p:outputLabel value="#{profissionalBean.profissional.ativo}"/>
-			<p:outputLabel value="#{profissionalBean.profissional.imagem}"/>
+		<p:panelGrid columns="1" layout="grid">		
 			<p:outputLabel value="#{profissionalBean.profissional.nome}"/>
 			<p:outputLabel value="#{profissionalBean.profissional.email}"/>
+	     	<p:outputLabel value="#{profissionalBean.profissional.telefone}"/>
 			<p:outputLabel value="#{profissionalBean.profissional.cpf}"/>
-			<p:outputLabel value="#{profissionalBean.profissional.telefone}"/>
-			<p:outputLabel value="#{profissionalBean.endereco.CEP}"/>
-			<p:outputLabel value="#{profissionalBean.endereco.complemento}"/>
-			<p:outputLabel value="#{profissionalBean.endereco.logradouro}"/>
-			<p:outputLabel value="#{profissionalBean.endereco.numero}"/>
-			<p:outputLabel value="#{profissionalBean.endereco.bairro}"/>
-			<p:outputLabel value="#{profissionalBean.endereco.cidade}"/>
-			<p:outputLabel value="#{profissionalBean.endereco.UF}"/>
-	        <p:commandButton ajax="false" value="Voltar" action="index.xhtml" immediate="true" style="width: 49%; float: right"  />     
+			<p:outputLabel value="#{profissionalBean.profissional.pis}"/>
+			<p:outputLabel value="#{profissionalBean.profissional.endereco.CEP}"/>
+			<p:outputLabel value="#{profissionalBean.profissional.endereco.UF}"/>
+			<p:outputLabel value="#{profissionalBean.profissional.endereco.cidade}"/>
+			<p:outputLabel value="#{profissionalBean.profissional.endereco.bairro}"/>
+			<p:outputLabel value="#{profissionalBean.profissional.endereco.logradouro}"/>
+			<p:outputLabel value="#{profissionalBean.profissional.endereco.numero}"/>
+			<p:outputLabel value="#{profissionalBean.profissional.endereco.complemento}"/>			
+			
+	        <p:commandButton ajax="false" value="Voltar" action="listagemProfissionais.xhtml" immediate="true" style="width: 49%; float: right"  />     
         </p:panelGrid>
-        <p:growl id="messages" showDetail="true" autoUpdate="true" life="5000" />
-        </h:form>
+    </h:form>
 </ui:define>
 </ui:composition>
