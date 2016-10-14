@@ -33,18 +33,18 @@ public class Usuario implements Serializable {
 	private Long id;
 	
 	@Length(max = 150, message = "Máximo 150 caracteres.")
-	@NotNull(message = "Nome obrigatório.")
+	//@NotNull(message = "Nome obrigatório.")
 	private String nome;
 	
-	@NotNull(message = "E-mail Obrigatório.")
+	//@NotNull(message = "E-mail Obrigatório.")
 	@Email(message= "E-mail inválido.")
 	private String email;
 	
-	@NotNull(message = "Telefone obrigatório.")
+	//@NotNull(message = "Telefone obrigatório.")
 	@Length(min = 8, max = 15, message = "Telefone entre 8 e 15 numeros.")
 	private String telefone;
 	
-	@NotNull(message = "CPF Obrigatório.")
+	//@NotNull(message = "CPF Obrigatório.")
 	@Length(min = 11, max = 11, message="CPF contém 11 dígitos.")
 	private String cpf;
 	

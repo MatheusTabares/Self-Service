@@ -165,10 +165,6 @@
 					actionListener="#{itemBean.exclusaoLogica()}"
 					oncomplete="PF('dlgItemExcluir').hide();"
 					update=":frmItemListagem:tblItens :msgGlobal" />
-				<p:commandButton value="Exclusão Física"
-					actionListener="#{itemBean.exclusaoFisica()}"
-					oncomplete="PF('dlgItemExcluir').hide();"
-					update=":frmItemListagem:tblItens :msgGlobal" />
 				<p:commandButton value="Cancelar"
 					onclick="PF('dlgItemExcluir').hide();" />
 			</h:form>
