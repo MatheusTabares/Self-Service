@@ -19,8 +19,10 @@
 	    		<h:inputHidden value="#{clienteBean.cliente.cupom}" />
 	    		<h:inputHidden value="#{clienteBean.cliente.token}" />
 	    		<h:inputHidden value="#{clienteBean.destinoSalvar}" />
-
-                <p:panelGrid columns="2" id="formulario" layout="grid" columnClasses="label , inputs">
+				
+				<p:outputLabel value="#{clienteBean.msgCompleteSeusDados}"/>
+				
+				<p:panelGrid columns="2" id="formulario" layout="grid" columnClasses="label , inputs">
                     <p:outputLabel value="Nome:" for="txtNome"/>
                     <p:inputText id="txtNome" maxlength="100" value="#{clienteBean.cliente.nome}"/>
 
@@ -56,7 +58,7 @@
                     <p:inputText id="txtComplemento" maxlength="20" value="#{clienteBean.endereco.complemento}"/> 
                     
                     <p:outputLabel value="Senha:" for="txtSenha"/>
-                    <p:password id="txtSenha"  value="#{clienteBean.senha}"/> 
+                    <p:password id="txtSenha"  value="#{clienteBean.confirmarSenha}"/> 
                     
                     <f:facet name="footer">
                         <h:panelGroup>

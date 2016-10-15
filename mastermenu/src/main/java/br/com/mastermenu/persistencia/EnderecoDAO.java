@@ -54,15 +54,15 @@ public class EnderecoDAO {
     public Endereco encontrarPorIdUsuario(Long idUsuario) {
     	Endereco endereco = new Endereco();
     	try {
-        	endereco =  (Endereco)sessao.get(Endereco.class, idUsuario);
+        	endereco =  (Endereco)sessao.createQuery("FROM Endereco WHERE usuario_id_usuario=:usuario_id_usuario").setLong("usuario_id_usuario", idUsuario).uniqueResult();
         } catch (HibernateException ex) {
-            System.out.println("Não foi possível carregar o endereço. Erro: " + ex.getMessage());
+            System.out.println("Não foi possível carregar o endereço pelo Id do usuário. Erro: " + ex.getMessage());
         } finally {
         	try {
         		// fecha a entity manager
         		sessao.close();
         	} catch (Throwable ex) {
-        		System.out.println("Erro ao fechar a operação de carregar endereço. Mensagem:" + ex.getMessage());
+        		System.out.println("Erro ao fechar a operação de carregar endereço pelo Id do usuário. Mensagem:" + ex.getMessage());
         	}
         }
         return endereco;

@@ -27,10 +27,11 @@ public class EnderecoBean{
 		this.enderecoDAO.excluir(id);
 	}
 	
-	public void encontrarPorIdUsuario(Long idUsuario) {
-		this.endereco = new Endereco();
+	public Endereco encontrarPorIdUsuario(Long idUsuario) {
+		Endereco endereco = new Endereco();
 		this.enderecoDAO = new EnderecoDAO();
-		this.endereco = enderecoDAO.encontrarPorIdUsuario(idUsuario);
+		endereco = this.enderecoDAO.encontrarPorIdUsuario(idUsuario);
+		return endereco;
 	}
 	
 	public EnderecoDAO getEnderecoDAO() {

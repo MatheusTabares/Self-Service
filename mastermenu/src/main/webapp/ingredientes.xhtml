@@ -96,7 +96,11 @@
                     <p:outputLabel value="Nome: " />
                     <h:outputText value="#{ingredienteBean.ingrediente.nome}" />
                 </h:panelGrid>
+<<<<<<< HEAD
                 <p:commandButton value="Exclusão Lógica" actionListener="#{ingredienteBean.exclusaoLogica()}" oncomplete="PF('dlgIngredienteExcluir').hide();" update=":frmIngredienteListagem:tblIngredientes :msgGlobal" />
+=======
+                <p:commandButton value="Exclusão Lógica" actionListener="#{ingredienteBean.exclusaoLogica()}" oncomplete="PF('dlgItemExcluir').hide();" update=":frmIngredienteListagem:tblIngredientes :msgGlobal" />
+>>>>>>> branch 'master' of https://github.com/MatheusTabares/Self-Service.git
                 <p:commandButton value="Cancelar" onclick="PF('dlgIngredienteExcluir').hide();" />
             </h:form>
         </p:dialog>

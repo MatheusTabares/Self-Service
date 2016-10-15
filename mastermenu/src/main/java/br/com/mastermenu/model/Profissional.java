@@ -14,11 +14,11 @@ public class Profissional extends Usuario {
 
 	private static final long serialVersionUID = 5375414652966008113L;
 	
-	@NotNull(message = "PIS obrigatório.")
+	//@NotNull(message = "PIS obrigatório.")
 	@Length(min = 11, max = 11, message = "PIS contém 11 dígitos.")
 	private String pis;
 	
-	@NotNull(message = "Salario não pode ser vazio.")
+	//@NotNull(message = "Salario não pode ser vazio.")
 	private float salario;
 	
 	public String getPis() {
