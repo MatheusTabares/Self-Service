@@ -2,65 +2,63 @@
 <!DOCTYPE html>
 
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:ui="http://java.sun.com/jsf/facelets"
-                template="tema.xhtml"
-                xmlns:h="http://xmlns.jcp.org/jsf/html"
-                xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="tema.xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
-    <ui:define name="menu">
-        <ui:include src="/includes/menuPrincipal.xhtml" />
-    </ui:define>
-    <h:outputScript library="js" name="script.js" />
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+	<h:outputScript library="js" name="script.js" />
 
-    <ui:define name="conteudo">
-        <h:form id="form">
-    <p:dataGrid var="item" value="#{itemBean.itens}" columns="3" layout="grid"
-        rows="12" paginator="true" id="itens" emptyMessage="Nenhum item encontrado."
-        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-        rowsPerPageTemplate="6,12,16">
- 
-        <f:facet name="header">
+	<ui:define name="conteudo">
+		<h:form id="form">
+			<p:dataGrid var="item" value="#{itemBean.itens}" columns="3"
+				layout="grid" rows="12" paginator="true" id="itens"
+				emptyMessage="Nenhum item encontrado."
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="6,12,16">
+
+				<f:facet name="header">
             Opções do Cardapio
         </f:facet>
- 
-        <p:panel header="#{item.idItem}" style="text-align:center">
-            <h:panelGrid columns="1" style="width:100%">
- 
-                <h:outputText value="#{item.nome}" />
- 
-                <p:commandLink update=":form:itemDetail" oncomplete="PF('carDialog').show()" title="View Detail">
-                    <h:outputText styleClass="ui-icon ui-icon-search" style="margin:0 auto;" />
-                    <f:setPropertyActionListener value="#{car}" target="#{dataGridView.selectedCar}" />
-                </p:commandLink>
-            </h:panelGrid>
-        </p:panel>
- 
-    </p:dataGrid>
- 
-    <p:dialog header="Car Info" widgetVar="carDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-        <p:outputPanel id="itemDetail" style="text-align:center;">
-            <p:panelGrid  columns="2" rendered="#{not empty dataGridView.selectedCar}" columnClasses="label,value">
-                <f:facet name="header">
-                    <p:graphicImage name="demo/images/car/#{dataGridView.selectedCar.brand}-big.gif"/> 
-                </f:facet>
- 
-                <h:outputText value="Id:" />
-                <h:outputText value="#{dataGridView.selectedCar.id}" />
- 
-                <h:outputText value="Year" />
-                <h:outputText value="#{dataGridView.selectedCar.year}" />
- 
-                <h:outputText value="Color:" />
-                <h:outputText value="#{dataGridView.selectedCar.color}" style="color:#{dataGridView.selectedCar.color}"/>
- 
-                <h:outputText value="Price" />
-                <h:outputText value="$#{dataGridView.selectedCar.price}" />
-            </p:panelGrid>
-        </p:outputPanel>
-    </p:dialog>
-</h:form>
 
-    </ui:define>
+				<p:panel header="#{item.nome}" style="text-align:center">
+					<h:panelGrid columns="1" style="width:100%">
+						<h:commandLink update=":form:display" oncomplete="PF('dlgItemEscolher').show();" title="View Detail">
+								<h:graphicImage style="width:20%" library="img" name="ALaMinuta.jpg" />
+							<f:setPropertyActionListener target="#{itemBean.item}"
+							value="#{item}" />
+						</h:commandLink>
+						
+						
+					</h:panelGrid>
+				</p:panel>
+
+			</p:dataGrid>
+			
+			
+			<p:dialog header="Escolher Item" widgetVar="dlgItemEscolher" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+        	<h:form id="frmItemEscolher" style="text-align:center;" >
+        	<h:form id="pnlItemEscolher">
+          	<h:panelGrid columns="3" cellpadding="5">
+						<p:commandLink value="Enviar" update="display" />
+					</h:panelGrid>
+
+					<p:outputPanel id="display"
+						style="width:350px;padding-left:5px;margin-top:10px">
+						<p:dataList value="#{itemBean.ingredientesSelecionados}" var="ingrediente" emptyMessage="Nenhum Ingrediente Selecionado">
+						#{ingrediente}
+							
+				        </p:dataList>
+				        <p:commandButton value="Fechar" onclick="PF('dlgIngredienteSelecionar').hide();" />
+					</p:outputPanel>
+				</h:form>
+			</h:form>
+		</p:dialog>
+		</h:form>
+
+	</ui:define>
 </ui:composition>

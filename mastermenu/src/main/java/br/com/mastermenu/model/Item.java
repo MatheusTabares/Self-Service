@@ -2,8 +2,8 @@ package br.com.mastermenu.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
 import br.com.mastermenu.enums.Tipo;
 
@@ -44,6 +43,9 @@ public class Item implements Serializable {
 	private double valor;
 	
 	private Tipo tipo;
+	
+	@Column(name = "dataCadastro")
+	private Calendar dataDeInscricao = Calendar.getInstance();
 
 
 	public String getNome() {
@@ -151,6 +153,16 @@ public class Item implements Serializable {
 			return false;
 		return true;
 	}
+
+	public Calendar getDataDeInscricao() {
+		return dataDeInscricao;
+	}
+
+	public void setDataDeInscricao(Calendar dataDeInscricao) {
+		this.dataDeInscricao = dataDeInscricao;
+	}
+
+	
 	
 	
 

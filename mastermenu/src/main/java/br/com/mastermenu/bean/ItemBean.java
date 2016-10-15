@@ -5,6 +5,7 @@
  */
 package br.com.mastermenu.bean;
 
+import java.sql.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
