@@ -3,6 +3,7 @@
 			    xmlns:ui="http://java.sun.com/jsf/facelets"
 			    xmlns:h="http://java.sun.com/jsf/html"
 			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:p="http://primefaces.org/ui"
 			    template="tema.xhtml">
     <H2>Listagem de Usuários</H2>
     <ui:define name="menu">
@@ -10,51 +11,46 @@
     </ui:define>
     
 	<ui:define name="conteudo">
-    <h:form>
+	<H2>Listagem de Profissionais</H2>
+    <h:form>	
     		<h:messages/>
- 			<h:dataTable style="width: 100%; text-align: left;" value="#{clienteBean.listaAtivos}" var="cliente" rules="rows" cellpadding="5" >
-    			<f:facet name="caption">
-    				A listagem a seguir exibe a relação de todos os clientes do sistema. Você poderá
-    				realizar ativação e desativação, edição e exclusão para os clientes.
-    				<hr/>
-    			</f:facet>
-    			<f:facet name="footer">Final da Listagem</f:facet>
-    			<h:column>
-    				<f:facet name="header">Id</f:facet>
-    				<h:outputText value="#{cliente.id}" />
-    			</h:column>
-    			<h:column>
-    				<f:facet name="header">Nome</f:facet>
-    				<h:outputText value="#{cliente.nome}" />
-    			</h:column>
-    			<h:column>
-    				<f:facet name="header">e-Mail</f:facet>
-    				<h:outputText value="#{cliente.email}" />
-    			</h:column>
-    			<h:column>
-    				<h:commandLink action="#{clienteBean.alterar}" value="alterar">
-    					<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />
+    		
+    		<p:dataTable var="cliente" value="#{clienteBean.lista}" paginator="true" rows="10" 
+    			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" lazy="true">
+			    <p:column headerText="Id" sortBy="#{cliente.id}" filterBy="#{cliente.id}">
+			        <h:outputText value="#{cliente.id}" />
+			    </p:column>
+			 
+			    <p:column headerText="Nome" sortBy="#{cliente.nome}" filterBy="#{cliente.nome}">
+			        <h:outputText value="#{cliente.nome}" />
+			    </p:column>
+			 
+			    <p:column headerText="e-Mail" sortBy="#{cliente.email}" filterBy="#{cliente.email}">
+			        <h:outputText value="#{cliente.email}" />
+			    </p:column>
+			    
+				<p:column>
+    				<p:commandButton action="#{clienteBean.alterar}"  icon="ui-icon-pencil">
+						<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />
     					<f:setPropertyActionListener value="listagem" target="#{clienteBean.destinoSalvar}" />
-    				</h:commandLink>
-    			</h:column>
-    			<h:column>
-    				<h:commandLink action="alterarSenhaCliente.xhtml" value="alterar senha">
-    					<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />
-    				</h:commandLink>
-    			</h:column>
-    			<h:column>
-    				<h:commandLink action="#{clienteBean.visualizar}" value="Visualizar">
-    					<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />
-    				</h:commandLink>
-    			</h:column>
-    			<h:column>
-    				<h:commandLink action="#{clienteBean.excluirLogicamente}" value="excluir"
+					</p:commandButton>
+    				
+    				<p:commandButton action="#{clienteBean.visualizar}"  icon="ui-icon-circle-zoomin">
+						<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />
+    				</p:commandButton>
+					
+					<p:commandButton action="alterarSenhaProfissional.xhtml"  icon="ui-icon-pencil">
+						<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />
+    				</p:commandButton>
+    				
+    				<p:commandButton action="#{clienteBean.excluirLogicamente}" icon="ui-icon-trash"
     					onclick="if (!confirm('Confirma a exclusão do usuário')) return false;">
-    					<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />
-    				</h:commandLink>
-    			</h:column>
-    		</h:dataTable>
+						<f:setPropertyActionListener value="#{cliente}" target="#{clienteBean.cliente}" />
+					</p:commandButton>
+    			</p:column>
+    			
+			</p:dataTable>
+    		
      	</h:form>
-     	<a href="admin.xhtml">voltar</a>
 </ui:define>
 </ui:composition>

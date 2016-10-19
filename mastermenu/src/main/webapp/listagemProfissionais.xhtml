@@ -3,6 +3,7 @@
 			    xmlns:ui="http://java.sun.com/jsf/facelets"
 			    xmlns:h="http://java.sun.com/jsf/html"
 			    xmlns:f="http://java.sun.com/jsf/core"
+			    xmlns:p="http://primefaces.org/ui"
 			    template="tema.xhtml">
 	
 	<ui:define name="menu">
@@ -13,46 +14,41 @@
     <H2>Listagem de Profissionais</H2>
     <h:form>
     		<h:messages/>
- 			<h:dataTable style="width: 100%; text-align: left;" value="#{profissionalBean.listaAtivos}" var="profissional" rules="rows" cellpadding="5" >
-    			<f:facet name="caption">
-    				<hr/>
-    			</f:facet>
-    			<f:facet name="footer">Final da Listagem</f:facet>
-    			<h:column>
-    				<f:facet name="header">Id</f:facet>
-    				<h:outputText value="#{profissional.id}" />
-    			</h:column>
-    			<h:column>
-    				<f:facet name="header">Nome</f:facet>
-    				<h:outputText value="#{profissional.nome}" />
-    			</h:column>
-    			<h:column>
-    				<f:facet name="header">e-Mail</f:facet>
-    				<h:outputText value="#{profissional.email}" />
-    			</h:column>
-    			<h:column>
-    				<h:commandLink action="#{profissionalBean.alterar}" value="alterar">
-    					<f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.profissional}" />
-    					<f:setPropertyActionListener value="listagemProfissional" target="#{profissionalBean.destinoSalvar}" />
-    				</h:commandLink>
-    			</h:column>
-    			<h:column>
-    				<h:commandLink action="alterarSenhaProfissional.xhtml" value="alterar senha">
-    					<f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.profissional}" />
-    				</h:commandLink>
-    			</h:column>
-    			<h:column>
-    				<h:commandLink action="#{profissionalBean.visualizar}" value="Visualizar">
-    					<f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.profissional}" />
-    				</h:commandLink>
-    			</h:column>
-    			<h:column>
-    				<h:commandLink action="#{profissionalBean.excluirLogicamente}" value="excluir"
-    					onclick="if (!confirm('Confirma a exclusão do usuário')) return false;">
-    					<f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.profissional}" />
-    				</h:commandLink>
-    			</h:column>
-    		</h:dataTable>
+				<p:dataTable var="profissional" value="#{profissionalBean.lista}" paginator="true" rows="10" 
+	    			paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" lazy="true">
+				    <p:column headerText="Id" sortBy="#{profissional.id}" filterBy="#{profissional.id}">
+				        <h:outputText value="#{profissional.id}" />
+			    </p:column>
+			 
+			    <p:column headerText="Nome" sortBy="#{profissional.nome}" filterBy="#{profissional.nome}">
+			        <h:outputText value="#{profissional.nome}" />
+			    </p:column>
+			 
+			    <p:column headerText="e-Mail" sortBy="#{profissional.email}" filterBy="#{profissional.email}">
+			        <h:outputText value="#{profissional.email}" />
+			    </p:column>
+			    
+				<p:column>
+    				<p:commandButton action="#{profissional.alterar}"  icon="ui-icon-pencil">
+						<f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.profissional}" />
+    					<f:setPropertyActionListener value="listagemProfissionais.xhtml" target="#{profissionalBean.destinoSalvar}" />
+					</p:commandButton>
+    				
+    				<p:commandButton action="#{profissionalBean.visualizar}"  icon="ui-icon-circle-zoomin">
+						<f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.profissional}" />
+    				</p:commandButton>
+					
+					<p:commandButton action="alterarSenhaCliente.xhtml"  icon="ui-icon-pencil">
+						<f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.profissional}" />
+    				</p:commandButton>
+    				
+    				<p:commandButton action="#{profissionalBean.excluirLogicamente}" icon="ui-icon-trash"
+    					onclick="if (!confirm('Confirma a exclusão do profissional?')) return false;">
+						<f:setPropertyActionListener value="#{profissional}" target="#{profissionalBean.profissional}" />
+					</p:commandButton>
+    			</p:column>
+    			
+			</p:dataTable>
      	</h:form>
      	<a href="index.xhtml">voltar</a>
      </ui:define>

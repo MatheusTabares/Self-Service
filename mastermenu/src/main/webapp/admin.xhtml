@@ -2,16 +2,42 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html"
-    xmlns:f="http://java.sun.com/jsf/core">
-<h:head></h:head>
+    xmlns:f="http://java.sun.com/jsf/core"
+     xmlns:p="http://primefaces.org/ui">
+<h:head>
+	    <h:outputStylesheet library="css" name="theme.css" />	
+</h:head>
 <h:body>
 	<h1>ÁREA ADMINISTRATIVA !</h1>
 	<hr/>
 	<h:form>
-		<h:commandButton action="#{profissionalBean.novo}" value="Cadastre um Profissional" />
-		<h:commandLink action="listagem.xhtml" value="Lista de Clientes" /><br/>
-		<h:commandLink action="listagemProfissionais.xhtml" value="Lista de Profissionais" /><br/>
-		<h:commandLink action="home.xhtml" value="Sair" />
+		<p:menu toggleable="true">
+
+			<p:submenu label="Itens">
+				<p:menuitem value="Gerenciar" url="itens.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="Ingredientes">
+				<p:menuitem value="Gerenciar" url="ingredientes.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="Profissionais">
+				<p:menuitem value="Cadastrar" action="#{profissionalBean.novo}" />
+				<p:menuitem value="Listar" url="listagemProfissionais.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="Clientes">
+				<p:menuitem value="Cadastrar" action="#{clienteBean.novo}" />
+				<p:menuitem value="Listar" url="listagem.xhtml" />
+			</p:submenu>
+
+			<p:submenu label="Estabelecimento">
+				<p:menuitem value="Gerenciar" url="consultas.xhtml" />
+			</p:submenu>
+			<p:menuitem value="Sair" url="/index.xhtml" />
+
+		</p:menu>
+
 	</h:form>
 	<hr/>
 </h:body>

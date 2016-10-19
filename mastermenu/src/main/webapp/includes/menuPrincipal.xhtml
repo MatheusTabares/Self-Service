@@ -1,46 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <!DOCTYPE html>
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
-
+	<h:head>
+	</h:head>
 	<h:form>
-		<p:menubar style="background-color: red;">
+		<p:menu>
 
-			<p:submenu style="font-family:'Open Sans Condensed', sans-serif; font-size:14pt !important;" label="Itens">
-				<p:menuitem style="font-family:'Open Sans Condensed', sans-serif; font-size:14pt !important;" value="Gerenciar" url="itens.xhtml" />
+			<p:submenu label="Itens">
+				<p:menuitem value="Gerenciar" url="itens.xhtml" />
 			</p:submenu>
 
-			<p:submenu style="font-family:'Open Sans Condensed', sans-serif; font-size:14pt !important;" label="Ingredientes">
-				<p:menuitem style="font-family:'Open Sans Condensed', sans-serif; font-size:14pt !important;" value="Gerenciar" url="ingredientes.xhtml" />
+			<p:submenu label="Ingredientes">
+				<p:menuitem value="Gerenciar" url="ingredientes.xhtml" />
 			</p:submenu>
 
-			<p:submenu style="font-family:'Open Sans Condensed', sans-serif; font-size:14pt !important;" label="Profissionais">
-				<p:menuitem style="font-family:'Open Sans Condensed', sans-serif; font-size:14pt !important;" value="Cadastrar" action="#{profissionalBean.novo}" />
-				<p:menuitem style="font-family:'Open Sans Condensed', sans-serif; font-size:14pt !important;" value="Listar" url="listagemProfissionais.xhtml" />
+			<p:submenu label="Profissionais">
+				<p:menuitem value="Cadastrar" action="#{profissionalBean.novo}" />
+				<p:menuitem value="Listar" url="listagemProfissionais.xhtml" />
 			</p:submenu>
 
-			<p:submenu style="font-family:'Open Sans Condensed', sans-serif; font-size:14pt !important;" label="Clientes">
-				<p:menuitem style="font-family:'Open Sans Condensed', sans-serif; font-size:14pt !important;" value="Cadastrar" action="#{
-				clienteBean.novo}" />
-				<p:menuitem style="font-family:'Open Sans Condensed', sans-serif; font-size:14pt !important;" value="Listar" url="listagem.xhtml" />
+			<p:submenu label="Clientes">
+				<p:menuitem value="Cadastrar" action="#{clienteBean.novo}" />
+				<p:menuitem value="Listar" url="listagem.xhtml" />
 			</p:submenu>
 
-			<p:submenu style="font-family:'Open Sans Condensed', sans-serif; font-size:14pt !important;" label="Estabelecimento">
-				<p:menuitem style="font-family:'Open Sans Condensed', sans-serif; font-size:14pt !important;" value="Gerenciar" url="consultas.xhtml" />
+			<p:submenu label="Estabelecimento">
+				<p:menuitem value="Gerenciar" url="consultas.xhtml" />
 			</p:submenu>
-			<p:menuitem style="font-family:'Open Sans Condensed', sans-serif; font-size:14pt !important;" value="Sair" url="/index.xhtml" />
+			<p:menuitem value="Sair" url="/index.xhtml" />
 
-		</p:menubar>
+		</p:menu>
 
 	</h:form>
-
-
 </ui:composition>
