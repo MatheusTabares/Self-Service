@@ -74,7 +74,7 @@
                     <p:inputText id="txtValor" maxlength="11" required="true" validatorMessage="Digite um valor válido no campo Valor." requiredMessage="O campo valor é obrigatório." size="15" value="#{ingredienteBean.ingrediente.valor}" pt:placeholder="Entre com o Valor">
                     </p:inputText>                    
                     <p:outputLabel value="Descrição" for="txtDescricao"/>
-                    <p:inputText id="txtDescricao" maxlength="50" required="true" requiredMessage="O campo Quantidade é obrigatório." size="20" value="#{ingredienteBean.ingrediente.descricao}"  pt:placeholder="Entre com seu Descrição">
+                    <p:inputText id="txtDescricao" maxlength="50" required="true" requiredMessage="O campo Descrição é obrigatório." size="20" value="#{ingredienteBean.ingrediente.descricao}"  pt:placeholder="Entre com seu Descrição">
                     </p:inputText>
                 </h:panelGrid>
                 <p:panelGrid columns="2">
@@ -131,7 +131,7 @@
                     <h:outputText value="#{ingredienteBean.ingrediente.nome}" />
                     <h:outputLabel value="Valor: " />
                     <h:outputText value="#{ingredienteBean.ingrediente.valor}" />
-                    <h:outputLabel value="Quantidade: " />
+                    <h:outputLabel value="Descrição: " />
                     <h:outputText value="#{ingredienteBean.ingrediente.descricao}" />
                 </h:panelGrid>
 
