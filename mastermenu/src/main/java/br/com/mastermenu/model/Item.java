@@ -42,6 +42,9 @@ public class Item implements Serializable {
 	@Column(name = "valor")
 	private double valor;
 	
+	@Column(name = "foto")
+	private byte[] foto;
+	
 	private Tipo tipo;
 	
 	@Column(name = "dataCadastro")
@@ -162,8 +165,13 @@ public class Item implements Serializable {
 		this.dataDeInscricao = dataDeInscricao;
 	}
 
-	
-	
-	
+	public byte[] getFoto() {
+		return foto;
+	}
 
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
+
+	
 }

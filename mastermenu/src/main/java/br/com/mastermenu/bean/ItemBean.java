@@ -5,13 +5,22 @@
  */
 package br.com.mastermenu.bean;
 
-import java.sql.Date;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ViewScoped;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import org.apache.log4j.Logger;
+import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+
+import org.apache.commons.io.IOUtils;
 
 import br.com.mastermenu.model.Ingrediente;
 import br.com.mastermenu.model.Item;
@@ -23,6 +32,7 @@ public class ItemBean {
 	
 	private Item item = new Item();
 	private List<Item> itens;
+	private Byte foto;
 	private List<Item> itensFiltrados;
 	private List<Ingrediente> ingredientesSelecionados;
 	
@@ -39,7 +49,8 @@ public class ItemBean {
 	public void preparaNovo() {
 		item = new Item();
 	}
-
+	
+	
 	public void incluir() {
 		try {
 			ItemDAO dao = new ItemDAO();
@@ -89,6 +100,51 @@ public class ItemBean {
 			ex.printStackTrace();
 		}
 	}
+	
+	
+	 public void downloadArquivo(Item i) {
+
+	        FacesContext facesContext = FacesContext.getCurrentInstance();
+
+	        if (i.getFoto() == null) {
+
+	            facesContext.addMessage(null, new FacesMessage("Foto não encontrada!"));
+
+	        } else {
+
+	            OutputStream out = null;
+
+	            try {
+	                
+	                ExternalContext context = facesContext.getExternalContext();
+	                
+	                HttpServletResponse response = (HttpServletResponse) context.getResponse();
+	                response.setHeader("Content-Disposition", "attachment;filename=\""+i.getNome()+".jpeg\"");
+	                response.setContentType("application/download");
+	                
+	                out = response.getOutputStream();
+	                out.write(i.getFoto());
+	                
+	                facesContext.responseComplete();
+	                
+	            } catch (IOException ex) {
+	                Logger.getLogger(ClienteBean.class.getName()).log(Level.SEVERE, null, ex);
+	            }finally{
+	                if(out != null){
+	                    try {
+	                        out.flush();
+	                        out.close();
+	                    } catch (IOException ex) {
+	                        Logger.getLogger(ClienteBean.class.getName()).log(Level.SEVERE, null, ex);
+	                    }
+	                }
+	            }
+
+	        }
+
+	    }
+	
+	
 
 	public Item getItem() {
 		return item;
@@ -121,5 +177,15 @@ public class ItemBean {
 	public void setIngredientesSelecionados(List<Ingrediente> ingredientesSelecionados) {
 		this.ingredientesSelecionados = ingredientesSelecionados;
 	}
+
+	public Byte getFoto() {
+		return foto;
+	}
+
+	public void setFoto(Byte foto) {
+		this.foto = foto;
+	}
+
+
 
 }

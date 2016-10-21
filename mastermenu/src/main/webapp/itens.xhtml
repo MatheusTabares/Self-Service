@@ -38,7 +38,7 @@
 					sortBy="#{item.valor}">
 					<h:outputText value="#{item.valor}" />
 				</p:column>
-				
+
 				<p:column headerText="Tipo" filterBy="#{item.tipo}"
 					sortBy="#{item.tipo}">
 					<h:outputText value="#{item.tipo}" />
@@ -77,7 +77,7 @@
 		<p:dialog widgetVar="dlgCadItem" closable="true" header="Item - Novo"
 			modal="true" appendTo="@(body)" draggable="false" resizable="false">
 
-			<h:form id="frmItemNovo">
+			<h:form id="frmItemNovo" enctype="multipart/form-data">
 				<h:panelGrid id="pnlItemNovo" columns="2">
 					<p:outputLabel value="Nome:" for="txtNome" />
 					<p:inputText id="txtNome" maxlength="50" required="true"
@@ -93,11 +93,17 @@
 						value="#{itemBean.item.valor}" pt:placeholder="Entre com o Valor">
 					</p:inputText>
 					<p:outputLabel value="Tipo:" />
-			        <p:selectOneMenu id="tipoOM" value="#{itemBean.item.tipo}" style="width:125px">
-			            <f:selectItem itemLabel="Comida" itemValue="Comida" />
-			            <f:selectItem itemLabel="Bebida" itemValue="Bebida" />
-			            <f:selectItem itemLabel="Outro" itemValue="Outro" />
-			        </p:selectOneMenu>
+					<p:selectOneMenu id="tipoOM" value="#{itemBean.item.tipo}"
+						style="width:125px">
+						<f:selectItem itemLabel="Comida" itemValue="Comida" />
+						<f:selectItem itemLabel="Bebida" itemValue="Bebida" />
+						<f:selectItem itemLabel="Outro" itemValue="Outro" />
+					</p:selectOneMenu>
+
+						<p:growl id="messages" showDetail="true" />
+
+						<p:fileUpload value="#{itemBean.item.foto}" mode="simple"
+							skinSimple="true" />
 
 					<p:commandButton value="Ingredientes"
 						update=":frmIngredienteNovo:pnlIngredienteSelecionar"
@@ -140,11 +146,13 @@
 
 					<p:outputPanel id="display"
 						style="width:350px;padding-left:5px;margin-top:10px">
-						<p:dataList value="#{itemBean.ingredientesSelecionados}" var="ingrediente" emptyMessage="Nenhum Ingrediente Selecionado">
+						<p:dataList value="#{itemBean.ingredientesSelecionados}"
+							var="ingrediente" emptyMessage="Nenhum Ingrediente Selecionado">
 						#{ingrediente}
 							
 				        </p:dataList>
-				        <p:commandButton value="Fechar" onclick="PF('dlgIngredienteSelecionar').hide();" />
+						<p:commandButton value="Fechar"
+							onclick="PF('dlgIngredienteSelecionar').hide();" />
 					</p:outputPanel>
 				</h:form>
 			</h:form>
@@ -189,16 +197,18 @@
 						pt:placeholder="Entre com seu Valor">
 					</p:inputText>
 					<p:outputLabel value="Tipo:" />
-			        <p:selectOneMenu id="tipoEOM" value="#{itemBean.item.tipo}" style="width:125px">
-			            <f:selectItem itemLabel="Comida" itemValue="Comida" />
-			            <f:selectItem itemLabel="Bebida" itemValue="Bebida" />
-			            <f:selectItem itemLabel="Outro" itemValue="Outro" />
-			        </p:selectOneMenu>
-			        <p:panelGrid>
-			        <p:commandButton style="horizontal-align:center" value="Ingredientes"
-						update=":frmIngredienteNovo:pnlIngredienteSelecionar"
-						oncomplete="PF('dlgIngredienteSelecionar').show();">
-					</p:commandButton>					
+					<p:selectOneMenu id="tipoEOM" value="#{itemBean.item.tipo}"
+						style="width:125px">
+						<f:selectItem itemLabel="Comida" itemValue="Comida" />
+						<f:selectItem itemLabel="Bebida" itemValue="Bebida" />
+						<f:selectItem itemLabel="Outro" itemValue="Outro" />
+					</p:selectOneMenu>
+					<p:panelGrid>
+						<p:commandButton style="horizontal-align:center"
+							value="Ingredientes"
+							update=":frmIngredienteNovo:pnlIngredienteSelecionar"
+							oncomplete="PF('dlgIngredienteSelecionar').show();">
+						</p:commandButton>
 					</p:panelGrid>
 				</h:panelGrid>
 				<h:panelGrid columns="2">
@@ -215,7 +225,8 @@
 			closable="false" draggable="false" resizable="false" modal="true"
 			appendTo="@(body)">
 			<h:form id="frmItemConsultar">
-				<h:panelGrid id="pnlItemConsultar" columns="2" style="width:300px; height:150px;">
+				<h:panelGrid id="pnlItemConsultar" columns="2"
+					style="width:300px; height:150px;">
 					<h:outputLabel value="Id: " />
 					<h:outputText value="#{itemBean.item.idItem}" />
 					<h:outputLabel value="Nome: " />
@@ -225,8 +236,9 @@
 					<h:outputLabel value="Tipo: " />
 					<h:outputText value="#{itemBean.item.tipo}" />
 					<h:outputLabel value="Ingredientes: " />
-					 <p:dataList value="#{itemBean.item.ingredientes}" var="ing" type="ordered">
-					        <f:facet name="Ingredientes">
+					<p:dataList value="#{itemBean.item.ingredientes}" var="ing"
+						type="ordered">
+						<f:facet name="Ingredientes">
 					            Basic
 					        </f:facet>
 					        #{ing.nome}
