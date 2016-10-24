@@ -41,7 +41,7 @@ public class Item implements Serializable {
 	
 	@Column(name = "valor")
 	private double valor;
-	
+	 
 	@Column(name = "foto")
 	private byte[] foto;
 	

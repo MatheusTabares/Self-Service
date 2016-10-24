@@ -5,39 +5,40 @@
  */
 package br.com.mastermenu.bean;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.primefaces.event.FileUploadEvent;
 
 import br.com.mastermenu.model.Ingrediente;
 import br.com.mastermenu.model.Item;
 import br.com.mastermenu.persistencia.ItemDAO;
 
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
+import org.primefaces.model.UploadedFile;
+
 @ManagedBean
 @ViewScoped
 public class ItemBean {
-	
+
 	private Item item = new Item();
 	private List<Item> itens;
-	private Byte foto;
 	private List<Item> itensFiltrados;
 	private List<Ingrediente> ingredientesSelecionados;
-	
+	private UploadedFile fotoUpload;
+	private StreamedContent fotoDownload;
+
 	@PostConstruct
 	public void prepararPesquisa() {
+		fotoDownload = new DefaultStreamedContent(); 
 		try {
 			ItemDAO dao = new ItemDAO();
 			setItens(dao.listar());
@@ -49,8 +50,7 @@ public class ItemBean {
 	public void preparaNovo() {
 		item = new Item();
 	}
-	
-	
+
 	public void incluir() {
 		try {
 			ItemDAO dao = new ItemDAO();
@@ -100,51 +100,78 @@ public class ItemBean {
 			ex.printStackTrace();
 		}
 	}
-	
-	
-	 public void downloadArquivo(Item i) {
 
-	        FacesContext facesContext = FacesContext.getCurrentInstance();
+	public StreamedContent getFotoDownload() throws IOException {
+		try {
+			if (fotoUpload != null && fotoUpload.getContents() != null) {
+				fotoDownload = new DefaultStreamedContent(
+							new ByteArrayInputStream(fotoUpload.getContents()), "image/jpg", fotoUpload.getFileName());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-	        if (i.getFoto() == null) {
+		if (fotoDownload.getStream() != null) {
+			fotoDownload.getStream().reset();
+		}
 
-	            facesContext.addMessage(null, new FacesMessage("Foto não encontrada!"));
+		return fotoDownload;
+	}
 
-	        } else {
+	public void upload(FileUploadEvent fileUploadEvent) throws Exception {
+		fotoUpload = fileUploadEvent.getFile();
+		item.setFoto(fotoUpload.getContents());
+		fotoDownload = new DefaultStreamedContent(new ByteArrayInputStream(fotoUpload.getContents()), "image/jpg", fotoUpload.getFileName());
+	}
 
-	            OutputStream out = null;
+	public void handleFileUpload(FileUploadEvent event) {
+		try {
+			fotoDownload = new DefaultStreamedContent(event.getFile().getInputstream());
+			byte[] foto = event.getFile().getContents();
+			this.item.setFoto(foto);
+		} catch (IOException ex) {
+			Logger.getLogger(ItemBean.class.getName()).log(Level.ERROR, null, ex);
+		}
+	}
 
-	            try {
-	                
-	                ExternalContext context = facesContext.getExternalContext();
-	                
-	                HttpServletResponse response = (HttpServletResponse) context.getResponse();
-	                response.setHeader("Content-Disposition", "attachment;filename=\""+i.getNome()+".jpeg\"");
-	                response.setContentType("application/download");
-	                
-	                out = response.getOutputStream();
-	                out.write(i.getFoto());
-	                
-	                facesContext.responseComplete();
-	                
-	            } catch (IOException ex) {
-	                Logger.getLogger(ClienteBean.class.getName()).log(Level.SEVERE, null, ex);
-	            }finally{
-	                if(out != null){
-	                    try {
-	                        out.flush();
-	                        out.close();
-	                    } catch (IOException ex) {
-	                        Logger.getLogger(ClienteBean.class.getName()).log(Level.SEVERE, null, ex);
-	                    }
-	                }
-	            }
-
-	        }
-
-	    }
-	
-	
+	/*
+	 * public void downloadArquivo(Item i) {
+	 * 
+	 * FacesContext facesContext = FacesContext.getCurrentInstance();
+	 * 
+	 * if (i.getFoto() == null) {
+	 * 
+	 * facesContext.addMessage(null, new FacesMessage("Foto não encontrada!"));
+	 * 
+	 * } else {
+	 * 
+	 * OutputStream out = null;
+	 * 
+	 * try {
+	 * 
+	 * ExternalContext context = facesContext.getExternalContext();
+	 * 
+	 * HttpServletResponse response = (HttpServletResponse)
+	 * context.getResponse(); response.setHeader("Content-Disposition",
+	 * "attachment;filename=\""+i.getNome()+".jpeg\"");
+	 * response.setContentType("application/download");
+	 * 
+	 * out = response.getOutputStream(); out.write(i.getFoto());
+	 * 
+	 * facesContext.responseComplete();
+	 * 
+	 * } catch (IOException ex) {
+	 * Logger.getLogger(ClienteBean.class.getName()).log(Level.SEVERE, null,
+	 * ex); }finally{ if(out != null){ try { out.flush(); out.close(); } catch
+	 * (IOException ex) {
+	 * Logger.getLogger(ClienteBean.class.getName()).log(Level.SEVERE, null,
+	 * ex); } } }
+	 * 
+	 * }
+	 * 
+	 * }
+	 * 
+	 */
 
 	public Item getItem() {
 		return item;
@@ -178,14 +205,17 @@ public class ItemBean {
 		this.ingredientesSelecionados = ingredientesSelecionados;
 	}
 
-	public Byte getFoto() {
-		return foto;
+	public UploadedFile getFotoUpload() {
+		return fotoUpload;
 	}
 
-	public void setFoto(Byte foto) {
-		this.foto = foto;
+	public void setFotoUpload(UploadedFile fotoUpload) {
+		this.fotoUpload = fotoUpload;
 	}
 
 
+	public void setFotoDownload(StreamedContent fotoDownload) {
+		this.fotoDownload = fotoDownload;
+	}
 
 }

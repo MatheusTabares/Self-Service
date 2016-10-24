@@ -89,8 +89,8 @@
 					<p:outputLabel value="Valor:" for="txtValor" />
 					<p:inputText id="txtValor" maxlength="11" required="true"
 						validatorMessage="Digite um valor válido no campo Valor."
-						requiredMessage="O campo valor é obrigatório." size="15"
-						value="#{itemBean.item.valor}" pt:placeholder="Entre com o Valor">
+						size="15" value="#{itemBean.item.valor}"
+						pt:placeholder="Entre com o Valor">
 					</p:inputText>
 					<p:outputLabel value="Tipo:" />
 					<p:selectOneMenu id="tipoOM" value="#{itemBean.item.tipo}"
@@ -100,10 +100,22 @@
 						<f:selectItem itemLabel="Outro" itemValue="Outro" />
 					</p:selectOneMenu>
 
-						<p:growl id="messages" showDetail="true" />
 
-						<p:fileUpload value="#{itemBean.item.foto}" mode="simple"
-							skinSimple="true" />
+					<p:outputLabel value="Procurar: " for="foto" />
+					<p:fileUpload id="foto" styleClass="ui-widget-upload"
+						fileUploadListener="#{itemBean.upload}" update="idImagePreview"
+						widgetVar="fileUploadWidget" value="#{itemBean.fotoUpload}"
+						mode="advanced" auto="true" sizeLimit="3000000"
+						invalidSizeMessage="O tamanho do documento deve ser menor ou igual a 3mb."
+						required="true" requiredMessage="Um documento deve ser escolhido"
+						allowTypes="/(\.|\/)(pdf|jpeg|png)$/" description="fotoUpload"
+						style="width:330px !important" accept=".jpg, .pdf, .png, .jpeg" />
+
+					<p:graphicImage id="idImagePreview"
+						value="#{itemBean.fotoDownload}" width="100" height="100"
+						cache="false">
+					</p:graphicImage>
+
 
 					<p:commandButton value="Ingredientes"
 						update=":frmIngredienteNovo:pnlIngredienteSelecionar"
@@ -124,8 +136,6 @@
 				</p:panelGrid>
 			</h:form>
 		</p:dialog>
-
-
 
 
 		<p:dialog widgetVar="dlgIngredienteSelecionar"
