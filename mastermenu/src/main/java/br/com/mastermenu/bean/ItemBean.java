@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.SessionScoped;
 import javax.faces.view.ViewScoped;
 
 import org.apache.log4j.Level;
@@ -26,7 +27,7 @@ import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class ItemBean {
 
 	private Item item = new Item();
