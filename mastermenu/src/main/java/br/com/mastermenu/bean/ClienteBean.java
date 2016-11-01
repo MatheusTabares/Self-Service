@@ -12,6 +12,7 @@ import br.com.mastermenu.model.Endereco;
 import br.com.mastermenu.model.Profissional;
 import br.com.mastermenu.model.SegurancaSenha;
 import br.com.mastermenu.persistencia.ClienteDAO;
+import br.com.mastermenu.persistencia.ItemDAO;
 import br.com.mastermenu.persistencia.ProfissionalDAO;
 import br.com.mastermenu.persistencia.SegurancaSenhaDAO;
 import br.com.mastermenu.util.HashUtil;
@@ -28,11 +29,11 @@ public class ClienteBean {
 	private String destinoSalvar;
 	private List<Cliente> lista = new ArrayList<Cliente>();
 	private List<Cliente> listaAtivos = new ArrayList<Cliente>();
-	private ClienteDAO  clienteDAO = new ClienteDAO();
+	private ClienteDAO clienteDAO = new ClienteDAO();
 	private SegurancaSenha segurancaSenha = new SegurancaSenha();
 	private SegurancaSenhaDAO segurancaSenhaDAO = new SegurancaSenhaDAO();
 	private String msgCompleteSeusDados = "";
-	
+
 	public ClienteBean() {
 		this.destinoSalvar = "sucesso";
 		this.cliente = new Cliente();
@@ -40,7 +41,7 @@ public class ClienteBean {
 		this.cliente.setToken("token");
 		this.cliente.setImagem("imagem");
 	}
-	
+
 	public String novo() {
 		this.destinoSalvar = "sucesso";
 		this.cliente = new Cliente();
@@ -49,22 +50,22 @@ public class ClienteBean {
 		this.cliente.setImagem("imagem");
 		return "cadastrarCliente";
 	}
-	
+
 	public String salvar() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		
-		if(validacaoEmail()) {
-			FacesMessage facesMessage = new FacesMessage("Email: " +this.cliente.getEmail()+ ", já cadastrado.");
+
+		if (validacaoEmail()) {
+			FacesMessage facesMessage = new FacesMessage("Email: " + this.cliente.getEmail() + ", já cadastrado.");
 			context.addMessage(null, facesMessage);
 			return null;
 		}
 		String senha = this.cliente.getSenha();
-		if(!senha.trim().equals(this.confirmarSenha)) {
+		if (!senha.trim().equals(this.confirmarSenha)) {
 			FacesMessage facesMessage = new FacesMessage("A senha nao foi confirmada corretamente");
 			context.addMessage(null, facesMessage);
 			return null;
 		}
-		
+
 		this.clienteDAO = new ClienteDAO();
 		this.cliente.setSenha(HashUtil.geraHash(this.cliente.getSenha(), this.segurancaSenha.getSALT()));
 		this.cliente.setEndereco(this.endereco);
@@ -73,26 +74,26 @@ public class ClienteBean {
 		cliente = this.clienteDAO.carregarPorEmail(this.cliente.getEmail());
 		this.segurancaSenha.setUsuario(cliente);
 		this.segurancaSenhaDAO.salvar(this.segurancaSenha);
-		FacesMessage facesMessage = new FacesMessage("Cliente " +this.cliente.getNome()+ " cadastrado com sucesso!");
+		FacesMessage facesMessage = new FacesMessage("Cliente " + this.cliente.getNome() + " cadastrado com sucesso!");
 		context.addMessage(null, facesMessage);
 		this.cliente = new Cliente();
 		this.confirmarSenha = "";
 		this.listar();
 		return "listagem";
 	}
-	
+
 	public String atualizar() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		this.enderecoBean = new EnderecoBean();
 		String senhaTela = HashUtil.geraHash(this.confirmarSenha, this.cliente.getSegurancaSenha().getSALT());
 		String senhaCliente = this.cliente.getSenha();
-		if(!senhaTela.trim().equals(senhaCliente)) {
+		if (!senhaTela.trim().equals(senhaCliente)) {
 			FacesMessage facesMessage = new FacesMessage("A senha nao foi confirmada corretamente");
 			context.addMessage(null, facesMessage);
 			return null;
 		}
-		
-		if(this.cliente.getEndereco() == null) {
+
+		if (this.cliente.getEndereco() == null) {
 			this.enderecoBean.salvar(this.endereco);
 		} else {
 			this.enderecoBean.atualizar(this.endereco);
@@ -105,50 +106,67 @@ public class ClienteBean {
 		this.endereco = new Endereco();
 		return "listagem";
 	}
-	
+
 	public boolean validacaoEmail() {
 		this.listar();
 		String email = this.cliente.getEmail();
-		for(Cliente cliente : this.lista) {
-			if(email.trim().equals(cliente.getEmail())) {
+		for (Cliente cliente : this.lista) {
+			if (email.trim().equals(cliente.getEmail())) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
+	public String novaSenha() {
+		if (novaSenha.trim().equals(confirmarSenha)) {
+			ClienteDAO dao = new ClienteDAO();
+			Cliente clienteAtual = dao.carregarPorEmail(cliente.getEmail());
+			String senha = HashUtil.geraHash(this.cliente.getSenha(), clienteAtual.getSegurancaSenha().getSALT());
+			if (clienteAtual.getSenha().equals(senha)) {
+				clienteAtual.setSenha(HashUtil.geraHash(this.getNovaSenha(), this.segurancaSenha.getSALT()));
+				segurancaSenhaDAO = new SegurancaSenhaDAO();
+				segurancaSenha = segurancaSenhaDAO.carregar(clienteAtual.getSegurancaSenha().getId());
+				segurancaSenha.setUsuario(cliente);
+				segurancaSenhaDAO.atualizar(segurancaSenha);
+				dao.atualizar(clienteAtual);
+			}
+		}
+
+		return novaSenha;
+	}
+
 	public String alterarSenha() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		if(this.senha.trim().equals("") || this.senha.trim().equals(null)
-				|| this.novaSenha.trim().equals("") || this.novaSenha.trim().equals(null)
-					|| this.confirmarSenha.trim().equals("") || this.confirmarSenha.trim().equals(null)) {
+		if (this.senha.trim().equals("") || this.senha.trim().equals(null) || this.novaSenha.trim().equals("")
+				|| this.novaSenha.trim().equals(null) || this.confirmarSenha.trim().equals("")
+				|| this.confirmarSenha.trim().equals(null)) {
 			FacesMessage facesMessage = new FacesMessage("Senha(s) inválida(s).");
 			context.addMessage(null, facesMessage);
 			return null;
 		}
-		
-		if(this.novaSenha.trim().equals(this.senha.trim()) || 
-				this.confirmarSenha.trim().equals(this.senha.trim())) {
+
+		if (this.novaSenha.trim().equals(this.senha.trim()) || this.confirmarSenha.trim().equals(this.senha.trim())) {
 			FacesMessage facesMessage = new FacesMessage("Nova senha ou Confirma Senha igual a senha atual.");
 			context.addMessage(null, facesMessage);
 			return null;
 		}
-		
-		if(!this.novaSenha.trim().equals(this.confirmarSenha.trim())) {
+
+		if (!this.novaSenha.trim().equals(this.confirmarSenha.trim())) {
 			FacesMessage facesMessage = new FacesMessage("Confirme a senha corretamente.");
 			context.addMessage(null, facesMessage);
 			return null;
 		}
-		
+
 		String senha = HashUtil.geraHash(this.senha, this.cliente.getSegurancaSenha().getSALT());
-		
-		if(!senha.trim().equals(this.cliente.getSenha())) {
+
+		if (!senha.trim().equals(this.cliente.getSenha())) {
 			FacesMessage facesMessage = new FacesMessage("Erro ao preencher a senha atual.");
 			context.addMessage(null, facesMessage);
 			return null;
 		} else {
 			String novaSenha = HashUtil.geraHash(this.novaSenha, this.cliente.getSegurancaSenha().getSALT());
-			this.cliente.setSenha(novaSenha);	
+			this.cliente.setSenha(novaSenha);
 			this.clienteDAO = new ClienteDAO();
 			this.clienteDAO.atualizar(this.cliente);
 			FacesMessage facesMessage = new FacesMessage("Senha alterada com sucesso.");
@@ -157,10 +175,10 @@ public class ClienteBean {
 		this.senha = "";
 		this.novaSenha = "";
 		this.confirmarSenha = "";
-		
+
 		return "visualizarProfissional";
 	}
-	
+
 	public void excluir() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		clienteDAO = new ClienteDAO();
@@ -168,7 +186,7 @@ public class ClienteBean {
 		FacesMessage facesMessage = new FacesMessage("Cliente excluido com sucesso.");
 		context.addMessage(null, facesMessage);
 	}
-	
+
 	public void excluirLogicamente() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		this.clienteDAO = new ClienteDAO();
@@ -177,29 +195,29 @@ public class ClienteBean {
 		FacesMessage facesMessage = new FacesMessage("Cliente excluido com sucesso.");
 		context.addMessage(null, facesMessage);
 	}
-	
+
 	public void listar() {
 		clienteDAO = new ClienteDAO();
 		lista = clienteDAO.listar();
 	}
-	
+
 	public String alterar() {
 		this.confirmarSenha = "";
 		this.endereco = new Endereco();
-		if(this.cliente.getEndereco() != null) {
+		if (this.cliente.getEndereco() != null) {
 			this.endereco = this.enderecoBean.encontrarPorIdUsuario(this.cliente.getId());
 			this.msgCompleteSeusDados = "";
-		} else { 
-			this.msgCompleteSeusDados = "Complete seus Dados " +this.cliente.getNome()+ " , por gentileza.";
+		} else {
+			this.msgCompleteSeusDados = "Complete seus Dados " + this.cliente.getNome() + " , por gentileza.";
 			this.endereco.setUsuario(this.cliente);
 		}
 		return "alterarCliente";
 	}
-	
+
 	public String visualizar() {
 		return "visualizarCliente";
 	}
-	
+
 	public Cliente getCliente() {
 		return cliente;
 	}
@@ -207,7 +225,7 @@ public class ClienteBean {
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
 	}
-	
+
 	public String getConfirmarSenha() {
 		return confirmarSenha;
 	}
