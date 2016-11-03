@@ -16,7 +16,7 @@
 	<ui:define name="conteudo">
 		<h:form id="frmItemListagem">
 			<p:dataTable id="tblItens" widgetVar="tabelaItens" paginator="true"
-				emptyMessage="Nenhum item encontrado." var="item"
+				emptyMessage="Nenhum item encontrado." var="item" rows="5"
 				filteredValue="#{itemBean.itensFiltrados}" value="#{itemBean.itens}">
 
 				<f:facet name="header">
@@ -253,6 +253,11 @@
 					        </f:facet>
 					        #{ing.nome}
 					  </p:dataList>
+
+					  <p:graphicImage value="#{itemBean.metodo()}" width="100"
+						height="100" cache="false">
+						<f:param name="itemId" value="#{itemBean.item.idItem}" />
+					</p:graphicImage>
 				</h:panelGrid>
 
 				<p:commandButton value="Voltar"

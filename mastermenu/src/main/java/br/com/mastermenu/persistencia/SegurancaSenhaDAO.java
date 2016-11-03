@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import br.com.mastermenu.model.Cliente;
 import br.com.mastermenu.model.SegurancaSenha;
 import br.com.mastermenu.util.HibernateUtil;
 
@@ -29,6 +30,28 @@ public class SegurancaSenhaDAO {
 	public ArrayList<SegurancaSenha> listarSegurancasSenhas() {
         return (ArrayList<SegurancaSenha>) sessao.createCriteria(SegurancaSenha.class).list();
     }
+    
+    public void atualizar(SegurancaSenha senha) {
+		Session sessao = null;
+		Transaction transacao = null;
+		try {
+			sessao = HibernateUtil.getSessionFactory().openSession();
+			transacao = sessao.beginTransaction();
+        	
+        	sessao.update(senha);
+     
+            transacao.commit();
+     	} catch (Exception ex) {
+			System.out.println("Não foi possível atualizar. Erro: " + ex.getMessage());
+		}  finally {
+        	try {
+        		// fecha a entity manager
+        		sessao.close();
+        	} catch (Throwable ex) {
+        		System.out.println("Erro ao fechar a operação de adicionar. Mensagem:" + ex.getMessage());
+        	}
+        }
+	}
 
     public void excluir(Long id) {
         Transaction transacao = sessao.beginTransaction();
