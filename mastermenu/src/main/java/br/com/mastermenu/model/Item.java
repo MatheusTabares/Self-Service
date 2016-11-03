@@ -15,6 +15,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import br.com.mastermenu.enums.Tipo;
 
@@ -49,7 +51,17 @@ public class Item implements Serializable {
 	
 	@Column(name = "dataCadastro")
 	private Calendar dataDeInscricao = Calendar.getInstance();
+	
+	@OneToOne(mappedBy = "item")
+	private Pedido pedido;
+	
+	public Pedido getPedido() {
+		return pedido;
+	}
 
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
 
 	public String getNome() {
 		return this.nome;

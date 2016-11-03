@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" 
+	template="tema.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form id="frmItemListagem">
+			<p:dataTable id="tblPedidos" widgetVar="tabelaPedidos" paginator="true"
+				emptyMessage="Nenhum pedido encontrado." var="pedido"
+				value="#{clienteBean.pedidosCopa}">
+
+				<f:facet name="header">
+                    Pedidos Copa
+                </f:facet>
+				<p:column headerText="Id Cliente" filterBy="#{pedido.cliente.nome}"
+					sortBy="#{pedido.cliente.nome}">
+					<h:outputText value="#{pedido.cliente.id}" />
+				</p:column>
+				<p:column headerText="Pedido" filterBy="#{pedido.item.nome}"
+					sortBy="#{pedido.item.nome}">
+					<h:outputText value="#{pedido.item.nome}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</ui:define>
+</ui:composition>

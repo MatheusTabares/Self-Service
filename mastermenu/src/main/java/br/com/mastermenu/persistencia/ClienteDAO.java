@@ -108,14 +108,14 @@ public class ClienteDAO {
         	transacao.commit();
         	return lista;
 		} catch (Exception ex) {
-			System.out.println("Não foi possível listar todos. Erro: " + ex.getMessage());
+			System.out.println("Não foi possível listar todos clientes. Erro: " + ex.getMessage());
 			throw new HibernateException(ex);
 		}  finally {
         	try {
         		// fecha a entity manager
         		sessao.close();
         	} catch (Throwable ex) {
-        		System.out.println("Erro ao fechar a operação de adicionar. Mensagem:" + ex.getMessage());
+        		System.out.println("Erro ao fechar a operação de lista clientes. Mensagem:" + ex.getMessage());
         	}
         }
 	}

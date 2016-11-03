@@ -3,6 +3,7 @@ package br.com.mastermenu.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import br.com.mastermenu.util.HashUtil;
@@ -14,6 +15,7 @@ public class SegurancaSenha {
     private long id;
 
     @OneToOne
+    @JoinColumn(name = "usuario_id")
     private Usuario usuario = new Usuario();
 
     private String SALT;

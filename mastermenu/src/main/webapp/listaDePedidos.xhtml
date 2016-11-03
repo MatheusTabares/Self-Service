@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" template="tema.xhtml">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipalCliente.xhtml" />
+	</ui:define>
+	<ui:define name="conteudo">
+		<h:form id="frmItemListagem">
+			<p:dataTable id="tblItens" widgetVar="tabelaItens" paginator="true"
+				emptyMessage="Nenhum item encontrado." var="pedido"
+				value="#{clienteBean.pedidos}">
+
+				<f:facet name="header">
+                    Itens
+                </f:facet>
+
+
+				<p:column headerText="Nome" filterBy="#{pedido.item.nome}"
+					sortBy="#{pedido.item.nome}">
+					<h:outputText value="#{pedido.item.nome}" />
+				</p:column>
+
+				<p:column headerText="Valor" filterBy="#{pedido.item.valor}"
+					sortBy="#{pedido.item.valor}">
+					<h:outputText value="#{pedido.item.valor}" />
+				</p:column>
+
+				<p:column headerText="Ações">
+					<p:commandButton icon="ui-icon-circle-zoomin"
+						oncomplete="PF('dlgItemConsultar').show();"
+						update=":frmItemConsultar:pnlItemConsultar">
+						<f:setPropertyActionListener target="#{clienteBean.pedido}"
+							value="#{pedido}" />
+					</p:commandButton>
+					<p:commandButton icon="ui-icon-trash"
+						oncomplete="PF('dlgItemExcluir').show();"
+						update=":frmItemExcluir:pnlItemExcluir">
+						<f:setPropertyActionListener target="#{clienteBean.pedido}"
+							value="#{pedido}" />
+					</p:commandButton>
+				</p:column>
+				<p:columnGroup rendered="true" type="footer">
+					<p:row>
+						<p:column footerText="Total Geral:" />
+						<p:column>
+							<f:facet name="footer">
+								<h:outputText value="#{clienteBean.totalPedidos}" />
+							</f:facet>
+						</p:column>
+					</p:row>
+				</p:columnGroup>
+				<f:facet name="footer">                                                  
+					<p:commandButton value="Solicitar Pedido"
+						oncomplete="PF('dlgSolicitarPedido').show();"
+						update=":frmConfirmaSolicitacao">
+					</p:commandButton>
+				</f:facet>
+			</p:dataTable>
+		</h:form>
+		
+		<p:dialog widgetVar="dlgSolicitarPedido" header="Confirmar Solicitação"
+			closable="false" draggable="false" resizable="false" modal="true"
+			appendTo="@(body)">
+			<h:form id="frmConfirmaSolicitacao">
+				<p:outputLabel value="APÓS CONFIRMAR SEU PEDIDO, O MESMO NÃO PODERÁ SER ALTERADO!" />
+				<br/>
+				<p:panelGrid columns="2" style="margin-left: 25%">
+					<p:commandButton value="Confirmar"
+						actionListener="#{clienteBean.solicitarPedido}"
+						oncomplete="PF('dlgSolicitarPedido').hide();"
+						update=":frmItemListagem"/>
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgSolicitarPedido').hide();" />
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+				
+		<p:dialog widgetVar="dlgItemConsultar" header="Item - Consultar"
+			closable="false" draggable="false" resizable="false" modal="true"
+			appendTo="@(body)">
+			<h:form id="frmItemConsultar">
+				<h:panelGrid id="pnlItemConsultar" columns="2"
+					style="width:300px; height:150px;">
+					<h:outputLabel value="Id: " />
+					<h:outputText value="#{clienteBean.pedido.item.idItem}" />
+					<h:outputLabel value="Nome: " />
+					<h:outputText value="#{clienteBean.pedido.item.nome}" />
+					<h:outputLabel value="Valor: " />
+					<h:outputText value="#{clienteBean.pedido.item.valor}" />
+					<h:outputLabel value="Tipo: " />
+					<h:outputText value="#{clienteBean.pedido.item.tipo}" />
+					<h:outputLabel value="Ingredientes: " />
+					<p:dataList value="#{clienteBean.pedido.item.ingredientes}" var="ing"
+						type="ordered">
+						<f:facet name="Ingredientes">
+					            Basic
+					        </f:facet>
+					        #{ing.nome}
+					  </p:dataList>
+				</h:panelGrid>
+
+				<p:commandButton value="Voltar"
+					onclick="PF('dlgItemConsultar').hide();" />
+			</h:form>
+		</p:dialog>
+
+		<p:dialog widgetVar="dlgItemExcluir" header="Excluir Pedido"
+			closable="false" draggable="false" resizable="false" modal="true"
+			appendTo="@(body)">
+			<h:form id="frmItemExcluir">
+				<h:panelGrid id="pnlItemExcluir" columns="2">
+					<p:outputLabel value="Tem certeza que deseja excluir seu pedido? " />
+					<h:outputText value="" />
+					<p:outputLabel value="Nome: " />
+					<h:outputText value="#{clienteBean.pedido.item.nome}" />
+				</h:panelGrid>
+				<p:commandButton value="Excluir da Lista"
+					actionListener="#{clienteBean.excluirItemDaListaDePedidos()}"
+					oncomplete="PF('dlgItemExcluir').hide();"
+					update=":frmItemListagem:tblItens :msgGlobal" />
+				<p:commandButton value="Cancelar"
+					onclick="PF('dlgItemExcluir').hide();" />
+			</h:form>
+		</p:dialog>
+		<p:growl id="messages" showDetail="true" autoUpdate="true" life="5000" />
+	</ui:define>
+</ui:composition>
