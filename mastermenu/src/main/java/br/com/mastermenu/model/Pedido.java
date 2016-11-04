@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 
 @Table(name = "pedido_cozinha")
@@ -25,6 +26,12 @@ public class Pedido implements Serializable{
 	
 	@OneToOne
 	private Item item = new Item();
+	
+	@NotNull
+	private Integer quantidade = 1;
+	
+	@NotNull
+	private Double subTotal = 0.0;
 	
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
@@ -49,6 +56,18 @@ public class Pedido implements Serializable{
 	}
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}
+	public Double getSubTotal() {
+		return subTotal;
+	}
+	public void setSubTotal(Double subTotal) {
+		this.subTotal = subTotal;
 	}
 	
 }

@@ -27,6 +27,10 @@
 					sortBy="#{pedido.item.nome}">
 					<h:outputText value="#{pedido.item.nome}" />
 				</p:column>
+				<p:column headerText="Quantidade" filterBy="#{pedido.quantidade}"
+					sortBy="#{pedido.quantidade}">
+					<h:outputText value="#{pedido.quantidade}" />
+				</p:column>
 			</p:dataTable>
 		</h:form>
 	</ui:define>

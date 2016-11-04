@@ -29,6 +29,11 @@
 					sortBy="#{pedido.item.valor}">
 					<h:outputText value="#{pedido.item.valor}" />
 				</p:column>
+				
+				<p:column headerText="Quantidade" filterBy="#{pedido.quantidade}"
+					sortBy="#{pedido.quantidade}">
+					<h:outputText value="#{pedido.quantidade}" />
+				</p:column>
 
 				<p:column headerText="Ações">
 					<p:commandButton icon="ui-icon-circle-zoomin"
@@ -44,16 +49,6 @@
 							value="#{pedido}" />
 					</p:commandButton>
 				</p:column>
-				<p:columnGroup rendered="true" type="footer">
-					<p:row>
-						<p:column footerText="Total Geral:" />
-						<p:column>
-							<f:facet name="footer">
-								<h:outputText value="#{clienteBean.totalPedidos}" />
-							</f:facet>
-						</p:column>
-					</p:row>
-				</p:columnGroup>
 				<f:facet name="footer">                                                  
 					<p:commandButton value="Solicitar Pedido"
 						oncomplete="PF('dlgSolicitarPedido').show();"

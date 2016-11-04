@@ -42,6 +42,8 @@ public class ClienteBean {
 	private List<Pedido> pedidosCopa = new ArrayList<Pedido>();
 	private CopaBean copaBean = new CopaBean();
 	private List<Pedido> pedidosCozinha = new ArrayList<Pedido>();
+	private List<Pedido> comanda = new ArrayList<Pedido>();
+	private Double total = 0.0;
 	
 	public ClienteBean() {
 		this.destinoSalvar = "sucesso";
@@ -225,17 +227,40 @@ public class ClienteBean {
 	
 	public String incluirItemNaListaDePedidos() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		//if(this.pedido.getCliente().getId().equals(null))
+		//if(this.pedido.getCliente().getId().equals(null)) {
 			this.clienteTemporario.setId(1L);
 			this.pedido.setCliente(this.clienteTemporario);
+		//}
 		
-		this.pedido.setItem(this.item);
-		this.pedidos.add(this.pedido);
-		FacesMessage facesMessage = new FacesMessage(this.item.getNome()+ " incluido a lista de pedidos.");
+		if(!incrementaPedido()){
+			this.pedido.setItem(this.item);
+			this.pedido.setSubTotal(this.item.getValor());
+			this.pedidos.add(this.pedido);
+			FacesMessage facesMessage = new FacesMessage(this.item.getNome() + " adicionado a lista de pedidos.");
+			context.addMessage(null, facesMessage);
+			this.item = new Item();
+			this.pedido = new Pedido();
+			return null;	
+		}	
+		FacesMessage facesMessage = new FacesMessage("Mais um(a) " + this.item.getNome() + " adicionado a lista de pedidos.");
 		context.addMessage(null, facesMessage);
 		this.item = new Item();
 		this.pedido = new Pedido();
-		return null;
+		return null;	
+	}
+		
+	public boolean incrementaPedido() {
+		for(int i = 0; i < this.pedidos.size(); i++) {
+			if(this.pedidos.get(i).getItem().getIdItem()
+					.equals(this.item.getIdItem())) {
+				Integer quantidade = this.pedidos.get(i).getQuantidade();
+				this.pedidos.get(i).setQuantidade(quantidade+1);
+				this.pedidos.get(i).setSubTotal(
+						(quantidade+1) * this.pedidos.get(i).getItem().getValor());
+				return true;
+			} 
+		}
+		return false;
 	}
 	
 	public String excluirItemDaListaDePedidos() {
@@ -264,10 +289,19 @@ public class ClienteBean {
 				return null;
 		}
 		this.cozinhaBean.salvar();
+		this.comanda.addAll(this.pedidos);
+		gerarTotal();
 		this.pedidos = new ArrayList<Pedido>();
 		FacesMessage facesMessage = new FacesMessage("Seus Pedidos foram solicitados.");
 		context.addMessage(null, facesMessage);
 		return null;
+	}
+	
+	public void gerarTotal() {
+		this.total = 0.0;
+		for(int i = 0; i < this.comanda.size(); i++) {
+			this.total += this.comanda.get(i).getSubTotal(); 
+		}
 	}
 	
 	public String visualizar() {
@@ -449,5 +483,20 @@ public class ClienteBean {
 	public void setPedidosCozinha(List<Pedido> pedidosCozinha) {
 		this.pedidosCozinha = pedidosCozinha;
 	}
-		
+
+	public List<Pedido> getComanda() {
+		return comanda;
+	}
+
+	public void setComanda(List<Pedido> comanda) {
+		this.comanda = comanda;
+	}
+
+	public Double getTotal() {
+		return total;
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
+	}
 }

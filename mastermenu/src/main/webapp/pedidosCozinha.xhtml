@@ -20,12 +20,16 @@
                     Pedidos Cozinha
                 </f:facet>
 				<p:column headerText="Id Cliente" filterBy="#{pedido.cliente.id}"
-					sortBy="#{pedido.cliente.nome}">
-					<h:outputText value="#{pedido.cliente.nome}" />
+					sortBy="#{pedido.cliente.id}">
+					<h:outputText value="#{pedido.cliente.id}" />
 				</p:column>
 				<p:column headerText="Pedido" filterBy="#{pedido.item.nome}"
 					sortBy="#{pedido.item.nome}">
 					<h:outputText value="#{pedido.item.nome}" />
+				</p:column>
+				<p:column headerText="Quantidade" filterBy="#{pedido.quantidade}"
+					sortBy="#{pedido.quantidade}">
+					<h:outputText value="#{pedido.quantidade}" />
 				</p:column>
 			</p:dataTable>
 		</h:form>
