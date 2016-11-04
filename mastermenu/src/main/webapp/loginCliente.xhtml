@@ -25,7 +25,7 @@
 			<p:password value="#{authenticationClienteBean.clienteLogado.senha}" required="true" requiredMessage="informe a senha cadastrada" id="senha" />
 		</h:panelGrid>
 		<h:panelGrid columns="2">
-			<p:commandButton value="Entrar" update=":message" actionListener="#{authenticationClienteBean.autenticar()}" />
+			<p:commandButton value="Entrar" update=":message" actionListener="#{authenticationClienteBean.autenticar()}"/>
 			<p:link value="Voltar" href="escolherLogin.xhtml?faces-redirect=true"/>
 		
 			<p:commandLink value="Esqueci minha senha"

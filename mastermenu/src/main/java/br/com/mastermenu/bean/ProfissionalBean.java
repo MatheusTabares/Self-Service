@@ -68,7 +68,7 @@ public class ProfissionalBean {
 		this.profissional = new Profissional();
 		this.confirmarSenha = "";
 		this.listar();
-		return "listagemProfissionais";
+		return "listagemProfissionais?faces-redirect=true";
 	}
 	
 	public String atualizar() {

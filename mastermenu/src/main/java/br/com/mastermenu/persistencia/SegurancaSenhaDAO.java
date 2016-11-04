@@ -2,6 +2,7 @@ package br.com.mastermenu.persistencia;
 
 import java.util.ArrayList;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -17,9 +18,25 @@ public class SegurancaSenhaDAO {
     }
 
     public void salvar(SegurancaSenha ss) {
-        Transaction transacao = sessao.beginTransaction();
-        sessao.save(ss);
-        transacao.commit();
+    	Session sessao = null;
+		Transaction transacao = null;
+		try {
+			sessao = HibernateUtil.getSessionFactory().openSession();
+			transacao = sessao.beginTransaction();
+        	
+        	sessao.save(ss);
+     
+            transacao.commit();
+        } catch (HibernateException ex) {
+            System.out.println("Não foi possível salvar segunraça da senha. Erro: " + ex.getMessage());
+        } finally {
+        	try {
+        		// fecha a entity manager
+        		sessao.close();
+        	} catch (Throwable ex) {
+        		System.out.println("Erro ao fechar a operação de salvar segurança da senha. Mensagem:" + ex.getMessage());
+        	}
+        }
     }
 
     public SegurancaSenha carregar(Long id) {

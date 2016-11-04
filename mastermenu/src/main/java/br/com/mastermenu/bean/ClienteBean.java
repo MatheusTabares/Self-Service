@@ -90,7 +90,7 @@ public class ClienteBean {
 		this.cliente = new Cliente();
 		this.confirmarSenha = "";
 		this.listar();
-		return "listagem";
+		return "homeCliente";
 	}
 
 	public String atualizar() {
@@ -227,7 +227,7 @@ public class ClienteBean {
 	
 	public String incluirItemNaListaDePedidos() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		//if(this.pedido.getCliente().getId().equals(null)) {
+		//if(this.pedido.ge/////tCliente().getId().equals(null)) {
 			this.clienteTemporario.setId(1L);
 			this.pedido.setCliente(this.clienteTemporario);
 		//}

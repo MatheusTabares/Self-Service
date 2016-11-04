@@ -1,5 +1,7 @@
 package br.com.mastermenu.bean;
 
+import java.io.IOException;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -46,8 +48,13 @@ private Cliente clienteLogado;
 
 			if (senhaCompleta != null && senhaCompleta.equals(cliente.getSenha())) {
 				FacesMessage msg = new FacesMessage("Logado!");
+				clienteLogado = cliente;
 				context.addMessage(null, msg);
-				return "homeCliente.xhtml";
+				try {
+					FacesContext.getCurrentInstance().getExternalContext().redirect("homeCliente.xhtml");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			} else {
 				FacesMessage msg = new FacesMessage("Senha Inválida");
 				context.addMessage(null, msg);
@@ -62,5 +69,11 @@ private Cliente clienteLogado;
 		return null;
 
 	}
+	public String sair() {
+		clienteLogado = null;
+		return "/loginCliente.xhtml?faces-redirect=true";
+		
+	}
+	
 
 }
