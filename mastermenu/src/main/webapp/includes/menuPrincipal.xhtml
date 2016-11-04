@@ -7,29 +7,31 @@
 	<h:form>
 		<p:menu>
 			<p:submenu label="Itens">
-				<p:menuitem value="Gerenciar" url="itens.xhtml" />
+				<p:menuitem icon="ui-icon-gear" value="Gerenciar" url="itens.xhtml" />
 			</p:submenu>
 
 			<p:submenu label="Ingredientes">
-				<p:menuitem value="Gerenciar" url="ingredientes.xhtml" />
+				<p:menuitem icon="ui-icon-gear" value="Gerenciar" url="ingredientes.xhtml" />
 			</p:submenu>
 
 			<p:submenu label="Profissionais">
-				<p:menuitem value="Cadastrar" action="#{profissionalBean.novo}" />
-				<p:menuitem value="Listar" url="listagemProfissionais.xhtml" />
+				<p:menuitem icon="ui-icon-disk" value="Cadastrar" action="#{profissionalBean.novo}" />
+				<p:menuitem icon="ui-icon-document" value="Listar" url="listagemProfissionais.xhtml" />
 			</p:submenu>
 
 			<p:submenu label="Clientes">
-				<p:menuitem value="Cadastrar" action="#{clienteBean.novo}" />
-				<p:menuitem value="Listar" url="listagem.xhtml" />
+				<p:menuitem icon="ui-icon-disk" value="Cadastrar" action="#{clienteBean.novo}" />
+				<p:menuitem icon="ui-icon-document" value="Listar" url="listagem.xhtml" />
+				<p:menuitem icon="ui-icon-notice" value="Comandas em Aberto" url="comandasEmAberto.xhtml" />
+				<p:menuitem icon="ui-icon-document" value="Listar Comandas" url="listagemComandas.xhtml" />
 			</p:submenu>
-
+ 
 			<p:submenu label="Estabelecimento">
-				<p:menuitem value="Gerenciar" url="" />
+				<p:menuitem icon="ui-icon-gear" value="Gerenciar" url="" />
 			</p:submenu>
 			<p:submenu label="Cozinha">
-				<p:menuitem value="Pedidos Cozinha" url="pedidosCozinha.xhtml" />
-				<p:menuitem value="Pedidos Copa" url="pedidosCopa.xhtml" />
+				<p:menuitem icon="ui-icon-document" value="Pedidos Cozinha" url="pedidosCozinha.xhtml" />
+				<p:menuitem icon="ui-icon-document" value="Pedidos Copa" url="pedidosCopa.xhtml" />
 			</p:submenu>
 		</p:menu>
 	</h:form>
