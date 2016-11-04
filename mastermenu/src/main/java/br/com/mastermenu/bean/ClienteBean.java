@@ -90,7 +90,7 @@ public class ClienteBean {
 		this.cliente = new Cliente();
 		this.confirmarSenha = "";
 		this.listar();
-		return "homeCliente";
+		return "loginCliente?faces-redirect=true";
 	}
 
 	public String atualizar() {

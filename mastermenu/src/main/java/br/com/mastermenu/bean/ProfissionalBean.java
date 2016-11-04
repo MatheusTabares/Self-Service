@@ -12,6 +12,7 @@ import br.com.mastermenu.model.Cliente;
 import br.com.mastermenu.model.Endereco;
 import br.com.mastermenu.model.Profissional;
 import br.com.mastermenu.model.SegurancaSenha;
+import br.com.mastermenu.persistencia.ClienteDAO;
 import br.com.mastermenu.persistencia.ProfissionalDAO;
 import br.com.mastermenu.persistencia.SegurancaSenhaDAO;
 import br.com.mastermenu.util.HashUtil;
@@ -44,6 +45,13 @@ public class ProfissionalBean {
 
 	public String salvar() {
 		FacesContext context = FacesContext.getCurrentInstance();
+		
+		if (validacaoEmail()) {
+			FacesMessage facesMessage = new FacesMessage("Email: " + this.profissional.getEmail() + ", já cadastrado.");
+			context.addMessage(null, facesMessage);
+			this.profissional.setEmail("");
+			return null;
+		}
 		
 		String senha = this.profissional.getSenha();
 		if(!senha.trim().equals(this.confirmarSenha)) {
@@ -155,6 +163,18 @@ public class ProfissionalBean {
 		context.addMessage(null, facesMessage);
 	}
 	
+	public boolean validacaoEmail() {
+		this.listar();
+		String email = this.profissional.getEmail();
+		for (Profissional profissional: this.lista) {
+			if (email.trim().equals(profissional.getEmail())) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	
 	public void listar() {
 		this.profissionalDAO = new ProfissionalDAO();
 		this.lista = this.profissionalDAO.listar();
@@ -203,7 +223,8 @@ public class ProfissionalBean {
 	}
 
 	public List<Profissional> getLista() {
-		lista = profissionalDAO.listar();
+		this.profissionalDAO = new ProfissionalDAO();
+		this.lista = this.profissionalDAO.listar();
 		return lista;
 	}
 
