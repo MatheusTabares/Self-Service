@@ -93,8 +93,18 @@ public class ItemDAO {
 	        }
 	    }
 	    
-	    public Item carregar(int id) throws Exception {
-	        return (Item) sessao.get(Item.class, id);
+	    public Item carregar(Long id) throws Exception {
+	    	sessao = HibernateUtil.getSessionFactory().openSession();
+	    	
+	    	Item i = (Item) sessao.get(Item.class, id);
+	    	
+	        try {
+        		// fecha a entity manager
+        		sessao.close();
+        	} catch (Throwable ex) {
+        		System.out.println("Erro ao fechar a operação de adicionar. Mensagem:" + ex.getMessage());
+        	}
+	        return i;
 	    }
 
 	    

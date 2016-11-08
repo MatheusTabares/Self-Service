@@ -15,7 +15,7 @@
 
 	<ui:define name="conteudo">
 		<h:form id="form">
-			<p:dataGrid var="item" value="#{itemBean.itens}" columns="3"
+			<p:dataGrid var="item" value="#{cardapioBean.itens}" columns="3"
 				layout="grid" rows="12" paginator="true" id="itens"
 				emptyMessage="Nenhum item encontrado."
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -27,35 +27,46 @@
 
 				<p:panel header="#{item.nome}" style="text-align:center">
 					<h:panelGrid columns="1" style="width:100%">
-						<h:commandLink update=":form:display" oncomplete="PF('dlgItemEscolher').show();" title="View Detail">
-								<h:graphicImage style="width:20%" library="img" name="ALaMinuta.jpg" />
-							<f:setPropertyActionListener target="#{itemBean.item}"
-							value="#{item}" />
-						</h:commandLink>
-						
-						
+
+								<p:graphicImage style="width:20%"
+									value="#{cardapioBean.metodoLista}" width="100" height="100"
+									cache="false">
+									<f:param name="itemId" value="#{item.idItem}" />
+
+								</p:graphicImage>
 					</h:panelGrid>
+							<p:commandButton value="Detalhes" type="button" title="Item: " onclick="PF('dlgItemEscolher').show();" />
 				</p:panel>
 
 			</p:dataGrid>
-			
-			<p:dialog header="Escolher Item" widgetVar="dlgItemEscolher" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
-        	<h:form id="frmItemEscolher" style="text-align:center;" >
-        	<h:form id="pnlItemEscolher">
-          	<h:panelGrid columns="3" cellpadding="5">
-						<p:commandLink value="Enviar" update="display" />
-					</h:panelGrid>
 
-					<p:outputPanel id="display"
-						style="width:350px;padding-left:5px;margin-top:10px">
-						<p:dataList value="#{itemBean.ingredientesSelecionados}" var="ingrediente" emptyMessage="Nenhum Ingrediente Selecionado">
+
+			<p:dialog header="Escolher Item" widgetVar="dlgItemEscolher"
+				showEffect="fade" modal="true" appendTo="@(body)" hideEffect="fade">
+				<h:form id="frmItemEscolher" style="text-align:center;">
+					<h:form id="pnlItemEscolher">
+					<h:panelGrid columns="2" cellpadding="5">
+					<p:outputLabel value="Ingredientes" />
+						<p:outputPanel id="display"
+						style="width:150px;padding-left:5px;margin-top:10px">
+						<p:dataList value="#{cardapioBean.item.ingredientes}"
+							var="ingrediente" emptyMessage="Nenhum Ingrediente Selecionado">
 						#{ingrediente}
+							
 				        </p:dataList>
-				        <p:commandButton value="Fechar" onclick="PF('dlgIngredienteSelecionar').hide();" />
 					</p:outputPanel>
+					
+					<p:outputLabel value="Valor:    " />
+					
+					<p:outputLabel value="#{cardapioBean.item.valor}" />
+					
+					<p:commandButton value="Fechar"
+							onclick="PF('dlgItemEscolher').hide();" />
+							</h:panelGrid>
+					</h:form>
 				</h:form>
-			</h:form>
-		</p:dialog>
+			</p:dialog>
+
 		</h:form>
 
 	</ui:define>

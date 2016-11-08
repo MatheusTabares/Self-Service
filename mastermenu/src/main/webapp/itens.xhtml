@@ -79,61 +79,58 @@
 
 			<h:form id="frmItemNovo" enctype="multipart/form-data">
 				<h:panelGrid id="pnlItemNovo" columns="2">
-					<p:outputLabel value="Nome:" for="txtNome" />
+					<h:outputLabel value="Nome:" for="txtNome" />
 					<p:inputText id="txtNome" maxlength="50" required="true"
 						requiredMessage="O campo nome é obrigatório." size="20"
 						value="#{itemBean.item.nome}" pt:pattern="[a-z\s]+$"
 						pt:placeholder="Entre com o nome do item">
-
 					</p:inputText>
-					<p:outputLabel value="Valor:" for="txtValor" />
+					<h:outputLabel value="Valor:" for="txtValor" />
 					<p:inputText id="txtValor" maxlength="11" required="true"
 						validatorMessage="Digite um valor válido no campo Valor."
-						size="15" value="#{itemBean.item.valor}"
-						pt:placeholder="Entre com o Valor">
+						requiredMessage="O campo valor é obrigatório." size="15"
+						value="#{itemBean.item.valor}"
+						pt:placeholder="Entre com seu Valor">
 					</p:inputText>
 					<p:outputLabel value="Tipo:" />
-					<p:selectOneMenu id="tipoOM" value="#{itemBean.item.tipo}"
+					<p:selectOneMenu id="tipoEOM" value="#{itemBean.item.tipo}"
 						style="width:125px">
 						<f:selectItem itemLabel="Comida" itemValue="Comida" />
 						<f:selectItem itemLabel="Bebida" itemValue="Bebida" />
 						<f:selectItem itemLabel="Outro" itemValue="Outro" />
 					</p:selectOneMenu>
-
-
-					<p:outputLabel value="Procurar: " for="foto" />
-					<p:fileUpload id="foto" styleClass="ui-widget-upload"
-						fileUploadListener="#{itemBean.upload}" update="idImagePreview"
-						widgetVar="fileUploadWidget" value="#{itemBean.fotoUpload}"
-						mode="advanced" auto="true" sizeLimit="3000000"
+					<p:panelGrid>
+						<p:commandButton style="horizontal-align:center"
+							value="Ingredientes"
+							update=":frmIngredienteNovo:pnlIngredienteSelecionar"
+							oncomplete="PF('dlgIngredienteSelecionar').show();">
+						</p:commandButton>
+					</p:panelGrid>
+					<p:outputLabel value="Procurar: " for="fotoEditar" />
+					<p:fileUpload id="fotoEditar" styleClass="ui-widget-upload"
+						fileUploadListener="#{itemBean.upload}"
+						update="idImagePreviewEdit" widgetVar="fileUploadWidget"
+						value="#{itemBean.fotoUpload}" mode="advanced" auto="true"
+						sizeLimit="3000000"
 						invalidSizeMessage="O tamanho do documento deve ser menor ou igual a 3mb."
 						required="true" requiredMessage="Um documento deve ser escolhido"
 						allowTypes="/(\.|\/)(pdf|jpeg|png)$/" description="fotoUpload"
 						style="width:330px !important" accept=".jpg, .pdf, .png, .jpeg" />
 
-					<p:graphicImage id="idImagePreview"
+					<p:graphicImage id="idImagePreviewEdit"
 						value="#{itemBean.fotoDownload}" width="100" height="100"
 						cache="false">
 					</p:graphicImage>
-
-
-					<p:commandButton value="Ingredientes"
-						update=":frmIngredienteNovo:pnlIngredienteSelecionar"
-						oncomplete="PF('dlgIngredienteSelecionar').show();">
-					</p:commandButton>
-
-
 				</h:panelGrid>
-				<p:panelGrid columns="2">
-					<p:commandButton value="Gravar"
-						update=":frmItemListagem:tblItens :msgGlobal"
-						actionListener="#{itemBean.incluir}"
-						oncomplete="verificar(xhr, status, args, 'dlgCadItem', 'tabelaItens');">
-						<f:ajax render="pnlItemNovo" resetValues="true" />
-						<p:resetInput id="txtNome" target="pnlItemNovo" />
-					</p:commandButton>
-					<p:commandButton value="Fechar" onclick="PF('dlgCadItem').hide();" />
-				</p:panelGrid>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="Cadastrar"
+						actionListener="#{itemBean.incluir()}"
+						oncomplete="verificar(xhr, status, args, 'dlgCadItem', 'tabelaItens');"
+						update=":frmItemListagem:tblItens :msgGlobal" />
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgCadItem').hide();" />
+				</h:panelGrid>
 			</h:form>
 		</p:dialog>
 
@@ -158,9 +155,9 @@
 						style="width:350px;padding-left:5px;margin-top:10px">
 						<p:dataList value="#{itemBean.ingredientesSelecionados}"
 							var="ingrediente" emptyMessage="Nenhum Ingrediente Selecionado">
-						#{ingrediente}
-							
-				        </p:dataList>
+							#{ingrediente}
+
+       </p:dataList>
 						<p:commandButton value="Fechar"
 							onclick="PF('dlgIngredienteSelecionar').hide();" />
 					</p:outputPanel>
@@ -220,6 +217,21 @@
 							oncomplete="PF('dlgIngredienteSelecionar').show();">
 						</p:commandButton>
 					</p:panelGrid>
+					<p:outputLabel value="Procurar: " for="fotoEditar" />
+					<p:fileUpload id="fotoEditar" styleClass="ui-widget-upload"
+						fileUploadListener="#{itemBean.upload}"
+						update="idImagePreviewEdit" widgetVar="fileUploadWidget"
+						value="#{itemBean.fotoUpload}" mode="advanced" auto="true"
+						sizeLimit="3000000"
+						invalidSizeMessage="O tamanho do documento deve ser menor ou igual a 3mb."
+						required="true" requiredMessage="Um documento deve ser escolhido"
+						allowTypes="/(\.|\/)(pdf|jpeg|png)$/" description="fotoUpload"
+						style="width:330px !important" accept=".jpg, .pdf, .png, .jpeg" />
+
+					<p:graphicImage id="idImagePreviewEdit"
+						value="#{itemBean.fotoDownload}" width="100" height="100"
+						cache="false">
+					</p:graphicImage>
 				</h:panelGrid>
 				<h:panelGrid columns="2">
 					<p:commandButton value="Editar" actionListener="#{itemBean.editar}"
@@ -254,7 +266,7 @@
 					        #{ing.nome}
 					  </p:dataList>
 
-					  <p:graphicImage value="#{itemBean.metodo()}" width="100"
+					<p:graphicImage value="#{itemBean.metodo()}" width="100"
 						height="100" cache="false">
 						<f:param name="itemId" value="#{itemBean.item.idItem}" />
 					</p:graphicImage>

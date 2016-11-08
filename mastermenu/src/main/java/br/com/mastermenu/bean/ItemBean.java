@@ -139,8 +139,6 @@ public class ItemBean {
 		}
 	}
 
-
-
 	public StreamedContent metodo() throws IOException, Exception {
 		FacesContext context = FacesContext.getCurrentInstance();
 
@@ -153,9 +151,27 @@ public class ItemBean {
 			// So, browser is requesting the image. Return a real
 			// StreamedContent with the image bytes.
 			return new DefaultStreamedContent(new ByteArrayInputStream(item.getFoto()));
-			}
 		}
-	
+	}
+
+	public StreamedContent getImage() throws IOException, Exception {
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+			// So, we're rendering the HTML. Return a stub StreamedContent so
+			// that it will generate right URL.
+			return new DefaultStreamedContent();
+		} else {
+			// So, browser is requesting the image. Return a real
+			// StreamedContent with the image bytes.
+			String itemId = context.getExternalContext().getRequestParameterMap().get("itemId");
+			ItemDAO dao = new ItemDAO();
+			Item item = dao.carregar(Long.valueOf(itemId));
+
+			return new DefaultStreamedContent(new ByteArrayInputStream(item.getFoto()));
+
+		}
+	}
 
 	public Item getItem() {
 		return item;
