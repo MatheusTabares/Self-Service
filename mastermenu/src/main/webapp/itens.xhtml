@@ -75,7 +75,7 @@
 			</p:dataTable>
 		</h:form>
 		<p:dialog widgetVar="dlgCadItem" closable="true" header="Item - Novo"
-			modal="true" appendTo="@(body)" draggable="false" resizable="false">
+			modal="true" appendTo="@(body)" showEffect="clip" draggable="false" resizable="false">
 
 			<h:form id="frmItemNovo" enctype="multipart/form-data">
 				<h:panelGrid id="pnlItemNovo" columns="2">
@@ -137,7 +137,7 @@
 
 		<p:dialog widgetVar="dlgIngredienteSelecionar"
 			header="Ingrediente - Selecionar" closable="false" draggable="false"
-			resizable="false" modal="true" appendTo="@(body)">
+			resizable="false" modal="true" showEffect="clip" appendTo="@(body)">
 			<h:form id="frmIngredienteNovo">
 				<h:form id="pnlIngredienteSelecionar">
 					<h:panelGrid columns="3" cellpadding="5">

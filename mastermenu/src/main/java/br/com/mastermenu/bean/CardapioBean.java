@@ -53,6 +53,11 @@ public class CardapioBean {
 			return metodoLista;
 		}
 	}
+	
+	public void buscaDados(Long id) throws NumberFormatException, Exception {
+			ItemDAO dao = new ItemDAO();
+			item = dao.carregar(id);
+	}
 
 	@PostConstruct
 	public void prepararPesquisa() {
