@@ -19,9 +19,9 @@
 				<f:facet name="header">
                     Pedidos Cozinha
                 </f:facet>
-				<p:column headerText="Id Cliente" filterBy="#{pedido.cliente.id}"
-					sortBy="#{pedido.cliente.id}">
-					<h:outputText value="#{pedido.cliente.id}" />
+				<p:column headerText="Nome Cliente" filterBy="#{pedido.cliente.nome}"
+					sortBy="#{pedido.cliente.nome}">
+					<h:outputText value="#{pedido.cliente.nome}" />
 				</p:column>
 				<p:column headerText="Pedido" filterBy="#{pedido.item.nome}"
 					sortBy="#{pedido.item.nome}">

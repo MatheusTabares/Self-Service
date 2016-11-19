@@ -10,5 +10,27 @@
 		<ui:include src="/includes/menuPrincipal.xhtml" />
 	</ui:define>
 	<ui:define name="conteudo">
+		<h:form id="frmItemListagem">
+			<p:dataTable id="tblItens" widgetVar="tabelaItens" paginator="true"
+				emptyMessage="Nenhum Cliente com Comanda aberta." var="comanda"
+				value="#{clienteBean.comandasEmAberto}">
+
+				<f:facet name="header">
+                    Lista de Comandas em Aberto
+                </f:facet>
+
+
+				<p:column headerText="Nome Cliente" filterBy="#{comanda.cliente.nome}"
+					sortBy="#{comanda.cliente.nome}">
+					<h:outputText value="#{comanda.cliente.nome}" />
+				</p:column>
+
+				<p:column headerText="Valor Total">
+					<h:outputText value="#{clienteBean.total}" />
+				</p:column>
+			</p:dataTable>
+		</h:form>
+		
+		<p:growl id="messages" showDetail="true" autoUpdate="true" life="5000" />		
 	</ui:define>
 </ui:composition>

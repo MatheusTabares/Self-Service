@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Login Cliente</title>
+</h:head>
+<h:head>
+	<h:outputStylesheet library="css" name="estilo.css" />
+</h:head>
+<h:body class="corpo">
+	<div>
+		<h:graphicImage library="img" name="master-menu-logo1.png"
+			style="margin-left:45%; width:100px; height:60px" />
+	</div>
+	<p:growl id="message" />
+	<p:dialog header="Autenticacão" visible="true" closable="false"
+		draggable="false" resizable="false" modal="true">
+		<h:form>
+			<h:panelGrid columns="2">
+				<p:outputLabel for="login" value="E-mail: " />
+				<p:inputText
+					value="#{authenticationClienteBean.clienteLogado.email}"
+					required="true" requiredMessage="informe seu email cadastrado"
+					id="login" />
+				<p:outputLabel for="senha" value="Senha: " />
+				<p:password value="#{authenticationClienteBean.clienteLogado.senha}"
+					required="true" requiredMessage="informe a senha cadastrada"
+					id="senha" />
+			</h:panelGrid>
+			<h:panelGrid columns="2">
+				<p:commandButton value="Entrar" update=":message"
+					actionListener="#{authenticationClienteBean.autenticar()}" />
+				<p:link value="Voltar"
+					href="escolherLogin.xhtml?faces-redirect=true" />
+
+				<p:commandLink value="Esqueci minha senha"
+					oncomplete="PF('dlgEsqSenha').show();" />
+			</h:panelGrid>
+		</h:form>
+		<h:form>
+			<h:commandLink action="#{authenticationFace.conectar()}"
+				value="conectar Com Facebook" />
+		</h:form>
+	</p:dialog>
+
+
+	<p:dialog widgetVar="dlgEsqSenha" closable="true"
+		header="Ingrediente - Novo" modal="true" appendTo="@(body)"
+		draggable="false" resizable="false">
+
+		<h:form id="frmReqSenha">
+			<h:form id="recuperaSenha">
+				<p:panelGrid columns="2">
+					<p:outputLabel value="Digite seu email:" for="txtEmail" />
+					<p:inputText id="txtEmail" value="#{clienteBean.cliente.email}" />
+					<p:outputLabel value="Digite sua senha atual:" for="txtSenha" />
+					<p:password id="txtSenha" value="#{clienteBean.cliente.senha}" />
+					<p:outputLabel value="Nova Senha:" for="txtNovaSenha" />
+					<p:password id="txtNovaSenha" value="#{clienteBean.novaSenha}" />
+					<p:outputLabel value="Confirma Nova Senha:"
+						for="txtConfirmaNovaSenha" />
+					<p:password id="txtConfirmaNovaSenha"
+						value="#{clienteBean.confirmarSenha}" />
+
+					<p:commandButton value="Alterar"
+						actionListener="#{clienteBean.novaSenha()}">
+						<f:ajax render="recuperarSenha" resetValues="true" />
+						<p:resetInput id="txtNome" target="recuperarSenha" />
+					</p:commandButton>
+					<p:commandButton value="Fechar"
+						actionListener="#{clienteBean.novaSenha}"
+						onclick="PF('dlgEsqSenha').hide();" />
+				</p:panelGrid>
+			</h:form>
+		</h:form>
+	</p:dialog>
+
+</h:body>
+</html>

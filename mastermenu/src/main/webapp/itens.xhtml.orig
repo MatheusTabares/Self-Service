@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets" template="tema.xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+	<ui:define name="menu">
+		<ui:include src="/includes/menuPrincipal.xhtml" />
+	</ui:define>
+	<h:outputScript library="js" name="script.js" />
+
+	<ui:define name="conteudo">
+		<h:form id="frmItemListagem">
+			<p:dataTable id="tblItens" widgetVar="tabelaItens" paginator="true"
+				emptyMessage="Nenhum item encontrado." var="item" rows="5"
+				filteredValue="#{itemBean.itensFiltrados}" value="#{itemBean.itens}">
+
+				<f:facet name="header">
+                    Itens
+                </f:facet>
+
+
+				<p:column headerText="id" sortBy="#{item.idItem}"
+					filterBy="#{item.idItem}">
+					<h:outputText value="#{item.idItem}" />
+				</p:column>
+
+				<p:column headerText="Nome" filterBy="#{item.nome}"
+					sortBy="#{item.nome}">
+					<h:outputText value="#{item.nome}" />
+				</p:column>
+
+				<p:column headerText="Valor" filterBy="#{item.valor}"
+					sortBy="#{item.valor}">
+					<h:outputText value="#{item.valor}" />
+				</p:column>
+
+				<p:column headerText="Tipo" filterBy="#{item.tipo}"
+					sortBy="#{item.tipo}">
+					<h:outputText value="#{item.tipo}" />
+				</p:column>
+
+				<p:column headerText="Ações">
+					<p:commandButton icon="ui-icon-circle-zoomin"
+						oncomplete="PF('dlgItemConsultar').show();"
+						update=":frmItemConsultar:pnlItemConsultar">
+						<f:setPropertyActionListener target="#{itemBean.item}"
+							value="#{item}" />
+					</p:commandButton>
+					<p:commandButton icon="ui-icon-trash"
+						oncomplete="PF('dlgItemExcluir').show();"
+						update=":frmItemExcluir:pnlItemExcluir">
+						<f:setPropertyActionListener target="#{itemBean.item}"
+							value="#{item}" />
+					</p:commandButton>
+					<p:commandButton icon="ui-icon-pencil"
+						oncomplete="PF('dlgItemEditar').show();"
+						update=":frmItemEditar:pnlItemEditar">
+						<f:setPropertyActionListener target="#{itemBean.item}"
+							value="#{item}" />
+					</p:commandButton>
+				</p:column>
+
+				<f:facet name="footer">
+					<p:commandButton value="Novo" update=":frmItemNovo:pnlItemNovo"
+						actionListener="#{itemBean.preparaNovo()}"
+						oncomplete="PF('dlgCadItem').show();">
+					</p:commandButton>
+				</f:facet>
+
+			</p:dataTable>
+		</h:form>
+		<p:dialog widgetVar="dlgCadItem" closable="true" header="Item - Novo"
+			modal="true" appendTo="@(body)" showEffect="clip" draggable="false" resizable="false">
+
+			<h:form id="frmItemNovo" enctype="multipart/form-data">
+				<h:panelGrid id="pnlItemNovo" columns="2">
+					<h:outputLabel value="Nome:" for="txtNome" />
+					<p:inputText id="txtNome" maxlength="50" required="true"
+						requiredMessage="O campo nome é obrigatório." size="20"
+						value="#{itemBean.item.nome}" pt:pattern="[a-z\s]+$"
+						pt:placeholder="Entre com o nome do item">
+					</p:inputText>
+					<h:outputLabel value="Valor:" for="txtValor" />
+					<p:inputText id="txtValor" maxlength="11" required="true"
+						validatorMessage="Digite um valor válido no campo Valor."
+						requiredMessage="O campo valor é obrigatório." size="15"
+						value="#{itemBean.item.valor}"
+						pt:placeholder="Entre com seu Valor">
+					</p:inputText>
+					<p:outputLabel value="Tipo:" />
+					<p:selectOneMenu id="tipoEOM" value="#{itemBean.item.tipo}"
+						style="width:125px">
+						<f:selectItem itemLabel="Comida" itemValue="Comida" />
+						<f:selectItem itemLabel="Bebida" itemValue="Bebida" />
+						<f:selectItem itemLabel="Outro" itemValue="Outro" />
+					</p:selectOneMenu>
+					<p:panelGrid>
+						<p:commandButton style="horizontal-align:center"
+							value="Ingredientes"
+							update=":frmIngredienteNovo:pnlIngredienteSelecionar"
+							oncomplete="PF('dlgIngredienteSelecionar').show();">
+						</p:commandButton>
+					</p:panelGrid>
+					<p:outputLabel value="Procurar: " for="fotoEditar" />
+					<p:fileUpload id="fotoEditar" styleClass="ui-widget-upload"
+						fileUploadListener="#{itemBean.upload}"
+						update="idImagePreviewEdit" widgetVar="fileUploadWidget"
+						value="#{itemBean.fotoUpload}" mode="advanced" auto="true"
+						sizeLimit="3000000"
+						invalidSizeMessage="O tamanho do documento deve ser menor ou igual a 3mb."
+						required="true" requiredMessage="Um documento deve ser escolhido"
+						allowTypes="/(\.|\/)(pdf|jpeg|png)$/" description="fotoUpload"
+						style="width:330px !important" accept=".jpg, .pdf, .png, .jpeg" />
+
+					<p:graphicImage id="idImagePreviewEdit"
+						value="#{itemBean.fotoDownload}" width="100" height="100"
+						cache="false">
+					</p:graphicImage>
+				</h:panelGrid>
+
+				<h:panelGrid columns="2">
+					<p:commandButton value="Cadastrar"
+						actionListener="#{itemBean.incluir()}"
+						oncomplete="verificar(xhr, status, args, 'dlgCadItem', 'tabelaItens');"
+						update=":frmItemListagem:tblItens :msgGlobal" />
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgCadItem').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+
+		<p:dialog widgetVar="dlgIngredienteSelecionar"
+			header="Ingrediente - Selecionar" closable="false" draggable="false"
+			resizable="false" modal="true" showEffect="clip" appendTo="@(body)">
+			<h:form id="frmIngredienteNovo">
+				<h:form id="pnlIngredienteSelecionar">
+					<h:panelGrid columns="3" cellpadding="5">
+						<h:outputLabel for="menu" value="Ingredientes:" />
+						<p:selectCheckboxMenu id="menu" converter="contratoConverter"
+							value="#{itemBean.ingredientesSelecionados}" label="Itens"
+							filter="true" filterMatchMode="startsWith"
+							panelStyle="width:350px">
+							<f:selectItems value="#{ingredienteBean.ingredientes}" />
+						</p:selectCheckboxMenu>
+						<p:commandLink value="Enviar" update="display" />
+					</h:panelGrid>
+
+					<p:outputPanel id="display"
+						style="width:350px;padding-left:5px;margin-top:10px">
+						<p:dataList value="#{itemBean.ingredientesSelecionados}"
+							var="ingrediente" emptyMessage="Nenhum Ingrediente Selecionado">
+							#{ingrediente}
+
+       </p:dataList>
+						<p:commandButton value="Fechar"
+							onclick="PF('dlgIngredienteSelecionar').hide();" />
+					</p:outputPanel>
+				</h:form>
+			</h:form>
+		</p:dialog>
+
+
+		<p:dialog widgetVar="dlgItemExcluir" header="Item - Excluir"
+			closable="false" draggable="false" resizable="false" modal="true"
+			appendTo="@(body)">
+			<h:form id="frmItemExcluir">
+				<h:panelGrid id="pnlItemExcluir" columns="2">
+					<p:outputLabel value="Código: " />
+					<h:outputText value="#{itemBean.item.idItem}" />
+					<p:outputLabel value="Nome: " />
+					<h:outputText value="#{itemBean.item.nome}" />
+				</h:panelGrid>
+				<p:commandButton value="Exclusão Lógica"
+					actionListener="#{itemBean.exclusaoLogica()}"
+					oncomplete="PF('dlgItemExcluir').hide();"
+					update=":frmItemListagem:tblItens :msgGlobal" />
+				<p:commandButton value="Cancelar"
+					onclick="PF('dlgItemExcluir').hide();" />
+			</h:form>
+		</p:dialog>
+
+		<p:dialog widgetVar="dlgItemEditar" closable="false" draggable="false"
+			resizable="false" modal="true" appendTo="@(body)"
+			header="Item - Editar">
+			<h:form id="frmItemEditar">
+				<h:panelGrid id="pnlItemEditar" columns="2">
+					<h:outputLabel value="Nome:" for="txtNome" />
+					<p:inputText id="txtNome" maxlength="50" required="true"
+						requiredMessage="O campo nome é obrigatório." size="20"
+						value="#{itemBean.item.nome}" pt:pattern="[a-z\s]+$"
+						pt:placeholder="Entre com o nome do item">
+					</p:inputText>
+					<h:outputLabel value="Valor:" for="txtValor" />
+					<p:inputText id="txtValor" maxlength="11" required="true"
+						validatorMessage="Digite um valor válido no campo Valor."
+						requiredMessage="O campo valor é obrigatório." size="15"
+						value="#{itemBean.item.valor}"
+						pt:placeholder="Entre com seu Valor">
+					</p:inputText>
+					<p:outputLabel value="Tipo:" />
+					<p:selectOneMenu id="tipoEOM" value="#{itemBean.item.tipo}"
+						style="width:125px">
+						<f:selectItem itemLabel="Comida" itemValue="Comida" />
+						<f:selectItem itemLabel="Bebida" itemValue="Bebida" />
+						<f:selectItem itemLabel="Outro" itemValue="Outro" />
+					</p:selectOneMenu>
+					<p:panelGrid>
+						<p:commandButton style="horizontal-align:center"
+							value="Ingredientes"
+							update=":frmIngredienteNovo:pnlIngredienteSelecionar"
+							oncomplete="PF('dlgIngredienteSelecionar').show();">
+						</p:commandButton>
+					</p:panelGrid>
+					<p:outputLabel value="Procurar: " for="fotoEditar" />
+					<p:fileUpload id="fotoEditar" styleClass="ui-widget-upload"
+						fileUploadListener="#{itemBean.upload}"
+						update="idImagePreviewEdit" widgetVar="fileUploadWidget"
+						value="#{itemBean.fotoUpload}" mode="advanced" auto="true"
+						sizeLimit="3000000"
+						invalidSizeMessage="O tamanho do documento deve ser menor ou igual a 3mb."
+						required="true" requiredMessage="Um documento deve ser escolhido"
+						allowTypes="/(\.|\/)(pdf|jpeg|png)$/" description="fotoUpload"
+						style="width:330px !important" accept=".jpg, .pdf, .png, .jpeg" />
+
+					<p:graphicImage id="idImagePreviewEdit"
+						value="#{itemBean.fotoDownload}" width="100" height="100"
+						cache="false">
+					</p:graphicImage>
+				</h:panelGrid>
+				<h:panelGrid columns="2">
+					<p:commandButton value="Editar" actionListener="#{itemBean.editar}"
+						oncomplete="verificar(xhr, status, args, 'dlgItemEditar', 'tabelaItens');"
+						update=":frmItemListagem:tblItens :msgGlobal" />
+					<p:commandButton value="Cancelar"
+						onclick="PF('dlgItemEditar').hide();" />
+				</h:panelGrid>
+			</h:form>
+		</p:dialog>
+
+		<p:dialog widgetVar="dlgItemConsultar" header="Item - Consultar"
+			closable="false" draggable="false" resizable="false" modal="true"
+			appendTo="@(body)">
+			<h:form id="frmItemConsultar">
+				<h:panelGrid id="pnlItemConsultar" columns="2"
+					style="width:300px; height:150px;">
+					<h:outputLabel value="Id: " />
+					<h:outputText value="#{itemBean.item.idItem}" />
+					<h:outputLabel value="Nome: " />
+					<h:outputText value="#{itemBean.item.nome}" />
+					<h:outputLabel value="Valor: " />
+					<h:outputText value="#{itemBean.item.valor}" />
+					<h:outputLabel value="Tipo: " />
+					<h:outputText value="#{itemBean.item.tipo}" />
+					<h:outputLabel value="Ingredientes: " />
+					<p:dataList value="#{itemBean.item.ingredientes}" var="ing"
+						type="ordered">
+						<f:facet name="Ingredientes">
+					            Basic
+					        </f:facet>
+					        #{ing.nome}
+					  </p:dataList>
+
+					<p:graphicImage value="#{itemBean.metodo()}" width="100"
+						height="100" cache="false">
+						<f:param name="itemId" value="#{itemBean.item.idItem}" />
+					</p:graphicImage>
+				</h:panelGrid>
+
+				<p:commandButton value="Voltar"
+					onclick="PF('dlgItemConsultar').hide();" />
+			</h:form>
+		</p:dialog>
+
+	</ui:define>
+</ui:composition>

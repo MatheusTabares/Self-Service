@@ -12,41 +12,41 @@
 	<ui:define name="conteudo">
 		<h:form id="frmItemListagem">
 			<p:dataTable id="tblItens" widgetVar="tabelaItens" paginator="true"
-				emptyMessage="Nenhum item encontrado." var="item"
-				value="#{clienteBean.pedido.listaItens}">
+				emptyMessage="Nenhum item encontrado." var="pedido"
+				value="#{clienteBean.pedidos}">
 
 				<f:facet name="header">
                     Lista de Pedidos
                 </f:facet>
 
 
-				<p:column headerText="Nome" filterBy="#{item.nome}"
-					sortBy="#{item.nome}">
-					<h:outputText value="#{item.nome}" />
+				<p:column headerText="Nome" filterBy="#{pedido.item.nome}"
+					sortBy="#{pedido.item.nome}">
+					<h:outputText value="#{pedido.item.nome}" />
 				</p:column>
 
-				<p:column headerText="Valor" filterBy="#{item.valor}"
-					sortBy="#{item.valor}">
-					<h:outputText value="#{item.valor}" />
+				<p:column headerText="Valor" filterBy="#{pedido.item.valor}"
+					sortBy="#{pedido.item.valor}">
+					<h:outputText value="#{pedido.item.valor}" />
 				</p:column>
 				
-				<p:column headerText="Quantidade" filterBy="#{item.quantidade}"
-					sortBy="#{item.quantidade}">
-					<h:outputText value="#{item.quantidade}" />
+				<p:column headerText="Quantidade" filterBy="#{pedido.quantidade}"
+					sortBy="#{pedido.quantidade}">
+					<h:outputText value="#{pedido.quantidade}" />
 				</p:column>
 
 				<p:column headerText="Ações">
 					<p:commandButton icon="ui-icon-circle-zoomin"
 						oncomplete="PF('dlgItemConsultar').show();"
 						update=":frmItemConsultar:pnlItemConsultar">
-						<f:setPropertyActionListener target="#{clienteBean.item}"
-							value="#{item}" />
+						<f:setPropertyActionListener target="#{clienteBean.pedido}"
+							value="#{pedido}" />
 					</p:commandButton>
 					<p:commandButton icon="ui-icon-trash"
 						oncomplete="PF('dlgItemExcluir').show();"
 						update=":frmItemExcluir:pnlItemExcluir">
-						<f:setPropertyActionListener target="#{clienteBean.item}"
-							value="#{item}" />
+						<f:setPropertyActionListener target="#{clienteBean.pedido}"
+							value="#{pedido}" />
 					</p:commandButton>
 				</p:column>
 				<f:facet name="footer">                                                  
@@ -83,15 +83,15 @@
 				<h:panelGrid id="pnlItemConsultar" columns="2"
 					style="width:300px; height:150px;">
 					<h:outputLabel value="Id: " />
-					<h:outputText value="#{clienteBean.item.idItem}" />
+					<h:outputText value="#{clienteBean.pedido.item.idItem}" />
 					<h:outputLabel value="Nome: " />
-					<h:outputText value="#{clienteBean.item.nome}" />
+					<h:outputText value="#{clienteBean.pedido.item.nome}" />
 					<h:outputLabel value="Valor: " />
-					<h:outputText value="#{clienteBean.item.valor}" />
+					<h:outputText value="#{clienteBean.pedido.item.valor}" />
 					<h:outputLabel value="Tipo: " />
-					<h:outputText value="#{clienteBean.item.tipo}" />
+					<h:outputText value="#{clienteBean.pedido.item.tipo}" />
 					<h:outputLabel value="Ingredientes: " />
-					<p:dataList value="#{clienteBean.item.ingredientes}" var="ing"
+					<p:dataList value="#{clienteBean.pedido.item.ingredientes}" var="ing"
 						type="ordered">
 						<f:facet name="Ingredientes">
 					            Basic
@@ -113,7 +113,7 @@
 					<p:outputLabel value="Tem certeza que deseja excluir seu pedido? " />
 					<h:outputText value="" />
 					<p:outputLabel value="Nome: " />
-					<h:outputText value="#{clienteBean.item.nome}" />
+					<h:outputText value="#{clienteBean.pedido.item.nome}" />
 				</h:panelGrid>
 				<p:commandButton value="Excluir da Lista"
 					actionListener="#{clienteBean.excluirItemDaListaDePedidos()}"

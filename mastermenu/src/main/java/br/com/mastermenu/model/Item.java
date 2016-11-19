@@ -2,9 +2,9 @@ package br.com.mastermenu.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -52,17 +52,8 @@ public class Item implements Serializable {
 	@Column(name = "dataCadastro")
 	private Calendar dataDeInscricao = Calendar.getInstance();
 	
-	@OneToOne(mappedBy = "item")
-	private Pedido pedido;
+	private Integer quantidade = 1;
 	
-	public Pedido getPedido() {
-		return pedido;
-	}
-
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
-	}
-
 	public String getNome() {
 		return this.nome;
 	}
@@ -104,7 +95,13 @@ public class Item implements Serializable {
 		this.ativo = ativo;
 	}
 	
-	
+	public Integer getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(Integer quantidade) {
+		this.quantidade = quantidade;
+	}
 
 	@Override
 	public String toString() {
@@ -120,15 +117,34 @@ public class Item implements Serializable {
 	public void setTipo(Tipo tipo) {
 		this.tipo = tipo;
 	}
+	
+	public Calendar getDataDeInscricao() {
+		return dataDeInscricao;
+	}
+
+	public void setDataDeInscricao(Calendar dataDeInscricao) {
+		this.dataDeInscricao = dataDeInscricao;
+	}
+
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (ativo ? 1231 : 1237);
+		result = prime * result + ((dataDeInscricao == null) ? 0 : dataDeInscricao.hashCode());
+		result = prime * result + Arrays.hashCode(foto);
 		result = prime * result + ((idItem == null) ? 0 : idItem.hashCode());
 		result = prime * result + ((ingredientes == null) ? 0 : ingredientes.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
+		result = prime * result + ((quantidade == null) ? 0 : quantidade.hashCode());
 		result = prime * result + ((tipo == null) ? 0 : tipo.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(valor);
@@ -147,6 +163,13 @@ public class Item implements Serializable {
 		Item other = (Item) obj;
 		if (ativo != other.ativo)
 			return false;
+		if (dataDeInscricao == null) {
+			if (other.dataDeInscricao != null)
+				return false;
+		} else if (!dataDeInscricao.equals(other.dataDeInscricao))
+			return false;
+		if (!Arrays.equals(foto, other.foto))
+			return false;
 		if (idItem == null) {
 			if (other.idItem != null)
 				return false;
@@ -162,28 +185,16 @@ public class Item implements Serializable {
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
+		if (quantidade == null) {
+			if (other.quantidade != null)
+				return false;
+		} else if (!quantidade.equals(other.quantidade))
+			return false;
 		if (tipo != other.tipo)
 			return false;
 		if (Double.doubleToLongBits(valor) != Double.doubleToLongBits(other.valor))
 			return false;
 		return true;
 	}
-
-	public Calendar getDataDeInscricao() {
-		return dataDeInscricao;
-	}
-
-	public void setDataDeInscricao(Calendar dataDeInscricao) {
-		this.dataDeInscricao = dataDeInscricao;
-	}
-
-	public byte[] getFoto() {
-		return foto;
-	}
-
-	public void setFoto(byte[] foto) {
-		this.foto = foto;
-	}
-
-	
+		
 }

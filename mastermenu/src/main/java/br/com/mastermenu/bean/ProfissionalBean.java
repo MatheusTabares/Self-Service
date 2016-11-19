@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import br.com.mastermenu.enums.CargoProfissional;
 import br.com.mastermenu.model.Cliente;
 import br.com.mastermenu.model.Endereco;
 import br.com.mastermenu.model.Profissional;
@@ -33,6 +34,10 @@ public class ProfissionalBean {
 	private List<Profissional> lista = new ArrayList<Profissional>();
 	private List<Profissional> listaAtivos = new ArrayList<Profissional>();
 	
+	public String comandasEmAberto() {
+		return "comandasEmAberto";
+	}
+	
 	public String novo(){
 		this.destinoSalvar = "sucessoProfissional";
 		this.profissional = new Profissional();
@@ -41,6 +46,11 @@ public class ProfissionalBean {
 		this.profissional.setToken("token");
 		this.profissional.setSalario(0.0f);
 		return "cadastrarProfissional";
+	}
+	
+	/*Aqui método que acesso no selectOneMenu*/
+	public CargoProfissional[] getCargos(){
+		return CargoProfissional.values();
 	}
 
 	public String salvar() {

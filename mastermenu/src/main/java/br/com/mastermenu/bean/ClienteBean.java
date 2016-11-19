@@ -2,9 +2,9 @@ package br.com.mastermenu.bean;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import br.com.mastermenu.model.Cliente;
@@ -19,74 +19,89 @@ import br.com.mastermenu.util.HashUtil;
 @ManagedBean(name = "clienteBean")
 @SessionScoped
 public class ClienteBean {
+	
+	@ManagedProperty(value = "#{authenticationClienteBean}")
+	private AuthenticationClienteBean authenticationClienteBean;
 	private String senha;
 	private String novaSenha;
-	private EnderecoBean enderecoBean = new EnderecoBean();
-	private Endereco endereco = new Endereco();
-	private Cliente cliente = new Cliente();
+	private EnderecoBean enderecoBean;
+	private Endereco endereco;
+	private Cliente cliente;
 	private String confirmarSenha;
 	private String destinoSalvar;
-	private List<Cliente> lista = new ArrayList<Cliente>();
-	private List<Cliente> listaAtivos = new ArrayList<Cliente>();
-	private ClienteDAO clienteDAO = new ClienteDAO();
-	private SegurancaSenha segurancaSenha = new SegurancaSenha();
-	private SegurancaSenhaDAO segurancaSenhaDAO = new SegurancaSenhaDAO();
-	private String msgCompleteSeusDados = "";
-	private Item item = new Item();
+	private List<Cliente> lista;
+	private List<Cliente> listaAtivos;
+	private ClienteDAO clienteDAO;
+	private SegurancaSenha segurancaSenha;
+	private SegurancaSenhaDAO segurancaSenhaDAO;
+	private String msgCompleteSeusDados;
+	private Item item;
 	private List<Pedido> listaDePedidos = new ArrayList<Pedido>();
-	private Double totalPedidos;
-	private CozinhaBean cozinhaBean = new CozinhaBean();
-	private Cliente clienteTemporario = new Cliente();
-	private Pedido pedido = new Pedido();
-	private List<Pedido> pedidos = new ArrayList<Pedido>();
-	private List<Pedido> pedidosCopa = new ArrayList<Pedido>();
-	private CopaBean copaBean = new CopaBean();
-	private List<Pedido> pedidosCozinha = new ArrayList<Pedido>();
-	private List<Pedido> comanda = new ArrayList<Pedido>();
-	private Double total = 0.0;
+	private Pedido pedido;
+	private List<Pedido> pedidos;
+	private List<Pedido> pedidosCopa;
+	private List<Pedido> pedidosCozinha;
+	private List<Item> acompanharPedidosCopa;
+	private List<Item> acompanharPedidosCozinha;
 	
 	public ClienteBean() {
-		this.destinoSalvar = "sucesso";
 		this.cliente = new Cliente();
+		this.segurancaSenha = new SegurancaSenha();
+		this.segurancaSenhaDAO = new SegurancaSenhaDAO();
+		this.clienteDAO = new ClienteDAO();
+		this.enderecoBean = new EnderecoBean();
+		this.endereco = new Endereco();
+		this.destinoSalvar = "sucesso";
+		this.msgCompleteSeusDados = "";
+		this.senha = "";
+		this.novaSenha = "";
+		this.lista = new ArrayList<Cliente>();
+		this.listaAtivos = new ArrayList<Cliente>();
+		this.item = new Item();
+		this.pedido  = new Pedido();
+		this.pedidos = new ArrayList<Pedido>();
+		this.pedidosCopa = new ArrayList<Pedido>();
+		this.pedidosCozinha = new ArrayList<Pedido>();
+		this.acompanharPedidosCopa = new ArrayList<Item>();
+		this.acompanharPedidosCozinha = new ArrayList<Item>();
+	}
+
+	public void novo() {
+		this.destinoSalvar = "sucesso";
 		this.cliente.setAtivo(true);
+		this.cliente.setCpf("12345678910");
+		this.cliente.setCupom("cupom");
+		this.cliente.setTelefone("telefone");
 		this.cliente.setToken("token");
 		this.cliente.setImagem("imagem");
 	}
-
-	public String novo() {
-		this.destinoSalvar = "sucesso";
-		this.cliente = new Cliente();
-		this.cliente.setAtivo(true);
-		this.cliente.setToken("token");
-		this.cliente.setImagem("imagem");
-		return "cadastrarCliente";
-	}
-
+	
 	public String salvar() {
 		FacesContext context = FacesContext.getCurrentInstance();
 
-		if (validacaoEmail()) {
+		if (validarEmail()) {
 			FacesMessage facesMessage = new FacesMessage("Email: " + this.cliente.getEmail() + ", já cadastrado.");
 			context.addMessage(null, facesMessage);
+			this.cliente = new Cliente();
 			return null;
 		}
 		String senha = this.cliente.getSenha();
 		if (!senha.trim().equals(this.confirmarSenha)) {
 			FacesMessage facesMessage = new FacesMessage("A senha nao foi confirmada corretamente");
 			context.addMessage(null, facesMessage);
+			this.confirmarSenha = "";
 			return null;
 		}
 
-		this.clienteDAO = new ClienteDAO();
+		novo();
 		this.cliente.setSenha(HashUtil.geraHash(this.cliente.getSenha(), this.segurancaSenha.getSALT()));
 		this.cliente.setEndereco(this.endereco);
 		this.clienteDAO.salvar(this.cliente);
-		Cliente cliente = new Cliente();
-		cliente = this.clienteDAO.carregarPorEmail(this.cliente.getEmail());
-		this.segurancaSenha.setUsuario(cliente);
+		this.segurancaSenha.setUsuario(this.cliente);
 		this.segurancaSenhaDAO.salvar(this.segurancaSenha);
 		FacesMessage facesMessage = new FacesMessage("Cliente " + this.cliente.getNome() + " cadastrado com sucesso!");
 		context.addMessage(null, facesMessage);
+		this.senha = "";
 		this.cliente = new Cliente();
 		this.confirmarSenha = "";
 		this.listar();
@@ -95,7 +110,6 @@ public class ClienteBean {
 
 	public String atualizar() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		this.enderecoBean = new EnderecoBean();
 		String senhaTela = HashUtil.geraHash(this.confirmarSenha, this.cliente.getSegurancaSenha().getSALT());
 		String senhaCliente = this.cliente.getSenha();
 		if (!senhaTela.trim().equals(senhaCliente)) {
@@ -112,13 +126,16 @@ public class ClienteBean {
 		this.clienteDAO.atualizar(this.cliente);
 		FacesMessage facesMessage = new FacesMessage("Cliente " + this.cliente.getNome() + " atualizado com sucesso.");
 		context.addMessage(null, facesMessage);
-		this.senha = "";
 		this.cliente = new Cliente();
 		this.endereco = new Endereco();
+		this.confirmarSenha = "";
+		senhaTela = "";
+		senhaCliente = "";
+
 		return "listagem";
 	}
 
-	public boolean validacaoEmail() {
+	private boolean validarEmail() {
 		this.listar();
 		String email = this.cliente.getEmail();
 		for (Cliente cliente : this.lista) {
@@ -131,19 +148,21 @@ public class ClienteBean {
 
 	public String novaSenha() {
 		if (novaSenha.trim().equals(confirmarSenha)) {
-			ClienteDAO dao = new ClienteDAO();
-			Cliente clienteAtual = dao.carregarPorEmail(cliente.getEmail());
+			Cliente clienteAtual = clienteDAO.carregarPorEmail(cliente.getEmail());
 			String senha = HashUtil.geraHash(this.cliente.getSenha(), clienteAtual.getSegurancaSenha().getSALT());
 			if (clienteAtual.getSenha().equals(senha)) {
 				clienteAtual.setSenha(HashUtil.geraHash(this.getNovaSenha(), this.segurancaSenha.getSALT()));
-				segurancaSenhaDAO = new SegurancaSenhaDAO();
 				segurancaSenha = segurancaSenhaDAO.carregar(clienteAtual.getSegurancaSenha().getId());
 				segurancaSenha.setUsuario(cliente);
 				segurancaSenhaDAO.atualizar(segurancaSenha);
-				dao.atualizar(clienteAtual);
+				clienteDAO.atualizar(clienteAtual);
 			}
 		}
-
+		this.cliente = new Cliente();
+		this.segurancaSenha = new SegurancaSenha();
+		this.novaSenha = "";
+		this.confirmarSenha = "";
+		
 		return novaSenha;
 	}
 
@@ -178,43 +197,41 @@ public class ClienteBean {
 		} else {
 			String novaSenha = HashUtil.geraHash(this.novaSenha, this.cliente.getSegurancaSenha().getSALT());
 			this.cliente.setSenha(novaSenha);
-			this.clienteDAO = new ClienteDAO();
 			this.clienteDAO.atualizar(this.cliente);
 			FacesMessage facesMessage = new FacesMessage("Senha alterada com sucesso.");
 			context.addMessage(null, facesMessage);
 		}
+		
 		this.senha = "";
 		this.novaSenha = "";
 		this.confirmarSenha = "";
-
+		this.cliente = new Cliente();
+		
 		return "visualizarProfissional";
 	}
 
 	public void excluir() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		clienteDAO = new ClienteDAO();
 		clienteDAO.excluir(cliente);
 		FacesMessage facesMessage = new FacesMessage("Cliente excluido com sucesso.");
 		context.addMessage(null, facesMessage);
+		this.cliente = new Cliente();
 	}
 
 	public void excluirLogicamente() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		this.clienteDAO = new ClienteDAO();
 		this.cliente.setAtivo(false);
 		this.clienteDAO.atualizar(this.cliente);
 		FacesMessage facesMessage = new FacesMessage("Cliente excluido com sucesso.");
 		context.addMessage(null, facesMessage);
+		this.cliente = new Cliente();
 	}
 
 	public void listar() {
-		clienteDAO = new ClienteDAO();
 		lista = clienteDAO.listar();
 	}
 
 	public String alterar() {
-		this.confirmarSenha = "";
-		this.endereco = new Endereco();
 		if (this.cliente.getEndereco() != null) {
 			this.endereco = this.enderecoBean.encontrarPorIdUsuario(this.cliente.getId());
 			this.msgCompleteSeusDados = "";
@@ -222,85 +239,156 @@ public class ClienteBean {
 			this.msgCompleteSeusDados = "Complete seus Dados " + this.cliente.getNome() + " , por gentileza.";
 			this.endereco.setUsuario(this.cliente);
 		}
+		
+		this.confirmarSenha = "";
+		this.endereco = new Endereco();
+		this.cliente = new Cliente();
 		return "alterarCliente";
 	}
 	
-	public String incluirItemNaListaDePedidos() {
+	public void incluirItemNaListaDePedidos(Item item) {
+		System.out.println("ITEM: " + item);
 		FacesContext context = FacesContext.getCurrentInstance();
-		//if(this.pedido.ge/////tCliente().getId().equals(null)) {
-			this.clienteTemporario.setId(1L);
-			this.pedido.setCliente(this.clienteTemporario);
-		//}
-		
-		if(!incrementaPedido()){
-			this.pedido.setItem(this.item);
-			this.pedido.setSubTotal(this.item.getValor());
-			this.pedidos.add(this.pedido);
-			FacesMessage facesMessage = new FacesMessage(this.item.getNome() + " adicionado a lista de pedidos.");
-			context.addMessage(null, facesMessage);
-			this.item = new Item();
-			this.pedido = new Pedido();
-			return null;	
-		}	
-		FacesMessage facesMessage = new FacesMessage("Mais um(a) " + this.item.getNome() + " adicionado a lista de pedidos.");
+		FacesMessage facesMessage;
+		this.pedido.setCliente(this.authenticationClienteBean.getClienteLogado());
+		if(!incrementarPedido()) {
+			this.pedido.getListaItens().add(this.item);
+			facesMessage = new FacesMessage(this.item.getNome() + " adicionado a lista de pedidos.");
+		} else {
+			facesMessage = new FacesMessage(this.item.getQuantidade() +
+					" unidades de " + this.item.getNome() + " em sua lista.");
+		}
 		context.addMessage(null, facesMessage);
 		this.item = new Item();
-		this.pedido = new Pedido();
-		return null;	
+		this.item.setQuantidade(1);
 	}
 		
-	public boolean incrementaPedido() {
-		for(int i = 0; i < this.pedidos.size(); i++) {
-			if(this.pedidos.get(i).getItem().getIdItem()
-					.equals(this.item.getIdItem())) {
-				Integer quantidade = this.pedidos.get(i).getQuantidade();
-				this.pedidos.get(i).setQuantidade(quantidade+1);
-				this.pedidos.get(i).setSubTotal(
-						(quantidade+1) * this.pedidos.get(i).getItem().getValor());
+	public boolean incrementarPedido() {
+		for(int i = 0; i < this.pedido.getListaItens().size(); i++) {
+			if(this.pedido.getListaItens().get(i).getIdItem().equals(this.item.getIdItem())) {
+				Integer qtd = this.item.getQuantidade();
+				this.pedido.getListaItens().get(i).setQuantidade(qtd +1);
 				return true;
-			} 
+			}
 		}
 		return false;
 	}
 	
 	public String excluirItemDaListaDePedidos() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		for(int i = 0; i < this.getPedidos().size(); i++) {
-			if(this.pedidos.get(i).getItem().equals(this.pedido.getItem())) {
-				this.pedidos.remove(this.pedido);
-				FacesMessage facesMessage = new FacesMessage(this.pedido.getItem().getNome() + " excluido da lista de pedidos.");
-				context.addMessage(null, facesMessage);
+		FacesMessage facesMessage = new FacesMessage();	
+		if(this.pedido.getListaItens().contains(this.item)) {
+			if(this.item.getQuantidade() != 1) {
+				Integer qtd = this.item.getQuantidade();
+				this.item.setQuantidade(qtd - 1);
+				this.pedido.getListaItens().remove(this.item);
+				this.pedido.getListaItens().add(this.item);
+				facesMessage = new FacesMessage("Retirado um(a) " + this.item.getNome() + " da lista de pedidos.");
+			} else {
+				this.pedido.getListaItens().remove(this.item);
+				facesMessage = new FacesMessage(this.item.getNome() + " excluido da lista de pedidos.");
 			}
 		}
+		context.addMessage(null, facesMessage);
 		this.item = new Item();
-		this.pedido = new Pedido();
 		return null;
 	}
 	
-	public String solicitarPedido() {
+	/*public String solicitarPedido() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		
-		for(Pedido pedido : this.pedidos) {
-			if(pedido.getItem().getTipo().getTipo() == 1) 
-				this.pedidosCozinha.add(pedido);
-			else if(pedido.getItem().getTipo().getTipo() == 2)
+		for(int i = 0; i < this.pedido.getListaItens().size(); i++) {			
+			if(item.getTipo().getTipo() == 1) {
+					this.pedidosCozinha.add(pedido);
+			} else if(item.getTipo().getTipo() == 2)
 				this.pedidosCopa.add(pedido);
 			else
 				return null;
 		}
-		this.cozinhaBean.salvar();
-		this.comanda.addAll(this.pedidos);
-		gerarTotal();
-		this.pedidos = new ArrayList<Pedido>();
 		FacesMessage facesMessage = new FacesMessage("Seus Pedidos foram solicitados.");
 		context.addMessage(null, facesMessage);
 		return null;
+	}*/
+	
+	public String solicitarPedido() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		solicitarCopa();
+		solicitarCozinha();
+		this.pedido = new Pedido();
+		FacesMessage facesMessage = new FacesMessage("Seus Pedidos foram solicitados.");
+		context.addMessage(null, facesMessage);
+		return "";
 	}
 	
-	public void gerarTotal() {
-		this.total = 0.0;
-		for(int i = 0; i < this.comanda.size(); i++) {
-			this.total += this.comanda.get(i).getSubTotal(); 
+	public void solicitarCopa() {
+		List<Item> pedidosCopa = new ArrayList<Item>();
+		for(Item item : this.pedido.getListaItens()) {			
+			if(item.getTipo().getTipo() == 2) {
+				pedidosCopa.add(item);
+			}
+		}
+		
+		if(this.pedidosCopa.isEmpty()) {
+			Pedido pedidoTemp = new Pedido();
+			pedidoTemp.setCliente(this.authenticationClienteBean.getClienteLogado());
+			pedidoTemp.setListaItens(pedidosCopa);
+			this.pedidosCopa.add(pedidoTemp);
+			this.acompanharPedidosCopa.addAll(pedidosCopa);
+		} else {
+			for(Pedido pedido : this.pedidosCopa) {			
+				if(pedido.getCliente().equals(this.authenticationClienteBean.getClienteLogado())) {
+					for(int i = 0; i < pedido.getListaItens().size(); i++) {
+						for(int j = 0; j < pedidosCopa.size(); j++) {
+							if(pedido.getListaItens().get(i).getIdItem().equals(pedidosCopa.get(j).getIdItem())) {
+								Integer qtdSolicitar = pedidosCopa.get(j).getQuantidade();
+								Integer qtdCopa = pedido.getListaItens().get(i).getQuantidade();
+								pedido.getListaItens().get(i).setQuantidade(qtdSolicitar + qtdCopa);
+								this.acompanharPedidosCopa.remove(i);
+								this.acompanharPedidosCopa.add(pedido.getListaItens().get(i));
+							}
+						}
+					}
+				} else {
+					Pedido pedidoTemp = new Pedido();
+					pedidoTemp.setCliente(this.authenticationClienteBean.getClienteLogado());
+					pedidoTemp.setListaItens(pedidosCopa);
+					this.pedidosCopa.add(pedidoTemp);
+					this.acompanharPedidosCopa.addAll(pedidosCopa);
+				}
+			}
+		}
+	}
+	
+	public void solicitarCozinha() {
+		List<Item> pedidosCozinha = new ArrayList<Item>();
+		for(Item item : this.pedido.getListaItens()) {			
+			if(item.getTipo().getTipo() == 1) {
+				pedidosCozinha.add(item);
+			}
+		}
+		
+		if(!pedidosCozinha.isEmpty()) {
+			for(Pedido pedido : this.pedidosCozinha) {			
+				if(pedido.getCliente().equals(this.authenticationClienteBean.getClienteLogado())) {
+					for(int i = 0; i < pedido.getListaItens().size(); i++) {
+						for(int j = 0; j < pedidosCozinha.size(); j++) {
+							if(pedido.getListaItens().get(i).getIdItem().equals(pedidosCozinha.get(j).getIdItem())) {
+								Integer qtdSolicitar = pedidosCozinha.get(j).getQuantidade();
+								Integer qtdCozinha = pedido.getListaItens().get(i).getQuantidade();
+								pedido.getListaItens().get(i).setQuantidade(qtdSolicitar + qtdCozinha);
+								this.acompanharPedidosCozinha.remove(i);
+								this.acompanharPedidosCozinha.add(pedido.getListaItens().get(i));
+							}
+						}
+					}
+				}
+			}
+			if(this.pedidosCopa.isEmpty() || !this.pedidosCopa.contains(this.authenticationClienteBean.getClienteLogado())) {
+				Pedido pedidoTemp = new Pedido();
+				pedidoTemp.setCliente(this.authenticationClienteBean.getClienteLogado());
+				pedidoTemp.setListaItens(pedidosCozinha);
+				this.pedidosCozinha.add(pedidoTemp);
+				this.acompanharPedidosCozinha.addAll(pedidosCozinha);
+			}
 		}
 	}
 	
@@ -332,14 +420,6 @@ public class ClienteBean {
 		this.destinoSalvar = destinoSalvar;
 	}
 
-	public ClienteDAO getClienteDAO() {
-		return clienteDAO;
-	}
-
-	public void setClienteDAO(ClienteDAO clienteDAO) {
-		this.clienteDAO = clienteDAO;
-	}
-
 	public List<Cliente> getLista() {
 		this.clienteDAO = new ClienteDAO();
 		this.lista = this.clienteDAO.listar();
@@ -358,14 +438,6 @@ public class ClienteBean {
 		this.endereco = endereco;
 	}
 
-	public EnderecoBean getEnderecoBean() {
-		return enderecoBean;
-	}
-
-	public void setEnderecoBean(EnderecoBean enderecoBean) {
-		this.enderecoBean = enderecoBean;
-	}
-
 	public List<Cliente> getListaAtivos() {
 		this.clienteDAO = new ClienteDAO();
 		this.listaAtivos = this.clienteDAO.listarAtivos();
@@ -382,14 +454,6 @@ public class ClienteBean {
 
 	public void setSegurancaSenha(SegurancaSenha segurancaSenha) {
 		this.segurancaSenha = segurancaSenha;
-	}
-
-	public SegurancaSenhaDAO getSegurancaSenhaDAO() {
-		return segurancaSenhaDAO;
-	}
-
-	public void setSegurancaSenhaDAO(SegurancaSenhaDAO segurancaSenhaDAO) {
-		this.segurancaSenhaDAO = segurancaSenhaDAO;
 	}
 
 	public String getSenha() {
@@ -432,18 +496,6 @@ public class ClienteBean {
 		this.listaDePedidos = listaDePedidos;
 	}
 
-	public Double getTotalPedidos() {
-		return totalPedidos;
-	}
-
-	public void setTotalPedidos(Double totalPedidos) {
-		this.totalPedidos = totalPedidos;
-	}
-
-	public Cliente getClienteTemporario() {
-		return clienteTemporario;
-	}
-
 	public List<Pedido> getPedidos() {
 		return pedidos;
 	}
@@ -468,14 +520,6 @@ public class ClienteBean {
 		this.pedido = pedido;
 	}
 
-	public CopaBean getCopaBean() {
-		return copaBean;
-	}
-
-	public void setCopaBean(CopaBean copaBean) {
-		this.copaBean = copaBean;
-	}
-
 	public List<Pedido> getPedidosCozinha() {
 		return pedidosCozinha;
 	}
@@ -484,19 +528,29 @@ public class ClienteBean {
 		this.pedidosCozinha = pedidosCozinha;
 	}
 
-	public List<Pedido> getComanda() {
-		return comanda;
+	public AuthenticationClienteBean getAuthenticationClienteBean() {
+		return authenticationClienteBean;
 	}
 
-	public void setComanda(List<Pedido> comanda) {
-		this.comanda = comanda;
+	public void setAuthenticationClienteBean(AuthenticationClienteBean authenticationClienteBean) {
+		this.authenticationClienteBean = authenticationClienteBean;
 	}
 
-	public Double getTotal() {
-		return total;
+	public List<Item> getAcompanharPedidosCopa() {
+		return acompanharPedidosCopa;
 	}
 
-	public void setTotal(Double total) {
-		this.total = total;
+	public void setAcompanharPedidosCopa(List<Item> acompanharPedidosCopa) {
+		this.acompanharPedidosCopa = acompanharPedidosCopa;
 	}
+
+	public List<Item> getAcompanharPedidosCozinha() {
+		return acompanharPedidosCozinha;
+	}
+
+	public void setAcompanharPedidosCozinha(List<Item> acompanharPedidosCozinha) {
+		this.acompanharPedidosCozinha = acompanharPedidosCozinha;
+	}
+	
+	
 }

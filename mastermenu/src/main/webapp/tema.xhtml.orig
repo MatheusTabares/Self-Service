@@ -7,7 +7,7 @@
     <h:head>
     	<title>Master Menu</title>
     	<h:outputStylesheet library="css" name="theme.css" />
-        <h:outputScript library="js" name="cep.js" />
+    	        <h:outputScript library="js" name="cep.js" />
         <h:outputScript library="js" name="locales.js" />     
     	<h:outputStylesheet library="css" name="login.css" />      
         <h:outputStylesheet library="css" name="estilo.css" />          

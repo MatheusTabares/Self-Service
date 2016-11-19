@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="tema.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+    <ui:define name="menu">
+        <ui:include src="/includes/menuPrincipal.xhtml" />
+    </ui:define>
+    <h:outputScript library="js" name="script.js" />
+
+    <ui:define name="conteudo">
+        <h:form id="frmIngredienteListagem">
+            <p:dataTable id="tblIngredientes" widgetVar="tabelaIngredientes" paginator="true" 
+                         emptyMessage="Nenhum ingrediente encontrado." rows="10" 
+                         var="ingrediente" filteredValue="#{ingredienteBean.ingredientesFiltrados}"
+                         value="#{ingredienteBean.ingredientes}">
+
+                <f:facet name="header">
+                    Ingrediente
+                </f:facet>
+
+
+                <p:column headerText="id" sortBy="#{ingrediente.idIngrediente}" filterBy="#{ingrediente.idIngrediente}">
+                    <h:outputText value="#{ingrediente.idIngrediente}"/>
+                </p:column>
+
+                <p:column headerText="Nome" filterBy="#{ingrediente.nome}" sortBy="#{ingrediente.nome}">
+                    <h:outputText value="#{ingrediente.nome}"/>
+                </p:column>
+
+                <p:column headerText="Descrição" filterBy="#{ingrediente.descricao}" sortBy="#{ingrediente.descricao}">
+                    <h:outputText value="#{ingrediente.descricao}"/>
+                </p:column>
+                
+                <p:column headerText="Valor" filterBy="#{ingrediente.valor}" sortBy="#{ingrediente.valor}">
+                    <h:outputText value="#{ingrediente.valor}"/>
+                </p:column>
+
+                <p:column headerText="Ações">
+                    <p:commandButton icon="ui-icon-circle-zoomin" oncomplete="PF('dlgIngredienteConsultar').show();" update=":frmIngredienteConsultar:pnlIngredienteConsultar">
+                        <f:setPropertyActionListener target="#{ingredienteBean.ingrediente}" value="#{ingrediente}" />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-trash" oncomplete="PF('dlgIngredienteExcluir').show();" update=":frmIngredienteExcluir:pnlIngredienteExcluir">
+                        <f:setPropertyActionListener target="#{ingredienteBean.ingrediente}" value="#{ingrediente}" />
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-pencil" oncomplete="PF('dlgIngredienteEditar').show();" update=":frmIngredienteEditar:pnlIngredienteEditar">
+                        <f:setPropertyActionListener target="#{ingredienteBean.ingrediente}" value="#{ingrediente}" />
+                    </p:commandButton>
+                </p:column>     
+
+                <f:facet name="footer">
+                    <p:commandButton value="Novo" update=":frmIngredienteNovo:pnlIngredienteNovo" actionListener="#{ingredienteBean.preparaNovo()}" oncomplete="PF('dlgCadIngrediente').show();">
+                    </p:commandButton>
+                </f:facet>
+
+            </p:dataTable>
+        </h:form>
+        <p:dialog widgetVar="dlgCadIngrediente" showEffect="clip" closable="true" 
+                  header="Ingrediente - Novo" modal="true" appendTo="@(body)" draggable="false" resizable="false">
+
+            <h:form id="frmIngredienteNovo">           
+                <h:panelGrid id="pnlIngredienteNovo" columns="2">
+                    <p:outputLabel value="Nome:" for="txtNome"/>
+                    <p:inputText id="txtNome" maxlength="50" required="true" requiredMessage="O campo nome é obrigatório." size="20" value="#{ingredienteBean.ingrediente.nome}" pt:pattern="[a-z\s]+$" pt:placeholder="Entre com o nome do ingrediente">
+
+                    </p:inputText>
+                    <p:outputLabel value="Valor:" for="txtValor"/>
+                    <p:inputText id="txtValor" maxlength="11" required="true" validatorMessage="Digite um valor válido no campo Valor." requiredMessage="O campo valor é obrigatório." size="15" value="#{ingredienteBean.ingrediente.valor}" pt:placeholder="Entre com o Valor">
+                    </p:inputText>                    
+                    <p:outputLabel value="Descrição" for="txtDescricao"/>
+                    <p:inputText id="txtDescricao" maxlength="50" required="true" requiredMessage="O campo Descrição é obrigatório." size="20" value="#{ingredienteBean.ingrediente.descricao}"  pt:placeholder="Entre com seu Descrição">
+                    </p:inputText>
+                </h:panelGrid>
+                <p:panelGrid columns="2">
+                    <p:commandButton value="Gravar" update=":frmIngredienteListagem:tblIngredientes :msgGlobal" actionListener="#{ingredienteBean.incluir}" oncomplete="verificar(xhr, status, args, 'dlgCadIngrediente', 'tabelaIngredientes');">
+                        <f:ajax render="pnlIngredienteNovo" resetValues="true"/>
+                        <p:resetInput id="txtNome" target="pnlIngredienteNovo" />
+                    </p:commandButton>
+                    <p:commandButton value="Fechar" onclick="PF('dlgCadIngrediente').hide();"/>
+                </p:panelGrid>
+            </h:form>
+        </p:dialog>
+
+
+        <p:dialog widgetVar="dlgIngredienteExcluir" header="ingrediente - Excluir" closable="false" draggable="false" resizable="false" modal="true" appendTo="@(body)">
+            <h:form id="frmIngredienteExcluir">
+                <h:panelGrid id="pnlIngredienteExcluir" columns="2">
+                    <p:outputLabel value="Código: " />
+                    <h:outputText value="#{ingredienteBean.ingrediente.idIngrediente}" />
+                    <p:outputLabel value="Nome: " />
+                    <h:outputText value="#{ingredienteBean.ingrediente.nome}" />
+                </h:panelGrid>
+
+                <p:commandButton value="Exclusão Lógica" actionListener="#{ingredienteBean.exclusaoLogica()}" oncomplete="PF('dlgIngredienteExcluir').hide();" update=":frmIngredienteListagem:tblIngredientes :msgGlobal" />
+                <p:commandButton value="Cancelar" onclick="PF('dlgIngredienteExcluir').hide();" />
+            </h:form>
+        </p:dialog>
+
+        <p:dialog widgetVar="dlgIngredienteEditar" closable="false" draggable="false" resizable="false" modal="true" appendTo="@(body)" header="ingrediente - Editar">
+            <h:form id="frmIngredienteEditar">
+                <h:panelGrid id="pnlIngredienteEditar" columns="2">
+                    <h:outputLabel value="Nome:" for="txtNome"/>
+                    <p:inputText id="txtNome" maxlength="50" required="true" requiredMessage="O campo nome é obrigatório." size="20" value="#{ingredienteBean.ingrediente.nome}" pt:pattern="[a-z\s]+$" pt:placeholder="Entre com seu Nome">
+                    </p:inputText>
+                    <h:outputLabel value="Valor:" for="txtValor"/>
+                    <p:inputText id="txtValor" maxlength="11" required="true" validatorMessage="Digite um valor válido no campo Valor." requiredMessage="O campo valor é obrigatório." size="15" value="#{ingredienteBean.ingrediente.valor}" pt:placeholder="Entre com seu Valor">
+                    </p:inputText>                    
+                    <h:outputLabel value="Descrição" for="txtDescricao"/>
+                    <p:inputText id="txtDescricao" maxlength="50" required="true" requiredMessage="O campo quantidade é obrigatório." size="20" value="#{ingredienteBean.ingrediente.descricao}"  pt:placeholder="Entre com a sua Descrição">
+                    </p:inputText>
+                </h:panelGrid>
+                <h:panelGrid columns="2" >
+                    <p:commandButton value="Editar" actionListener="#{ingredienteBean.editar}" oncomplete="verificar(xhr, status, args, 'dlgIngredienteEditar', 'tabelaIngredientes');" update=":frmIngredienteListagem:tblIngredientes :msgGlobal" />
+                    <p:commandButton value="Cancelar" onclick="PF('dlgIngredienteEditar').hide();" />
+                </h:panelGrid>
+            </h:form>
+        </p:dialog>
+
+        <p:dialog widgetVar="dlgIngredienteConsultar" header="Ingrediente - Consultar" closable="false" draggable="false" resizable="false" modal="true" appendTo="@(body)">
+            <h:form id="frmIngredienteConsultar">
+                <h:panelGrid id="pnlIngredienteConsultar" columns="2">
+                    <h:outputLabel value="Id: " />
+                    <h:outputText value="#{ingredienteBean.ingrediente.idIngrediente}" />
+                    <h:outputLabel value="Nome: " />
+                    <h:outputText value="#{ingredienteBean.ingrediente.nome}" />
+                    <h:outputLabel value="Valor: " />
+                    <h:outputText value="#{ingredienteBean.ingrediente.valor}" />
+                    <h:outputLabel value="Descrição: " />
+                    <h:outputText value="#{ingredienteBean.ingrediente.descricao}" />
+                </h:panelGrid>
+
+                <p:commandButton value="Voltar" onclick="PF('dlgIngredienteConsultar').hide();" />
+            </h:form>
+        </p:dialog>
+
+    </ui:define>
+</ui:composition>

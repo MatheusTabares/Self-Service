@@ -8,28 +8,22 @@
 	template="tema.xhtml">
 
 	<ui:define name="menu">
-		<ui:include src="/includes/menuPrincipal.xhtml" />
+		<ui:include src="/includes/menuPrincipalCliente.xhtml" />
 	</ui:define>
 	<ui:define name="conteudo">
 		<h:form id="frmItemListagem">
 			<p:dataTable id="tblPedidos" widgetVar="tabelaPedidos" paginator="true"
-				emptyMessage="Nenhum pedido encontrado." var="pedido"
-				value="#{clienteBean.pedidosCopa}">
+				emptyMessage="Nenhum pedido encontrado." var="item"
+				value="#{clienteBean.acompanharPedidosCopa}">
 
 				<f:facet name="header">
                     Pedidos Copa
                 </f:facet>
-				<p:column headerText="Nome Cliente" filterBy="#{pedido.cliente.nome}"
-					sortBy="#{pedido.cliente.nome}">
-					<h:outputText value="#{pedido.cliente.nome}" />
+				<p:column headerText="Nome">
+					<h:outputText value="#{item.nome}" />
 				</p:column>
-				<p:column headerText="Pedido" filterBy="#{pedido.item.nome}"
-					sortBy="#{pedido.item.nome}">
-					<h:outputText value="#{pedido.item.nome}" />
-				</p:column>
-				<p:column headerText="Quantidade" filterBy="#{pedido.quantidade}"
-					sortBy="#{pedido.quantidade}">
-					<h:outputText value="#{pedido.quantidade}" />
+				<p:column headerText="Quantidade">
+					<h:outputText value="#{item.quantidade}" />
 				</p:column>
 			</p:dataTable>
 		</h:form>

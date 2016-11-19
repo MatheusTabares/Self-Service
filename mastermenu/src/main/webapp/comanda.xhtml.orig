@@ -10,10 +10,10 @@
 		<ui:include src="/includes/menuPrincipalCliente.xhtml" />
 	</ui:define>
 	<ui:define name="conteudo">
-		<!--<h:form id="frmItemListagem">
-			 <p:dataTable id="tblItens" widgetVar="tabelaItens" paginator="true"
+		<h:form id="frmItemListagem">
+			<p:dataTable id="tblItens" widgetVar="tabelaItens" paginator="true"
 				emptyMessage="Comanda vazia." var="comanda"
-				value="#{clienteBean}">
+				value="#{clienteBean.comanda}">
 
 				<f:facet name="header">
                     Comanda
@@ -85,6 +85,5 @@
 		</p:dialog>
 
 		<p:growl id="messages" showDetail="true" autoUpdate="true" life="5000" />
-		--
 	</ui:define>
 </ui:composition>

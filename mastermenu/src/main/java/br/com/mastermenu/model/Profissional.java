@@ -2,10 +2,14 @@ package br.com.mastermenu.model;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
+
+import br.com.mastermenu.enums.CargoProfissional;
 
 @Entity
 @DiscriminatorValue(value = "P")
@@ -21,6 +25,16 @@ public class Profissional extends Usuario {
 	//@NotNull(message = "Salario não pode ser vazio.")
 	private float salario;
 	
+	@Enumerated(EnumType.STRING)
+	private CargoProfissional cargo;
+	
+	
+	public CargoProfissional getCargo() {
+		return cargo;
+	}
+	public void setCargo(CargoProfissional cargo) {
+		this.cargo = cargo;
+	}
 	public String getPis() {
 		return pis;
 	}

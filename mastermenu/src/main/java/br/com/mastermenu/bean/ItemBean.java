@@ -139,6 +139,8 @@ public class ItemBean {
 		}
 	}
 
+
+
 	public StreamedContent metodo() throws IOException, Exception {
 		FacesContext context = FacesContext.getCurrentInstance();
 
@@ -151,9 +153,9 @@ public class ItemBean {
 			// So, browser is requesting the image. Return a real
 			// StreamedContent with the image bytes.
 			return new DefaultStreamedContent(new ByteArrayInputStream(item.getFoto()));
+			}
 		}
-	}
-
+	
 	public StreamedContent getImage() throws IOException, Exception {
 		FacesContext context = FacesContext.getCurrentInstance();
 

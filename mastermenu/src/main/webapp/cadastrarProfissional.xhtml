@@ -75,6 +75,13 @@
                 </p:inputText>
                 <p:message for="cep"/>
                 
+                <h:outputLabel value="Cargo" for="cargo"/>
+				<p:selectOneMenu id="cargo" value="#{profissionalBean.profissional.cargo}">
+					<f:selectItems value="#{profissionalBean.cargos}" var="c"
+						itemValue="#{c}" itemLabel="#{c.cargo}"/>
+				</p:selectOneMenu>
+				<p:message for="cargo"/>
+				
                 <p:outputLabel value="UF:" for="uf"/>
                 <p:inputText id="uf" maxlength="2" value="#{profissionalBean.endereco.UF}" 
                 	required="true" validatorMessage="UF deve conter 2 caracteres.">
