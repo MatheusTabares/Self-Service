@@ -12,26 +12,32 @@
 	</ui:define>
 	<ui:define name="conteudo">
 		<h:form id="frmItemListagem">
-			<p:dataTable id="tblPedidos" widgetVar="tabelaPedidos" paginator="true"
-				emptyMessage="Nenhum pedido encontrado." var="pedido"
-				value="#{clienteBean.pedidosCozinha}">
-
-				<f:facet name="header">
-                    Pedidos Cozinha
-                </f:facet>
-				<p:column headerText="Nome Cliente" filterBy="#{pedido.cliente.nome}"
-					sortBy="#{pedido.cliente.nome}">
-					<h:outputText value="#{pedido.cliente.nome}" />
-				</p:column>
-				<p:column headerText="Pedido" filterBy="#{pedido.item.nome}"
-					sortBy="#{pedido.item.nome}">
-					<h:outputText value="#{pedido.item.nome}" />
-				</p:column>
-				<p:column headerText="Quantidade" filterBy="#{pedido.quantidade}"
-					sortBy="#{pedido.quantidade}">
-					<h:outputText value="#{pedido.quantidade}" />
-				</p:column>
-			</p:dataTable>
+			<p:dataTable id="playersSubTable" var="player" value="#{clienteBean.pedidosCozinha}">  
+    <f:facet name="header">  
+        <h:outputText value="Pedidos Cozinha"/>  
+    </f:facet>  
+  
+    <p:columnGroup type="header">  
+        <p:row>  
+            <p:column rowspan="2" headerText="Item " />
+            <!-- p:column rowspan="2" headerText="Quantidade " />  -->  
+        </p:row>  
+    </p:columnGroup>  
+  
+    <p:subTable var="details" value="#{player.listaItens}">  
+        <f:facet name="header">  
+            <h:outputText value="Cliente : #{player.cliente.nome}"/>  
+        </f:facet>  
+  
+        <p:column>  
+            <h:outputText value=" #{details.nome}"/>  
+        </p:column>  
+        <!-- <p:column>  
+            <h:outputText value=" #{details.quantidade}"/>  
+        </p:column>   -->
+    
+    </p:subTable>  
+</p:dataTable>
 		</h:form>
 	</ui:define>
 </ui:composition>

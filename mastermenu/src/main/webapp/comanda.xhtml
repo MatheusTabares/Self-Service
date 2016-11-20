@@ -10,81 +10,25 @@
 		<ui:include src="/includes/menuPrincipalCliente.xhtml" />
 	</ui:define>
 	<ui:define name="conteudo">
-		<!--<h:form id="frmItemListagem">
-			 <p:dataTable id="tblItens" widgetVar="tabelaItens" paginator="true"
-				emptyMessage="Comanda vazia." var="comanda"
-				value="#{clienteBean}">
+		<p:dataTable id="tblComanda" widgetVar="tabelaComanda"
+				emptyMessage="Comanda vazia." var="item"
+				value="#{clienteBean.comanda.pedido.listaItens}">
 
 				<f:facet name="header">
                     Comanda
                 </f:facet>
-
-
-				<p:column headerText="Nome" filterBy="#{comanda.item.nome}"
-					sortBy="#{comanda.item.nome}">
-					<h:outputText value="#{comanda.item.nome}" />
+				<p:column headerText="Descrição:">
+					<h:outputText value="#{item.nome}" />
 				</p:column>
-
-				<p:column headerText="Valor" filterBy="#{comanda.item.valor}"
-					sortBy="#{comanda.item.valor}">
-					<h:outputText value="#{comanda.item.valor}" />
+				<p:column headerText="Valor Unitário:">
+					<h:outputText value="#{item.valor}" />
 				</p:column>
-				
-				<p:column headerText="Quantidade" filterBy="#{comanda.quantidade}"
-					sortBy="#{comanda.quantidade}">
-					<h:outputText value="#{comanda.quantidade}" />
-				</p:column>
-				<p:column headerText="SubTotal" filterBy="#{comanda.subTotal}"
-					sortBy="#{comanda.subTotal}">
-					<h:outputText value="#{comanda.subTotal}" />
-				</p:column>
-				
-				<p:column headerText="Ações">
-					<p:commandButton icon="ui-icon-circle-zoomin"
-						oncomplete="PF('dlgItemConsultar').show();"
-						update=":frmItemConsultar:pnlItemConsultar">
-						<f:setPropertyActionListener target="#{clienteBean.pedido}"
-							value="#{comanda}" />
-					</p:commandButton>
-				</p:column>
-				<f:facet name="footer">                                                  
-					<h:outputLabel value="TOTAL R$"/>
-					<h:outputText value="#{clienteBean.total}" />
-					
-				</f:facet>
+				<p:columnGroup type="footer">
+                	<p:row>
+	                    <p:column footerText="Total: " style="text-align:right"/>
+	                    <p:column footerText="#{clienteBean.comanda.total}" />
+                	</p:row>
+            	</p:columnGroup>
 			</p:dataTable>
-		</h:form>
-				
-		<p:dialog widgetVar="dlgItemConsultar" header="Item - Consultar"
-			closable="false" draggable="false" resizable="false" modal="true"
-			appendTo="@(body)">
-			<h:form id="frmItemConsultar">
-				<h:panelGrid id="pnlItemConsultar" columns="2"
-					style="width:300px; height:150px;">
-					<h:outputLabel value="Id: " />
-					<h:outputText value="#{clienteBean.pedido.item.idItem}" />
-					<h:outputLabel value="Nome: " />
-					<h:outputText value="#{clienteBean.pedido.item.nome}" />
-					<h:outputLabel value="Valor: " />
-					<h:outputText value="#{clienteBean.pedido.item.valor}" />
-					<h:outputLabel value="Tipo: " />
-					<h:outputText value="#{clienteBean.pedido.item.tipo}" />
-					<h:outputLabel value="Ingredientes: " />
-					<p:dataList value="#{clienteBean.pedido.item.ingredientes}" var="ing"
-						type="ordered">
-						<f:facet name="Ingredientes">
-					            Basic
-					        </f:facet>
-					        #{ing.nome}
-					  </p:dataList>
-				</h:panelGrid>
-
-				<p:commandButton value="Voltar"
-					onclick="PF('dlgItemConsultar').hide();" />
-			</h:form>
-		</p:dialog>
-
-		<p:growl id="messages" showDetail="true" autoUpdate="true" life="5000" />
-		--
 	</ui:define>
 </ui:composition>

@@ -10,27 +10,40 @@
 		<ui:include src="/includes/menuPrincipal.xhtml" />
 	</ui:define>
 	<ui:define name="conteudo">
-		<h:form id="frmItemListagem">
-			<p:dataTable id="tblItens" widgetVar="tabelaItens" paginator="true"
-				emptyMessage="Nenhum Cliente com Comanda aberta." var="comanda"
-				value="#{clienteBean.comandasEmAberto}">
-
-				<f:facet name="header">
-                    Lista de Comandas em Aberto
-                </f:facet>
-
-
-				<p:column headerText="Nome Cliente" filterBy="#{comanda.cliente.nome}"
-					sortBy="#{comanda.cliente.nome}">
-					<h:outputText value="#{comanda.cliente.nome}" />
-				</p:column>
-
-				<p:column headerText="Valor Total">
-					<h:outputText value="#{clienteBean.total}" />
-				</p:column>
+			<h:form id="frmComandas">
+				<p:dataTable id="playersSubTable" var="player" value="#{clienteBean.comandas}">  
+			    <f:facet name="header">  
+			        <h:outputText value="Comandas Em Aberto"/>  
+			    </f:facet>  
+			  
+			    <p:columnGroup type="header">  
+			        <p:row>  
+			            <p:column rowspan="2" headerText="Descrição: " />
+			            <p:column rowspan="2" headerText="Valor: " />  
+			        </p:row>  
+			    </p:columnGroup>  
+			  
+			    <p:subTable var="details" value="#{player.pedido.listaItens}">  
+			        <f:facet name="header">  
+			            <h:outputText value="Cliente : #{player.pedido.cliente.nome}"/>  
+			        </f:facet>  
+			  
+			        <p:column>  
+			            <h:outputText value=" #{details.nome}"/>  
+			        </p:column>  
+			        <p:column>  
+			            <h:outputText value=" #{details.valor}"/>  
+			        </p:column>
+			        <p:columnGroup type="footer">
+                	<p:row>
+	                    <p:column footerText="Total: " style="text-align:right"/>
+	                    <p:column footerText="#{clienteBean.comanda.total}" />
+                	</p:row>
+            		</p:columnGroup>  
+			    
+			    </p:subTable>  
 			</p:dataTable>
 		</h:form>
-		
 		<p:growl id="messages" showDetail="true" autoUpdate="true" life="5000" />		
 	</ui:define>
 </ui:composition>

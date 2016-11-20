@@ -7,12 +7,12 @@
 	<h:form>
 		<p:menu>
 			<p:submenu label="MASTER MENU">
-				<p:menuitem rendered="#{authenticationClienteBean.clienteLogado.nome != null}" icon="ui-icon-note" value="Cardápio" url="cardapio.xhtml" />
+				<p:menuitem rendered="#{authenticationClienteBean.clienteLogado.nome != null}" icon="ui-icon-note" value="Cardápio" url="cardapioCliente.xhtml" />
 				<p:menuitem rendered="#{authenticationClienteBean.clienteLogado.nome != null}" icon="ui-icon-suitcase" value="Promoções" url="" />
 				<p:menuitem rendered="#{authenticationClienteBean.clienteLogado.nome != null}" icon="ui-icon-pin-s" value="Lista de Pedidos" url="listaDePedidos.xhtml" />
 				<p:menuitem rendered="#{authenticationClienteBean.clienteLogado.nome != null}" icon="ui-icon-document" value="Cozinha" url="acompanharPedidosCozinha.xhtml" />
 				<p:menuitem rendered="#{authenticationClienteBean.clienteLogado.nome != null}" icon="ui-icon-document" value="Bar" url="acompanharPedidosCopa.xhtml" />
-				<p:menuitem rendered="#{authenticationClienteBean.clienteLogado.nome != null}" icon="ui-icon-bullet" value="Comanda" url="" />
+				<p:menuitem rendered="#{authenticationClienteBean.clienteLogado.nome != null}" icon="ui-icon-bullet" value="Comanda" url="comanda.xhtml" />
 				<p:menuitem rendered="#{authenticationClienteBean.clienteLogado.nome == null}"  value="Cadastrar" url="index.xhtml" />
 				<p:menuitem action="#{authenticationClienteBean.sair}"  rendered="#{authenticationClienteBean.clienteLogado.nome != null}" value="Sair"/>
 			</p:submenu>

@@ -8,6 +8,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import br.com.mastermenu.model.Cliente;
+import br.com.mastermenu.model.Comanda;
 import br.com.mastermenu.model.Endereco;
 import br.com.mastermenu.model.Item;
 import br.com.mastermenu.model.Pedido;
@@ -37,12 +38,15 @@ public class ClienteBean {
 	private String msgCompleteSeusDados;
 	private Item item;
 	private List<Pedido> listaDePedidos = new ArrayList<Pedido>();
-	private Pedido pedido;
-	private List<Pedido> pedidos;
+	private List<Item> pedidoCopa;
+	private List<Item> pedidoCozinha;
+	private List<Item> pedidos;
 	private List<Pedido> pedidosCopa;
 	private List<Pedido> pedidosCozinha;
 	private List<Item> acompanharPedidosCopa;
 	private List<Item> acompanharPedidosCozinha;
+	private List<Comanda> comandas;
+	private Comanda comanda;
 	
 	public ClienteBean() {
 		this.cliente = new Cliente();
@@ -58,12 +62,15 @@ public class ClienteBean {
 		this.lista = new ArrayList<Cliente>();
 		this.listaAtivos = new ArrayList<Cliente>();
 		this.item = new Item();
-		this.pedido  = new Pedido();
-		this.pedidos = new ArrayList<Pedido>();
+		this.pedidoCopa = new ArrayList<Item>();
+		this.pedidoCozinha = new ArrayList<Item>();
+		this.pedidos = new ArrayList<Item>();
 		this.pedidosCopa = new ArrayList<Pedido>();
 		this.pedidosCozinha = new ArrayList<Pedido>();
 		this.acompanharPedidosCopa = new ArrayList<Item>();
 		this.acompanharPedidosCozinha = new ArrayList<Item>();
+		this.comandas = new ArrayList<Comanda>();
+		this.comanda = new Comanda();
 	}
 
 	public void novo() {
@@ -247,34 +254,80 @@ public class ClienteBean {
 	}
 	
 	public void incluirItemNaListaDePedidos(Item item) {
-		System.out.println("ITEM: " + item);
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage facesMessage;
-		this.pedido.setCliente(this.authenticationClienteBean.getClienteLogado());
-		if(!incrementarPedido()) {
-			this.pedido.getListaItens().add(this.item);
-			facesMessage = new FacesMessage(this.item.getNome() + " adicionado a lista de pedidos.");
-		} else {
-			facesMessage = new FacesMessage(this.item.getQuantidade() +
-					" unidades de " + this.item.getNome() + " em sua lista.");
-		}
-		context.addMessage(null, facesMessage);
-		this.item = new Item();
-		this.item.setQuantidade(1);
-	}
 		
-	public boolean incrementarPedido() {
-		for(int i = 0; i < this.pedido.getListaItens().size(); i++) {
-			if(this.pedido.getListaItens().get(i).getIdItem().equals(this.item.getIdItem())) {
-				Integer qtd = this.item.getQuantidade();
-				this.pedido.getListaItens().get(i).setQuantidade(qtd +1);
-				return true;
-			}
+		if(item.getTipo().getTipo() == 1) {
+			this.pedidoCozinha.add(item);
 		}
-		return false;
+		else if(item.getTipo().getTipo() == 2) {
+			this.pedidoCopa.add(item);
+		}
+		this.pedidos.add(item);
+		
+		facesMessage = new FacesMessage(item.getNome() + " adicionado a lista de pedidos.");
+		context.addMessage(null, facesMessage);
+		item = new Item();
 	}
 	
-	public String excluirItemDaListaDePedidos() {
+	public String solicitarPedido() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		
+		Pedido pedidoCopa = new Pedido();
+		pedidoCopa.setCliente(this.authenticationClienteBean.getClienteLogado());
+		pedidoCopa.setListaItens(this.pedidoCopa);
+		this.pedidosCopa.add(pedidoCopa);
+		this.acompanharPedidosCopa.addAll(this.pedidoCopa);
+		
+		Pedido pedidoCozinha = new Pedido();
+		pedidoCozinha.setCliente(this.authenticationClienteBean.getClienteLogado());
+		pedidoCozinha.setListaItens(this.pedidoCozinha);
+		this.pedidosCozinha.add(pedidoCozinha);
+		this.acompanharPedidosCozinha.addAll(this.pedidoCozinha);
+		
+		this.comanda.getPedido().setListaItens(this.pedidos);
+		this.comanda.getPedido().setCliente(this.authenticationClienteBean.getClienteLogado());
+		somarTotalComanda();
+		this.comandas.add(this.comanda);
+		
+		FacesMessage facesMessage = new FacesMessage("Seus Pedidos foram solicitados.");
+		context.addMessage(null, facesMessage);
+		this.pedidoCopa = new ArrayList<Item>();
+		this.pedidoCozinha = new ArrayList<Item>();
+		this.pedidos = new ArrayList<Item>();
+		return "";
+	}
+	
+	public String excluirItemDaListaDePedidos(Item item) {
+		FacesContext context = FacesContext.getCurrentInstance();
+		FacesMessage facesMessage = new FacesMessage();	
+		if(this.pedidos.contains(item)) {
+			this.pedidos.remove(item);
+		}
+		if(item.getTipo().getTipo() == 2) {
+			if(this.pedidoCopa.contains(item)) {
+				this.pedidoCopa.remove(item);
+			}
+		} else {
+			if(this.pedidoCozinha.contains(item)) {
+				this.pedidoCozinha.remove(item);
+			}
+		}
+		facesMessage = new FacesMessage("Retirado " + item.getNome() + " da lista de pedidos.");
+		context.addMessage(null, facesMessage);
+		item = new Item();
+		return null;
+	}
+	
+	public void somarTotalComanda() {
+		Double somador = 0.0;
+		for(Item item : this.comanda.getPedido().getListaItens()) {
+			somador += item.getValor();
+		}
+		this.comanda.setTotal(somador);
+	}
+
+	/*public String excluirItemDaListaDePedidos() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage facesMessage = new FacesMessage();	
 		if(this.pedido.getListaItens().contains(this.item)) {
@@ -293,29 +346,42 @@ public class ClienteBean {
 		this.item = new Item();
 		return null;
 	}
+
 	
-	/*public String solicitarPedido() {
+	public void incluirItemNaListaDePedidos(Item item) {
 		FacesContext context = FacesContext.getCurrentInstance();
-		for(int i = 0; i < this.pedido.getListaItens().size(); i++) {			
-			if(item.getTipo().getTipo() == 1) {
-					this.pedidosCozinha.add(pedido);
-			} else if(item.getTipo().getTipo() == 2)
-				this.pedidosCopa.add(pedido);
-			else
-				return null;
+		FacesMessage facesMessage;
+		this.pedido.setCliente(this.authenticationClienteBean.getClienteLogado());
+		if(!incrementarPedido(item)) {
+			this.pedido.getListaItens().add(item);
+			facesMessage = new FacesMessage(item.getNome() + " adicionado a lista de pedidos.");
+		} else {
+			facesMessage = new FacesMessage(item.getQuantidade() +
+					" unidades de " + item.getNome() + " em sua lista.");
 		}
-		FacesMessage facesMessage = new FacesMessage("Seus Pedidos foram solicitados.");
 		context.addMessage(null, facesMessage);
-		return null;
-	}*/
+		item = new Item();
+	}
+		
+	public boolean incrementarPedido(Item item) {
+		for(int i = 0; i < this.pedido.getListaItens().size(); i++) {
+			if(this.pedido.getListaItens().get(i).getIdItem().equals(item.getIdItem())) {
+				//Integer qtd = this.pedido.getListaItens().get(i).getQuantidade();
+				this.pedido.getListaItens().get(i).setQuantidade(+1);
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	public String solicitarPedido() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		solicitarCopa();
 		solicitarCozinha();
-		this.pedido = new Pedido();
 		FacesMessage facesMessage = new FacesMessage("Seus Pedidos foram solicitados.");
 		context.addMessage(null, facesMessage);
+		this.pedido = new Pedido();
+		this.item = new Item();
 		return "";
 	}
 	
@@ -391,7 +457,7 @@ public class ClienteBean {
 			}
 		}
 	}
-	
+	*/
 	public String visualizar() {
 		return "visualizarCliente";
 	}
@@ -496,28 +562,12 @@ public class ClienteBean {
 		this.listaDePedidos = listaDePedidos;
 	}
 
-	public List<Pedido> getPedidos() {
-		return pedidos;
-	}
-
-	public void setPedidos(List<Pedido> pedidos) {
-		this.pedidos = pedidos;
-	}
-
 	public List<Pedido> getPedidosCopa() {
 		return pedidosCopa;
 	}
 
 	public void setPedidosCopa(List<Pedido> pedidosCopa) {
 		this.pedidosCopa = pedidosCopa;
-	}
-
-	public Pedido getPedido() {
-		return pedido;
-	}
-
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
 	}
 
 	public List<Pedido> getPedidosCozinha() {
@@ -551,6 +601,45 @@ public class ClienteBean {
 	public void setAcompanharPedidosCozinha(List<Item> acompanharPedidosCozinha) {
 		this.acompanharPedidosCozinha = acompanharPedidosCozinha;
 	}
-	
+
+	public List<Item> getPedidoCopa() {
+		return pedidoCopa;
+	}
+
+	public void setPedidoCopa(List<Item> pedidoCopa) {
+		this.pedidoCopa = pedidoCopa;
+	}
+
+	public List<Item> getPedidoCozinha() {
+		return pedidoCozinha;
+	}
+
+	public void setPedidoCozinha(List<Item> pedidoCozinha) {
+		this.pedidoCozinha = pedidoCozinha;
+	}
+
+	public List<Item> getPedidos() {
+		return pedidos;
+	}
+
+	public void setPedidos(List<Item> pedidos) {
+		this.pedidos = pedidos;
+	}
+
+	public List<Comanda> getComandas() {
+		return comandas;
+	}
+
+	public void setComandas(List<Comanda> comandas) {
+		this.comandas = comandas;
+	}
+
+	public Comanda getComanda() {
+		return comanda;
+	}
+
+	public void setComanda(Comanda comanda) {
+		this.comanda = comanda;
+	}
 	
 }

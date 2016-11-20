@@ -9,18 +9,18 @@
 </h:head>
 <h:body class="corpo">
 	<div>
-		<h:graphicImage library="img" name="odonto.png" style="margin-left:45%; width:100px; height:60px"/>
+		<h:graphicImage library="img" name="master-menu-logo1.png" style="margin-left:45%; width:100px; height:60px"/>
 	</div>
 	
 	<div style="width:100%; height:24px;  border-bottom: 2px solid red; border-top: 2px solid red;">
 		<div style="float: right; margin-right: 2%;">
-			<p:button value="ENTRAR" href="escolherLogin.xhtml"/>	
+			<p:button icon="ui-icon-triangle-1-e" iconPos="right" value="ENTRAR" href="escolherLogin.xhtml"/>	
 		</div>
 	</div>
 	<br/>
 			<h:form id="cadastroCliente">
 			<p:panelGrid columns="2" style="float:right; margin-right: 2%;">
-				<p:outputLabel value="Nome:" for="txtNome"/>
+			   <p:outputLabel value="Nome:" for="txtNome"/>
                <p:inputText id="txtNome" maxlength="150" value="#{clienteBean.cliente.nome}"/>
 
                <p:outputLabel value="E-mail:" for="txtEmail"/>
@@ -34,7 +34,7 @@
 				             
     	       <f:facet name="footer">
                     <h:panelGroup>
-                        <p:commandButton ajax="false" value="Cadastrar"  action="#{clienteBean.salvar}" style="width: 100%"  />
+                        <p:commandButton icon="ui-icon-disk" ajax="false" value="Cadastrar"  action="#{clienteBean.salvar}" style="width: 100%"  />
                     </h:panelGroup>
                     <p:growl id="messages" showDetail="true" autoUpdate="true" life="5000" />
 	           </f:facet>

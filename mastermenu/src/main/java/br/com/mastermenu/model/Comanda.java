@@ -1,19 +1,27 @@
 package br.com.mastermenu.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "comanda")
 public class Comanda {
-	private Cliente cliente = new Cliente();
+	
+	private Double total = 0.0;
+	
 	private Pedido pedido = new Pedido();
-	public Cliente getCliente() {
-		return cliente;
-	}
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
+	
 	public Pedido getPedido() {
 		return pedido;
 	}
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
+	}
+	public Double getTotal() {
+		return total;
+	}
+	public void setTotal(Double total) {
+		this.total = total;
 	}
 	
 	

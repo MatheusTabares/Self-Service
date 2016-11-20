@@ -12,8 +12,8 @@
 	<ui:define name="conteudo">
 		<h:form id="frmItemListagem">
 			<p:dataTable id="tblItens" widgetVar="tabelaItens" paginator="true"
-				emptyMessage="Nenhum item encontrado." var="item"
-				value="#{clienteBean.pedido.listaItens}">
+				emptyMessage="Nenhum item incluido." var="item"
+				value="#{clienteBean.pedidos}">
 
 				<f:facet name="header">
                     Lista de Pedidos
@@ -43,10 +43,11 @@
 							value="#{item}" />
 					</p:commandButton>
 					<p:commandButton icon="ui-icon-trash"
-						oncomplete="PF('dlgItemExcluir').show();"
-						update=":frmItemExcluir:pnlItemExcluir">
-						<f:setPropertyActionListener target="#{clienteBean.item}"
-							value="#{item}" />
+						action="#{clienteBean.excluirItemDaListaDePedidos(item)}"
+						update=":frmItemListagem"
+						onclick="if (!confirm('Confirma a exclusão do profissional?')) return false;">
+						<!-- <f:setPropertyActionListener target="#{clienteBean.item}"
+							value="#{item}" />  -->
 					</p:commandButton>
 				</p:column>
 				<f:facet name="footer">                                                  
