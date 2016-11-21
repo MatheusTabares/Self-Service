@@ -21,11 +21,11 @@ import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
 @Entity
-@Table(name = "cozinha")
-public class Cozinha implements Serializable{
+@Table(name = "copa")
+public class Copa implements Serializable{
 	
-	private static final long serialVersionUID = -2929123743178307906L;
-	
+	private static final long serialVersionUID = 2372786220552352148L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
@@ -36,7 +36,7 @@ public class Cozinha implements Serializable{
 	
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@ManyToMany(targetEntity = Item.class, cascade = CascadeType.ALL)
-	@JoinTable(name = "cozinha_tem_pedidos",
+	@JoinTable(name = "copa_tem_pedidos",
 	joinColumns = @JoinColumn(unique=false, name = "pedidosSolicitados"))
 	private List<Item> pedidosSolicitados = new ArrayList<Item>();
 	

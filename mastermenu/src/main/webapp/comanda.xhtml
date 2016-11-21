@@ -10,17 +10,18 @@
 		<ui:include src="/includes/menuPrincipalCliente.xhtml" />
 	</ui:define>
 	<ui:define name="conteudo">
-		<p:dataTable id="tblComanda" widgetVar="tabelaComanda"
+		<h:form id="frmComanda">
+			<p:dataTable id="tblComanda" widgetVar="tabelaComanda" paginator="true"
 				emptyMessage="Comanda vazia." var="item"
-				value="#{clienteBean.comanda.pedido.listaItens}">
+				value="#{clienteBean.comanda.pedidosSolicitados}">
 
 				<f:facet name="header">
                     Comanda
                 </f:facet>
-				<p:column headerText="Descrição:">
+				<p:column headerText="Item:">
 					<h:outputText value="#{item.nome}" />
 				</p:column>
-				<p:column headerText="Valor Unitário:">
+				<p:column headerText="Valor:">
 					<h:outputText value="#{item.valor}" />
 				</p:column>
 				<p:columnGroup type="footer">
@@ -28,7 +29,8 @@
 	                    <p:column footerText="Total: " style="text-align:right"/>
 	                    <p:column footerText="#{clienteBean.comanda.total}" />
                 	</p:row>
-            	</p:columnGroup>
+           		</p:columnGroup>
 			</p:dataTable>
+		</h:form>
 	</ui:define>
 </ui:composition>

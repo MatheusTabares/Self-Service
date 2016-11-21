@@ -10,6 +10,7 @@ import javax.faces.context.FacesContext;
 
 import br.com.mastermenu.enums.CargoProfissional;
 import br.com.mastermenu.model.Cliente;
+import br.com.mastermenu.model.Comanda;
 import br.com.mastermenu.model.Endereco;
 import br.com.mastermenu.model.Profissional;
 import br.com.mastermenu.model.SegurancaSenha;
@@ -183,7 +184,14 @@ public class ProfissionalBean {
 		}
 		return false;
 	}
-
+	
+	public void encerrarComanda(Comanda comanda) {
+		comanda.setAberta(false);
+	}
+	
+	public String sair() {
+		return "index?faces-redirect=true";
+	}
 	
 	public void listar() {
 		this.profissionalDAO = new ProfissionalDAO();

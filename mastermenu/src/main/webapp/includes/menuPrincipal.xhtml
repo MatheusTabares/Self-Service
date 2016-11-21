@@ -30,6 +30,10 @@
 				<p:menuitem icon="ui-icon-document" value="Cozinha" url="pedidosCozinha.xhtml" />
 				<p:menuitem icon="ui-icon-document" value="Copa" url="pedidosCopa.xhtml" />
 			</p:submenu>
+			
+			<p:submenu label="Sair">
+				<p:menuitem value="Sair" action="#{profissionalBean.sair}" />
+			</p:submenu>
 		</p:menu>
 	</h:form>
 </ui:composition>

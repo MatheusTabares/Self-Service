@@ -18,8 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-@Table(name = "pedido")
 @Entity
+@Table(name = "pedido")
 public class Pedido implements Serializable{
 
 	private static final long serialVersionUID = 7340479468898239438L;

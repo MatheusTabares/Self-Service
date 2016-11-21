@@ -9,11 +9,16 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import br.com.mastermenu.model.Cliente;
 import br.com.mastermenu.model.Comanda;
+import br.com.mastermenu.model.Copa;
+import br.com.mastermenu.model.Cozinha;
 import br.com.mastermenu.model.Endereco;
 import br.com.mastermenu.model.Item;
 import br.com.mastermenu.model.Pedido;
 import br.com.mastermenu.model.SegurancaSenha;
 import br.com.mastermenu.persistencia.ClienteDAO;
+import br.com.mastermenu.persistencia.ComandaDAO;
+import br.com.mastermenu.persistencia.CopaDAO;
+import br.com.mastermenu.persistencia.CozinhaDAO;
 import br.com.mastermenu.persistencia.SegurancaSenhaDAO;
 import br.com.mastermenu.util.HashUtil;
 
@@ -38,15 +43,16 @@ public class ClienteBean {
 	private String msgCompleteSeusDados;
 	private Item item;
 	private List<Pedido> listaDePedidos = new ArrayList<Pedido>();
-	private List<Item> pedidoCopa;
-	private List<Item> pedidoCozinha;
 	private List<Item> pedidos;
-	private List<Pedido> pedidosCopa;
-	private List<Pedido> pedidosCozinha;
-	private List<Item> acompanharPedidosCopa;
-	private List<Item> acompanharPedidosCozinha;
-	private List<Comanda> comandas;
+	private List<Comanda> comandasAbertas;
+	private List<Copa> pedidosCopa;
+	private List<Cozinha> pedidosCozinha;
 	private Comanda comanda;
+	private Cozinha cozinha;
+	private ComandaDAO comandaDAO;
+	private Copa copa;
+	private CozinhaDAO cozinhaDAO;
+	private CopaDAO copaDAO;
 	
 	public ClienteBean() {
 		this.cliente = new Cliente();
@@ -62,15 +68,16 @@ public class ClienteBean {
 		this.lista = new ArrayList<Cliente>();
 		this.listaAtivos = new ArrayList<Cliente>();
 		this.item = new Item();
-		this.pedidoCopa = new ArrayList<Item>();
-		this.pedidoCozinha = new ArrayList<Item>();
 		this.pedidos = new ArrayList<Item>();
-		this.pedidosCopa = new ArrayList<Pedido>();
-		this.pedidosCozinha = new ArrayList<Pedido>();
-		this.acompanharPedidosCopa = new ArrayList<Item>();
-		this.acompanharPedidosCozinha = new ArrayList<Item>();
-		this.comandas = new ArrayList<Comanda>();
+		this.comandasAbertas = new ArrayList<Comanda>();
 		this.comanda = new Comanda();
+		this.cozinha = new Cozinha();
+		this.comandaDAO = new ComandaDAO();
+		this.copa = new Copa();
+		this.pedidosCopa = new ArrayList<Copa>();
+		this.pedidosCozinha = new ArrayList<Cozinha>();
+		this.cozinhaDAO = new CozinhaDAO();
+		this.copaDAO = new CopaDAO();
 	}
 
 	public void novo() {
@@ -256,13 +263,6 @@ public class ClienteBean {
 	public void incluirItemNaListaDePedidos(Item item) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage facesMessage;
-		
-		if(item.getTipo().getTipo() == 1) {
-			this.pedidoCozinha.add(item);
-		}
-		else if(item.getTipo().getTipo() == 2) {
-			this.pedidoCopa.add(item);
-		}
 		this.pedidos.add(item);
 		
 		facesMessage = new FacesMessage(item.getNome() + " adicionado a lista de pedidos.");
@@ -273,27 +273,73 @@ public class ClienteBean {
 	public String solicitarPedido() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		
-		Pedido pedidoCopa = new Pedido();
-		pedidoCopa.setCliente(this.authenticationClienteBean.getClienteLogado());
-		pedidoCopa.setListaItens(this.pedidoCopa);
-		this.pedidosCopa.add(pedidoCopa);
-		this.acompanharPedidosCopa.addAll(this.pedidoCopa);
+		if(this.comanda.getCliente() == null && this.cozinha.getCliente() == null 
+				&& this.copa.getCliente() == null) {
+			this.comanda.setCliente(this.authenticationClienteBean.getClienteLogado());
+			this.cozinha.setCliente(this.authenticationClienteBean.getClienteLogado());
+			this.copa.setCliente(this.authenticationClienteBean.getClienteLogado());
+		}
 		
-		Pedido pedidoCozinha = new Pedido();
-		pedidoCozinha.setCliente(this.authenticationClienteBean.getClienteLogado());
-		pedidoCozinha.setListaItens(this.pedidoCozinha);
-		this.pedidosCozinha.add(pedidoCozinha);
-		this.acompanharPedidosCozinha.addAll(this.pedidoCozinha);
+		 
+		for(Item item : this.pedidos) {
+				this.comanda.getPedidosSolicitados().add(item);
+				//this.comandaDAO.salvar(this.comanda);
+				
+				if(item.getTipo().getTipo() == 1) {
+					this.cozinha.getPedidosSolicitados().add(item);
+				}	
+				else if (item.getTipo().getTipo() == 2) { 
+					this.copa.getPedidosSolicitados().add(item);
+				}
+			}
 		
-		this.comanda.getPedido().setListaItens(this.pedidos);
-		this.comanda.getPedido().setCliente(this.authenticationClienteBean.getClienteLogado());
+		if(this.pedidosCopa.isEmpty()) {
+			this.pedidosCopa.add(this.copa);
+		}
+		
 		somarTotalComanda();
-		this.comandas.add(this.comanda);
+		for(Comanda comanda : this.comandasAbertas) {
+			if(comanda.getCliente().equals(this.comanda.getCliente())) {
+				comanda = this.comanda;
+				this.comandaDAO.atualizar(comanda);
+			} else {
+				this.comandasAbertas.add(this.comanda);
+				this.comandaDAO.salvar(comanda);
+			}
+		}
 		
+		if(this.comandasAbertas.isEmpty()) {
+			this.comandasAbertas.add(this.comanda);
+			this.comandaDAO.salvar(comanda);
+		}
+		
+		
+		
+		if(this.pedidosCozinha.isEmpty()) {
+			this.pedidosCozinha.add(this.cozinha);
+		} else {
+			for(int i = 0; i < this.pedidosCozinha.size(); i++) {
+				if(this.pedidosCozinha.get(i).getId().equals(this.cozinha.getId())) {
+					this.pedidosCozinha.set(i, this.cozinha);
+					//this.cozinhaDAO.salvar(this.cozinha);
+				} else {
+					this.pedidosCozinha.add(this.cozinha);
+					//this.cozinhaDAO.atualizar(this.cozinha);
+				}
+			}
+			for(int i = 0; i < this.pedidosCopa.size(); i++) {
+				if(this.pedidosCopa.get(i).getId().equals(this.copa.getId())) {
+					this.pedidosCopa.set(i, this.copa);
+					//this.copaDAO.salvar(this.copa);
+					
+				} else {
+					this.pedidosCopa.add(this.copa);
+					//this.copaDAO.atualizar(this.copa);
+				}
+			}
+		}
 		FacesMessage facesMessage = new FacesMessage("Seus Pedidos foram solicitados.");
 		context.addMessage(null, facesMessage);
-		this.pedidoCopa = new ArrayList<Item>();
-		this.pedidoCozinha = new ArrayList<Item>();
 		this.pedidos = new ArrayList<Item>();
 		return "";
 	}
@@ -304,15 +350,7 @@ public class ClienteBean {
 		if(this.pedidos.contains(item)) {
 			this.pedidos.remove(item);
 		}
-		if(item.getTipo().getTipo() == 2) {
-			if(this.pedidoCopa.contains(item)) {
-				this.pedidoCopa.remove(item);
-			}
-		} else {
-			if(this.pedidoCozinha.contains(item)) {
-				this.pedidoCozinha.remove(item);
-			}
-		}
+		
 		facesMessage = new FacesMessage("Retirado " + item.getNome() + " da lista de pedidos.");
 		context.addMessage(null, facesMessage);
 		item = new Item();
@@ -321,10 +359,19 @@ public class ClienteBean {
 	
 	public void somarTotalComanda() {
 		Double somador = 0.0;
-		for(Item item : this.comanda.getPedido().getListaItens()) {
+		for(Item item : this.comanda.getPedidosSolicitados()) {
 			somador += item.getValor();
 		}
 		this.comanda.setTotal(somador);
+	}
+	
+	public String encerrarComanda(Comanda comandaTela) {
+		for(Comanda comanda : this.comandasAbertas) {
+			if(comanda.equals(comandaTela)) {
+				comanda.setAberta(false);
+			}
+		}
+		return null;
 	}
 
 	/*public String excluirItemDaListaDePedidos() {
@@ -562,60 +609,12 @@ public class ClienteBean {
 		this.listaDePedidos = listaDePedidos;
 	}
 
-	public List<Pedido> getPedidosCopa() {
-		return pedidosCopa;
-	}
-
-	public void setPedidosCopa(List<Pedido> pedidosCopa) {
-		this.pedidosCopa = pedidosCopa;
-	}
-
-	public List<Pedido> getPedidosCozinha() {
-		return pedidosCozinha;
-	}
-
-	public void setPedidosCozinha(List<Pedido> pedidosCozinha) {
-		this.pedidosCozinha = pedidosCozinha;
-	}
-
 	public AuthenticationClienteBean getAuthenticationClienteBean() {
 		return authenticationClienteBean;
 	}
 
 	public void setAuthenticationClienteBean(AuthenticationClienteBean authenticationClienteBean) {
 		this.authenticationClienteBean = authenticationClienteBean;
-	}
-
-	public List<Item> getAcompanharPedidosCopa() {
-		return acompanharPedidosCopa;
-	}
-
-	public void setAcompanharPedidosCopa(List<Item> acompanharPedidosCopa) {
-		this.acompanharPedidosCopa = acompanharPedidosCopa;
-	}
-
-	public List<Item> getAcompanharPedidosCozinha() {
-		return acompanharPedidosCozinha;
-	}
-
-	public void setAcompanharPedidosCozinha(List<Item> acompanharPedidosCozinha) {
-		this.acompanharPedidosCozinha = acompanharPedidosCozinha;
-	}
-
-	public List<Item> getPedidoCopa() {
-		return pedidoCopa;
-	}
-
-	public void setPedidoCopa(List<Item> pedidoCopa) {
-		this.pedidoCopa = pedidoCopa;
-	}
-
-	public List<Item> getPedidoCozinha() {
-		return pedidoCozinha;
-	}
-
-	public void setPedidoCozinha(List<Item> pedidoCozinha) {
-		this.pedidoCozinha = pedidoCozinha;
 	}
 
 	public List<Item> getPedidos() {
@@ -626,12 +625,12 @@ public class ClienteBean {
 		this.pedidos = pedidos;
 	}
 
-	public List<Comanda> getComandas() {
-		return comandas;
+	public List<Comanda> getComandasAbertas() {
+		return comandasAbertas;
 	}
 
-	public void setComandas(List<Comanda> comandas) {
-		this.comandas = comandas;
+	public void setComandasAbertas(List<Comanda> comandasAbertas) {
+		this.comandasAbertas = comandasAbertas;
 	}
 
 	public Comanda getComanda() {
@@ -641,5 +640,41 @@ public class ClienteBean {
 	public void setComanda(Comanda comanda) {
 		this.comanda = comanda;
 	}
+
+	public Cozinha getCozinha() {
+		return cozinha;
+	}
+
+	public void setCozinha(Cozinha cozinha) {
+		this.cozinha = cozinha;
+	}
+
+	public Copa getCopa() {
+		return copa;
+	}
+
+	public void setCopa(Copa copa) {
+		this.copa = copa;
+	}
+
+	public List<Copa> getPedidosCopa() {
+		return pedidosCopa;
+	}
+
+	public void setPedidosCopa(List<Copa> pedidosCopa) {
+		this.pedidosCopa = pedidosCopa;
+	}
+
+	public List<Cozinha> getPedidosCozinha() {
+		return pedidosCozinha;
+	}
+
+	public void setPedidosCozinha(List<Cozinha> pedidosCozinha) {
+		this.pedidosCozinha = pedidosCozinha;
+	}
+	
+	
+	
+	
 	
 }

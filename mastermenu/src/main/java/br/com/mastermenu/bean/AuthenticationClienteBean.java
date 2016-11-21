@@ -71,7 +71,7 @@ private Cliente clienteLogado;
 	}
 	public String sair() {
 		clienteLogado = null;
-		return "/loginCliente.xhtml?faces-redirect=true";
+		return "/index.xhtml?faces-redirect=true";
 		
 	}
 	

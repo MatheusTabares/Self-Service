@@ -14,7 +14,7 @@
 		<h:form id="frmItemListagem">
 			<p:dataTable id="tblPedidos" widgetVar="tabelaPedidos" paginator="true"
 				emptyMessage="Nenhum pedido solicitado." var="item"
-				value="#{clienteBean.acompanharPedidosCozinha}">
+				value="#{clienteBean.cozinha.pedidosSolicitados}">
 
 				<f:facet name="header">
                     Pedidos Cozinha

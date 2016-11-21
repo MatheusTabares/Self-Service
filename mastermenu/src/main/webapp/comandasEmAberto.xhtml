@@ -11,7 +11,7 @@
 	</ui:define>
 	<ui:define name="conteudo">
 			<h:form id="frmComandas">
-				<p:dataTable id="playersSubTable" var="player" value="#{clienteBean.comandas}">  
+				<p:dataTable id="playersSubTable" var="player" value="#{clienteBean.comandasAbertas}">  
 			    <f:facet name="header">  
 			        <h:outputText value="Comandas Em Aberto"/>  
 			    </f:facet>  
@@ -19,15 +19,15 @@
 			    <p:columnGroup type="header">  
 			        <p:row>  
 			            <p:column rowspan="2" headerText="Descrição: " />
-			            <p:column rowspan="2" headerText="Valor: " />  
+			            <p:column rowspan="2" headerText="Valor: " />
 			        </p:row>  
 			    </p:columnGroup>  
 			  
-			    <p:subTable var="details" value="#{player.pedido.listaItens}">  
+			    <p:subTable var="details" value="#{player.pedidosSolicitados}">  
 			        <f:facet name="header">  
-			            <h:outputText value="Cliente : #{player.pedido.cliente.nome}"/>  
+			            <h:outputText value="Cliente : #{player.cliente.nome}"/>  
 			        </f:facet>  
-			  
+						  
 			        <p:column>  
 			            <h:outputText value=" #{details.nome}"/>  
 			        </p:column>  
@@ -37,12 +37,15 @@
 			        <p:columnGroup type="footer">
                 	<p:row>
 	                    <p:column footerText="Total: " style="text-align:right"/>
-	                    <p:column footerText="#{clienteBean.comanda.total}" />
-                	</p:row>
+	                    <p:column footerText="#{player.total}" />
+	                </p:row>
             		</p:columnGroup>  
-			    
+            		<f:facet name="footer">  
+			            <p:commandButton value="ENCERRAR" action="#{clienteBean.encerrarComanda(player)}"/>
+			         
+			        </f:facet>  
 			    </p:subTable>  
-			</p:dataTable>
+		   </p:dataTable>
 		</h:form>
 		<p:growl id="messages" showDetail="true" autoUpdate="true" life="5000" />		
 	</ui:define>

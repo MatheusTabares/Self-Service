@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import org.hibernate.validator.constraints.Length;
 
@@ -18,6 +19,15 @@ public class Cliente extends Usuario{
 	@Length(max = 20)
 	private String cupom;
 	
+	@OneToOne(mappedBy = "cliente")
+	private Comanda comanda;
+	
+	@OneToOne(mappedBy = "cliente")
+	private Cozinha cozinha;
+
+	@OneToOne(mappedBy = "cliente")
+	private Copa copa;
+
 	public String getCupom() {
 		return cupom;
 	}

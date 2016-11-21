@@ -20,13 +20,13 @@ public class ClienteDAO {
      
             transacao.commit();
         } catch (HibernateException ex) {
-            System.out.println("Não foi possível adicionar. Erro: " + ex.getMessage());
+            System.out.println("Não foi possível adicionar cliente. Erro: " + ex.getMessage());
         } finally {
         	try {
         		// fecha a entity manager
         		sessao.close();
         	} catch (Throwable ex) {
-        		System.out.println("Erro ao fechar a operação de adicionar. Mensagem:" + ex.getMessage());
+        		System.out.println("Erro ao fechar a operação de adicionar cliente. Mensagem:" + ex.getMessage());
         	}
         }
 	}
@@ -42,13 +42,13 @@ public class ClienteDAO {
      
             transacao.commit();
      	} catch (Exception ex) {
-			System.out.println("Não foi possível atualizar. Erro: " + ex.getMessage());
+			System.out.println("Não foi possível atualizar cliente. Erro: " + ex.getMessage());
 		}  finally {
         	try {
         		// fecha a entity manager
         		sessao.close();
         	} catch (Throwable ex) {
-        		System.out.println("Erro ao fechar a operação de adicionar. Mensagem:" + ex.getMessage());
+        		System.out.println("Erro ao fechar a operação de adicionar cliente. Mensagem:" + ex.getMessage());
         	}
         }
 	}
@@ -64,13 +64,13 @@ public class ClienteDAO {
      
             transacao.commit();
 		} catch (Exception ex) {
-			System.out.println("Não foi possível remover. Erro: " + ex.getMessage());
+			System.out.println("Não foi possível remover cliente. Erro: " + ex.getMessage());
 		}  finally {
         	try {
         		// fecha a entity manager
         		sessao.close();
         	} catch (Throwable ex) {
-        		System.out.println("Erro ao fechar a operação de adicionar. Mensagem:" + ex.getMessage());
+        		System.out.println("Erro ao fechar a operação de remover cliente. Mensagem:" + ex.getMessage());
         	}
         }
 	}

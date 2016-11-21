@@ -13,31 +13,31 @@
 	<ui:define name="conteudo">
 		<h:form id="frmItemListagem">
 			<p:dataTable id="playersSubTable" var="player" value="#{clienteBean.pedidosCopa}">  
-    <f:facet name="header">  
-        <h:outputText value="Pedidos Copa"/>  
-    </f:facet>  
-  
-    <p:columnGroup type="header">  
-        <p:row>  
-            <p:column rowspan="2" headerText="Item " />
-            <!-- <p:column rowspan="2" headerText="Quantidade " />  -->  
-        </p:row>  
-    </p:columnGroup>  
-  
-    <p:subTable var="details" value="#{player.listaItens}">  
-        <f:facet name="header">  
-            <h:outputText value="Cliente : #{player.cliente.nome}"/>  
-        </f:facet>  
-  
-        <p:column>  
-            <h:outputText value=" #{details.nome}"/>  
-        </p:column>  
-        <!-- <p:column>  
-            <h:outputText value=" #{details.quantidade}"/>  
-        </p:column>   -->
-    
-    </p:subTable>  
-</p:dataTable>
+		    <f:facet name="header">  
+		        <h:outputText value="Pedidos Copa"/>  
+		    </f:facet>  
+		  
+		    <p:columnGroup type="header">  
+		        <p:row>  
+		            <p:column rowspan="2" headerText="Item " />
+		            <!-- <p:column rowspan="2" headerText="Quantidade " />  -->  
+		        </p:row>  
+		    </p:columnGroup>  
+		  
+		    <p:subTable var="details" value="#{player.pedidosSolicitados}">  
+		        <f:facet name="header">  
+		            <h:outputText value="Cliente : #{player.cliente.nome}"/>  
+		        </f:facet>  
+		  
+		        <p:column>  
+		            <h:outputText value=" #{details.nome}"/>  
+		        </p:column>  
+		        <!-- <p:column>  
+		            <h:outputText value=" #{details.quantidade}"/>  
+		        </p:column>   -->
+		    
+		    </p:subTable>  
+			</p:dataTable>
 		</h:form>
 	</ui:define>
 </ui:composition>

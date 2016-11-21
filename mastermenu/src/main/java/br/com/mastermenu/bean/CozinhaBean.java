@@ -27,10 +27,10 @@ public class CozinhaBean {
 	
 	public void salvar() {
 		for(Pedido pedido : pedidosCozinha) {
-			this.cozinhaDAO.salvar(pedido);
+			//this.cozinhaDAO.salvar(pedido);
 		}
 		this.cozinhaDAO = new CozinhaDAO();
-		getPedidosCozinha();
+		//getPedidosCozinha();
 	}
 	
 	public Cozinha getCozinha() {
@@ -40,9 +40,9 @@ public class CozinhaBean {
 		this.cozinha = cozinha;
 	}
 
-	public List<Pedido> getPedidosCozinha() {
-		return pedidosCozinha = this.cozinhaDAO.listar();
-	}
+	//public List<Pedido> getPedidosCozinha() {
+		//return pedidosCozinha = this.cozinhaDAO.listar();
+	//}
 
 	public void setPedidosCozinha(List<Pedido> pedidosCozinha) {
 		this.pedidosCozinha = pedidosCozinha;
