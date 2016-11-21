@@ -15,7 +15,7 @@
 
 	<ui:define name="conteudo">
 		<h:form id="form">
-			<p:dataGrid var="item" value="#{cardapioBean.itens}" columns="3"
+			<p:dataGrid var="item" value="#{itemBean.itens}" columns="3"
 				layout="grid" rows="12" paginator="true" id="itens"
 				emptyMessage="Nenhum item encontrado."
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -29,7 +29,7 @@
 					<h:panelGrid columns="1" style="width:100%">
 						<p:column>
 							<p:graphicImage style="width:20%"
-								value="#{cardapioBean.metodoLista}" width="100" height="100"
+								value="#{itemBean.metodoLista}" width="100" height="100"
 								cache="false">
 								<f:param name="itemId" value="#{item.idItem}" />
 
@@ -37,8 +37,9 @@
 
 							<br/>
 
-							<p:commandButton update="form:dlgItemEscolher" action="#{cardapioBean.buscaDados(item.idItem)}"
-							oncomplete="PF('dlgItemEscolher').show()" title="Detalhes">
+							<p:commandButton update="form:dlgItemEscolher" oncomplete="PF('dlgItemEscolher').show()" title="Detalhes">
+							 <!-- action="#{itemBean.buscaDados(item.idItem)}" -->
+							
 							</p:commandButton>
 
 						</p:column>
@@ -62,7 +63,7 @@
 				<h:panelGrid columns="2" cellpadding="5">
 					<p:outputLabel value="Ingredientes:                         " />
 					<p:outputPanel id="display" style="width:250px;padding-left:5px;">
-						<p:dataList value="#{cardapioBean.item.ingredientes}"
+						<p:dataList value="#{itemBean.item.ingredientes}"
 							var="ingrediente" emptyMessage="Nenhum Ingrediente Selecionado">
 						#{ingrediente}
 							
@@ -71,8 +72,8 @@
 
 					<p:outputLabel value="Valor:    " />
 
-					<p:outputLabel value="#{cardapioBean.item.valor}" />
-
+					<p:outputLabel value="#{itemBean.item.valor}" />
+					
 					<p:commandButton value="Fechar"
 						onclick="PF('dlgItemEscolher').hide();" />
 				</h:panelGrid>

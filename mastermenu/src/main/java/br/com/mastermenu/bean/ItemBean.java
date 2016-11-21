@@ -39,6 +39,7 @@ public class ItemBean {
 	private UploadedFile fotoUpload;
 	private StreamedContent fotoDownload;
 	private StreamedContent metodo;
+	private StreamedContent metodoLista;
 
 	@PostConstruct
 	public void prepararPesquisa() {
@@ -53,6 +54,31 @@ public class ItemBean {
 
 	public void preparaNovo() {
 		item = new Item();
+	}
+	
+	public StreamedContent getMetodoLista() throws NumberFormatException, Exception {
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		if (context.getCurrentPhaseId() == PhaseId.RENDER_RESPONSE) {
+			// So, we're rendering the HTML. Return a stub StreamedContent so
+			// that it will generate right URL.
+			return new DefaultStreamedContent();
+		} else {
+
+			String itemId = context.getExternalContext().getRequestParameterMap().get("itemId");
+
+			ItemDAO dao = new ItemDAO();
+
+			Item i = dao.carregar(Long.valueOf(itemId));
+
+			this.metodoLista = new DefaultStreamedContent(new ByteArrayInputStream(i.getFoto()));
+			return metodoLista;
+		}
+	}
+	
+	public void buscaDados(Long id) throws NumberFormatException, Exception {
+			ItemDAO dao = new ItemDAO();
+			item = dao.carregar(id);
 	}
 
 	public void incluir() {
@@ -144,7 +170,7 @@ public class ItemBean {
 	public StreamedContent metodo() throws IOException, Exception {
 		FacesContext context = FacesContext.getCurrentInstance();
 
-		if (item.getFoto() == null) {
+		if (item == null || item.getFoto() == null) {
 			// So, we're rendering the HTML. Return a stub StreamedContent so
 			// that it will generate right URL.
 			return new DefaultStreamedContent();
@@ -173,6 +199,11 @@ public class ItemBean {
 			return new DefaultStreamedContent(new ByteArrayInputStream(item.getFoto()));
 
 		}
+	}
+
+
+	public void setMetodoLista(StreamedContent metodoLista) {
+		this.metodoLista = metodoLista;
 	}
 
 	public Item getItem() {

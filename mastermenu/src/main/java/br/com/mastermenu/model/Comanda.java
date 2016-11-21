@@ -20,7 +20,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-@Entity
 @Table(name = "comanda")
 public class Comanda {
 	@Id
