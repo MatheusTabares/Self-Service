@@ -1,6 +1,7 @@
 package br.com.mastermenu.bean;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -67,8 +68,14 @@ private Cliente clienteLogado;
 			context.addMessage(null, msg);
 		}
 		return null;
+		}
+		
+		public boolean temPermissao(List<String> permissoes){
+			System.out.println("");
+			return true;
+		}
 
-	}
+	
 	public String sair() {
 		clienteLogado = null;
 		return "/loginCliente.xhtml?faces-redirect=true";

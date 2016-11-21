@@ -17,13 +17,12 @@ import org.primefaces.model.DefaultStreamedContent;
 import org.primefaces.model.StreamedContent;
 import org.primefaces.model.UploadedFile;
 
-import br.com.mastermenu.model.Ingrediente;
+
 import br.com.mastermenu.model.Item;
 import br.com.mastermenu.persistencia.ItemDAO;
 
 @ManagedBean
 @SessionScoped
-
 public class CardapioBean {
 
 	private Item item = new Item();
@@ -33,6 +32,7 @@ public class CardapioBean {
 	private StreamedContent fotoDownload;
 	private StreamedContent metodo;
 	private StreamedContent metodoLista;
+	
 
 	public StreamedContent getMetodoLista() throws NumberFormatException, Exception {
 		FacesContext context = FacesContext.getCurrentInstance();

@@ -1,42 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-        <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns="http://java.sun.com/xml/ns/javaee"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-        id="WebApp_ID" version="3.0">
- 			<context-param>
- 				<param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
- 				<param-value>true</param-value>
- 			</context-param>
- 			
- 			
-            <!-- Nome da sua aplicação -->
-            <display-name>books_jsf</display-name>
- 
-            <!-- Configuração do arquivo inicial quando a aplicação for inicializada -->
-            <welcome-file-list>
-                <welcome-file>app_default.xhtml</welcome-file>
-            </welcome-file-list>
-            
-		     <filter>
-				 <filter-name>PrimeFaces FileUpload Filter</filter-name>
-			  	 	<filter-class>
-						 org.primefaces.webapp.filter.FileUploadFilter
-					</filter-class>
-			</filter>	
-			<filter-mapping>
-				 <filter-name>PrimeFaces FileUpload Filter</filter-name>
-				 	<servlet-name>Faces Servlet</servlet-name>
-			</filter-mapping>
- 
-            <!-- Configuração do Controlador Faces Servlet -->
-            <servlet>
-                <servlet-name>Faces Servlet</servlet-name>
-                <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-                <load-on-startup>1</load-on-startup>
-            </servlet>
-            <servlet-mapping>
-                <servlet-name>Faces Servlet</servlet-name>
-                <url-pattern>*.xhtml</url-pattern>
-            </servlet-mapping>
-         
-        </web-app>
+<web-app id="WebApp_ID" version="3.0"
+ xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+ <!-- Nome da sua aplicação -->
+ <display-name>books_jsf</display-name>
+ <context-param>
+  <param-name>javax.faces.CONFIG_FILES</param-name>
+  <param-value>/WEB-INF/faces-config.xml</param-value>
+ </context-param>
+ <context-param>
+  <param-name>primefaces.CLIENT_SIDE_VALIDATION</param-name>
+  <param-value>true</param-value>
+ </context-param>
+ <filter>
+  <filter-name>PrimeFaces FileUpload Filter</filter-name>
+  <filter-class>org.primefaces.webapp.filter.FileUploadFilter</filter-class>
+ </filter>
+ <filter-mapping>
+  <filter-name>PrimeFaces FileUpload Filter</filter-name>
+  <servlet-name>Faces Servlet</servlet-name>
+ </filter-mapping>
+ <!-- Declaracao do servlet do Spring MVC abaixo-->
+ <servlet>
+  <servlet-name>spring mvc</servlet-name>
+  <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+  <init-param>
+   <param-name>contextConfigLocation</param-name>
+   <param-value>/WEB-INF/spring-context.xml</param-value>
+  </init-param>
+ </servlet>
+ <!-- Configuração do Controlador Faces Servlet -->
+ <servlet>
+  <servlet-name>Faces Servlet</servlet-name>
+  <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+  <load-on-startup>1</load-on-startup>
+ </servlet>
+ <servlet-mapping>
+  <servlet-name>spring mvc</servlet-name>
+  <url-pattern>/</url-pattern>
+ </servlet-mapping>
+ <servlet-mapping>
+  <servlet-name>Faces Servlet</servlet-name>
+  <url-pattern>*.xhtml</url-pattern>
+ </servlet-mapping>
+ <!-- Configuração do arquivo inicial quando a aplicação for inicializada -->
+ <welcome-file-list>
+  <welcome-file>index.xhtml</welcome-file>
+ </welcome-file-list>
+</web-app>
