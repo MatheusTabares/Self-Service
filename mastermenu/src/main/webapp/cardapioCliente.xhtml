@@ -15,7 +15,7 @@
 
 	<ui:define name="conteudo">
 		<h:form id="form">
-			<p:dataGrid var="item" value="#{cardapioBean.itens}" columns="3"
+			<p:dataGrid var="item" value="#{itemBean.itens}" columns="3"
 				layout="grid" rows="12" paginator="true" id="itens"
 				emptyMessage="Nenhum item encontrado."
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
