@@ -12,11 +12,15 @@ import br.com.mastermenu.model.Profissional;
 import br.com.mastermenu.util.HibernateUtil;
 
 public class ProfissionalDAO {
+	private final Session sessao;
+
+    public ProfissionalDAO() {
+        sessao = HibernateUtil.getSessionFactory().openSession();
+    }
+
 	public void salvar(Profissional profissional) {
-		Session sessao = null;
 		Transaction transacao = null;
 		try {
-			sessao = HibernateUtil.getSessionFactory().openSession();
 			transacao = sessao.beginTransaction();
         	
         	sessao.save(profissional);
@@ -27,7 +31,7 @@ public class ProfissionalDAO {
         } finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de adicionar. Mensagem:" + ex.getMessage());
         	}
@@ -35,10 +39,8 @@ public class ProfissionalDAO {
 	}
 	
 	public void atualizar(Profissional profissional) {
-		Session sessao = null;
 		Transaction transacao = null;
 		try {
-			sessao = HibernateUtil.getSessionFactory().openSession();
 			transacao = sessao.beginTransaction();
         	
         	sessao.update(profissional);
@@ -49,7 +51,7 @@ public class ProfissionalDAO {
 		}  finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de adicionar. Mensagem:" + ex.getMessage());
         	}
@@ -57,17 +59,15 @@ public class ProfissionalDAO {
 	}
 	
 	public Profissional carregarPorEmail(String email) {
-		Session sessao = null;
 		Profissional profissional = new Profissional();
 		try {
-			sessao = HibernateUtil.getSessionFactory().openSession();
 			profissional = (Profissional) sessao.createQuery("FROM Usuario WHERE email=:email").setString("email", email).uniqueResult();
 		} catch (HibernateException ex) {
 			System.out.println("Não foi possível encontrar o profissional por email. Erro: " + ex.getMessage());
 		} finally {
 			try {
 				// fecha a entity manager
-				sessao.close();
+				//sessao.close();
 			} catch (Throwable ex) {
 				System.out.println("Erro ao fechar a operação de carregar por email. Mensagem:" + ex.getMessage());
 			}
@@ -77,8 +77,6 @@ public class ProfissionalDAO {
 	
 	//Authentication
 	public Profissional authentication (String email, String senha){
-		
-		Session sessao = HibernateUtil.getSessionFactory().openSession();
 		Profissional prof = null;
 		try {
 				Query consulta = sessao.getNamedQuery("profissional.authentication");
@@ -89,17 +87,16 @@ public class ProfissionalDAO {
 		} catch (Exception ex) {
 			throw ex;
 		}finally {
-			sessao.close();
+			//sessao.close();
 		}
 		
 		return prof;
 	}
 
 	public void excluir(Profissional profissional) {
-		Session sessao = null;
 		Transaction transacao = null;
 		try {
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			//sessao = HibernateUtil.getSessionFactory().openSession();
 			transacao = sessao.beginTransaction();
         	
         	sessao.delete(profissional);
@@ -110,7 +107,7 @@ public class ProfissionalDAO {
 		}  finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de adicionar. Mensagem:" + ex.getMessage());
         	}
@@ -119,16 +116,14 @@ public class ProfissionalDAO {
 	
 	public Profissional carregar(Long id) {
     	Profissional profissional = new Profissional();
-    	Session sessao = null;
     	try {
-    		sessao = HibernateUtil.getSessionFactory().openSession();
-        	profissional =  (Profissional)sessao.get(Profissional.class, id);
+    		profissional =  (Profissional)sessao.get(Profissional.class, id);
         } catch (HibernateException ex) {
             System.out.println("Não foi possível carregar o profissional. Erro: " + ex.getMessage());
         } finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de carregar profissional. Mensagem:" + ex.getMessage());
         	}
@@ -137,12 +132,10 @@ public class ProfissionalDAO {
     }
 	
 	public List<Profissional> listar() {
-		Session sessao = null;
 		Transaction transacao = null;
 		Query consulta = null;
 		List<Profissional> lista = null;
 		try {
-			sessao = HibernateUtil.getSessionFactory().openSession();
 			transacao = sessao.beginTransaction();
         	consulta = sessao.createQuery("from Profissional");
         	lista = consulta.list();
@@ -154,7 +147,7 @@ public class ProfissionalDAO {
 		}  finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        	//	sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de adicionar. Mensagem:" + ex.getMessage());
         	}
@@ -164,17 +157,16 @@ public class ProfissionalDAO {
 	@SuppressWarnings("unchecked")
 	public List<Profissional> listarAtivos() {
     	boolean ativo = true;
-		Session sessao = null;
-    	List<Profissional> listaAtivos = null;
+		List<Profissional> listaAtivos = null;
     	try {
-    		sessao = HibernateUtil.getSessionFactory().openSession();
+    		//sessao = HibernateUtil.getSessionFactory().openSession();
     		listaAtivos = sessao.createQuery("FROM Profissional WHERE ativo = :ativo").setBoolean("ativo", ativo).list();
         } catch (HibernateException ex) {
             System.out.println("Não foi possível listar profissionais ativos. Erro: " + ex.getMessage());
         } finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de listar profissionais ativos. Mensagem:" + ex.getMessage());
         	}

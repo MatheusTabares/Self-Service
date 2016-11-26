@@ -16,9 +16,11 @@ public class ItemDAO {
 
 	    private Session sessao;
 	   
-	    
+	    public ItemDAO() {
+	    	sessao = HibernateUtil.getSessionFactory().openSession();
+	    }
 	    public void incluir(Item i) throws Exception {
-	        sessao = HibernateUtil.getSessionFactory().openSession();
+	        
 	        Transaction t = null;
 	        try {
 	            t = sessao.beginTransaction();
@@ -29,12 +31,12 @@ public class ItemDAO {
 	                t.rollback();
 	            }
 	        } finally {
-	            sessao.close();
+	            //sessao.close();
 	        }
 	    }
 	    
 	    public void alterar(Item i) throws Exception {
-	        sessao = HibernateUtil.getSessionFactory().openSession();
+	        //sessao = HibernateUtil.getSessionFactory().openSession();
 	        Transaction t = null;
 	        
 	     try {
@@ -46,13 +48,13 @@ public class ItemDAO {
 	                t.rollback();
 	            }
 	        } finally {
-	            sessao.close();
+	            //sessao.close();
 	        }
 	    }
 	    
 	    
 	    public void remover(Item i) {
-	       sessao = HibernateUtil.getSessionFactory().openSession();
+	       //sessao = HibernateUtil.getSessionFactory().openSession();
 	        Transaction t = null;
 	        
 	     try {
@@ -64,17 +66,17 @@ public class ItemDAO {
 	                t.rollback();
 	            }
 	        } finally {
-	            sessao.close();
+	         //   sessao.close();
 	        }
 	    }
 	    
 	    public List<Item> listar() {
-			Session sessao = null;
+			//Session sessao = null;
 			Transaction transacao = null;
 			Query consulta = null;
 			List<Item> lista = null;
 			try {
-				sessao = HibernateUtil.getSessionFactory().openSession();
+				//sessao = HibernateUtil.getSessionFactory().openSession();
 				transacao = sessao.beginTransaction();
 	        	consulta = sessao.createQuery("from Item where ativo = 1");
 	        	lista = consulta.list();
@@ -94,7 +96,7 @@ public class ItemDAO {
 	    
 	    public Item carregar(Long id) throws Exception {
 	    	 
-	    	sessao = HibernateUtil.getSessionFactory().openSession();
+	    	//sessao = HibernateUtil.getSessionFactory().openSession();
 	    	try {
 	    	Item i = (Item) sessao.get(Item.class, id);
 	        return i;
@@ -102,7 +104,7 @@ public class ItemDAO {
         		System.out.println("Erro ao fechar a operação de adicionar. Mensagem:" + ex.getMessage());
         	} finally {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
 	    
 	    }
 			return null;	       

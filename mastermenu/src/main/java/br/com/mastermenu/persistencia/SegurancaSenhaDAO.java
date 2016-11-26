@@ -18,10 +18,8 @@ public class SegurancaSenhaDAO {
     }
 
     public void salvar(SegurancaSenha ss) {
-    	Session sessao = null;
-		Transaction transacao = null;
+    	Transaction transacao = null;
 		try {
-			sessao = HibernateUtil.getSessionFactory().openSession();
 			transacao = sessao.beginTransaction();
         	
         	sessao.save(ss);
@@ -32,7 +30,7 @@ public class SegurancaSenhaDAO {
         } finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de salvar segurança da senha. Mensagem:" + ex.getMessage());
         	}
@@ -49,10 +47,8 @@ public class SegurancaSenhaDAO {
     }
     
     public void atualizar(SegurancaSenha senha) {
-		Session sessao = null;
 		Transaction transacao = null;
 		try {
-			sessao = HibernateUtil.getSessionFactory().openSession();
 			transacao = sessao.beginTransaction();
         	
         	sessao.update(senha);
@@ -63,7 +59,7 @@ public class SegurancaSenhaDAO {
 		}  finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de adicionar. Mensagem:" + ex.getMessage());
         	}

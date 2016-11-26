@@ -27,7 +27,7 @@ public class EnderecoDAO {
         } finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de salvar endereço. Mensagem:" + ex.getMessage());
         	}
@@ -43,7 +43,7 @@ public class EnderecoDAO {
         } finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de carregar endereço. Mensagem:" + ex.getMessage());
         	}
@@ -60,7 +60,7 @@ public class EnderecoDAO {
         } finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de carregar endereço pelo Id do usuário. Mensagem:" + ex.getMessage());
         	}
@@ -79,7 +79,7 @@ public class EnderecoDAO {
         } finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de atualizar endereço. Mensagem:" + ex.getMessage());
         	}
@@ -96,7 +96,7 @@ public class EnderecoDAO {
         } finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de excluir endereço. Mensagem:" + ex.getMessage());
         	}
@@ -113,7 +113,7 @@ public class EnderecoDAO {
         } finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de listar endereços. Mensagem:" + ex.getMessage());
         	}

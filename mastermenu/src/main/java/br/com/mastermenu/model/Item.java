@@ -35,7 +35,7 @@ public class Item implements Serializable {
 	
 	@ManyToMany(targetEntity = Ingrediente.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "Item_Ingredientes",
-	joinColumns = @JoinColumn(unique=false, name = "ingrediente_id")) 
+	joinColumns = @JoinColumn(unique=false, name = "item_id")) 
     private Collection<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
 	
 	@Column(name= "ativo")

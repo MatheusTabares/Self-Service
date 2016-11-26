@@ -12,11 +12,16 @@ import br.com.mastermenu.model.Pedido;
 import br.com.mastermenu.util.HibernateUtil;
 
 public class PedidosDAO {
+	private Session sessao;
+	
+	public PedidosDAO() {
+		sessao = HibernateUtil.getSessionFactory().openSession();
+	}
 	public void salvarPedidosCozinha(Pedido pedido) {
-		Session sessao = null;
+		//Session sessao = null;
 		Transaction transacao = null;
 		try {
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			//sessao = HibernateUtil.getSessionFactory().openSession();
 			transacao = sessao.beginTransaction();
         	
         	sessao.save(pedido);
@@ -27,7 +32,7 @@ public class PedidosDAO {
         } finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de salvar pedido na cozinha. Mensagem:" + ex.getMessage());
         	}
@@ -36,12 +41,10 @@ public class PedidosDAO {
 	
 	@SuppressWarnings("unchecked")
 	public List<Pedido> listar() {
-		Session sessao = null;
 		Transaction transacao = null;
 		Query consulta = null;
 		List<Pedido> lista = null;
 		try {
-			sessao = HibernateUtil.getSessionFactory().openSession();
 			transacao = sessao.beginTransaction();
         	consulta = sessao.createQuery("from Pedido");
         	lista = consulta.list();
@@ -53,7 +56,7 @@ public class PedidosDAO {
 		}  finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        	//	sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de lista pedidos. Mensagem:" + ex.getMessage());
         	}
@@ -64,10 +67,9 @@ public class PedidosDAO {
 	public List<Pedido> listarAbertasPorIdCliente(Long idCliente) {
     	boolean aberta = true;
     	Long id = idCliente;
-		Session sessao = null;
+		//Session sessao = null;
     	List<Pedido> listaAbertasPorIdCliente = null;
     	try {
-    		sessao = HibernateUtil.getSessionFactory().openSession();
     		listaAbertasPorIdCliente = sessao.createQuery("FROM Pedido WHERE aberta = :aberta"
     				+ " AND cliente_id = :id").setBoolean("aberta", aberta).setLong("id", id).list();
         } catch (HibernateException ex) {
@@ -75,7 +77,7 @@ public class PedidosDAO {
         } finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de listar comandas em aberto pelo id do cliente. Mensagem:" + ex.getMessage());
         	}

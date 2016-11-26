@@ -9,11 +9,17 @@ import br.com.mastermenu.model.Cliente;
 import br.com.mastermenu.util.HibernateUtil;
 
 public class ClienteDAO {
+	
+	private Session sessao;
+	
+	public ClienteDAO() {
+		sessao = HibernateUtil.getSessionFactory().openSession();
+		
+	}
 	public void salvar(Cliente cliente) {
-		Session sessao = null;
+		//Session sessao = null;
 		Transaction transacao = null;
 		try {
-			sessao = HibernateUtil.getSessionFactory().openSession();
 			transacao = sessao.beginTransaction();
         	
         	sessao.save(cliente);
@@ -24,7 +30,7 @@ public class ClienteDAO {
         } finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        	//	sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de adicionar cliente. Mensagem:" + ex.getMessage());
         	}
@@ -32,10 +38,10 @@ public class ClienteDAO {
 	}
 	
 	public void atualizar(Cliente cliente) {
-		Session sessao = null;
+		//Session sessao = null;
 		Transaction transacao = null;
 		try {
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			//sessao = HibernateUtil.getSessionFactory().openSession();
 			transacao = sessao.beginTransaction();
         	
         	sessao.update(cliente);
@@ -46,7 +52,7 @@ public class ClienteDAO {
 		}  finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de adicionar cliente. Mensagem:" + ex.getMessage());
         	}
@@ -54,10 +60,10 @@ public class ClienteDAO {
 	}
 	
 	public void excluir(Cliente cliente) {
-		Session sessao = null;
+		//Session sessao = null;
 		Transaction transacao = null;
 		try {
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			//sessao = HibernateUtil.getSessionFactory().openSession();
 			transacao = sessao.beginTransaction();
         	
         	sessao.delete(cliente);
@@ -68,7 +74,7 @@ public class ClienteDAO {
 		}  finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de remover cliente. Mensagem:" + ex.getMessage());
         	}
@@ -77,16 +83,16 @@ public class ClienteDAO {
 	
 	public Cliente carregar(Long id) {
     	Cliente cliente = new Cliente();
-    	Session sessao = null;
+    	//Session sessao = null;
     	try {
-    		sessao = HibernateUtil.getSessionFactory().openSession();
+    		//sessao = HibernateUtil.getSessionFactory().openSession();
         	cliente =  (Cliente)sessao.get(Cliente.class, id);
         } catch (HibernateException ex) {
             System.out.println("Não foi possível carregar o cliente. Erro: " + ex.getMessage());
         } finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de carregar cliente. Mensagem:" + ex.getMessage());
         	}
@@ -96,12 +102,12 @@ public class ClienteDAO {
 	
 	@SuppressWarnings("unchecked")
 	public List<Cliente> listar() {
-		Session sessao = null;
+		//Session sessao = null;
 		Transaction transacao = null;
 		Query consulta = null;
 		List<Cliente> lista = null;
 		try {
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			//sessao = HibernateUtil.getSessionFactory().openSession();
 			transacao = sessao.beginTransaction();
         	consulta = sessao.createQuery("from Cliente");
         	lista = consulta.list();
@@ -113,7 +119,7 @@ public class ClienteDAO {
 		}  finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de lista clientes. Mensagem:" + ex.getMessage());
         	}
@@ -121,17 +127,17 @@ public class ClienteDAO {
 	}
 	
 	public Cliente carregarPorEmail(String email) {
-		Session sessao = null;
+		//Session sessao = null;
 		Cliente cliente = null;
 		try {
-			sessao = HibernateUtil.getSessionFactory().openSession();
+			//sessao = HibernateUtil.getSessionFactory().openSession();
 			cliente = (Cliente) sessao.createQuery("FROM Usuario WHERE email=:email").setString("email", email).uniqueResult();
 		} catch (HibernateException ex) {
 			System.out.println("Não foi possível listar clientes ativos. Erro: " + ex.getMessage());
 		} finally {
 			try {
 				// fecha a entity manager
-				sessao.close();
+				//sessao.close();
 			} catch (Throwable ex) {
 				System.out.println("Erro ao fechar a operação de listar clientes ativos. Mensagem:" + ex.getMessage());
 			}
@@ -142,7 +148,7 @@ public class ClienteDAO {
 	// Authentication
 		public Cliente authentication(String email, String senha) {
 
-			Session sessao = HibernateUtil.getSessionFactory().openSession();
+			//Session sessao = HibernateUtil.getSessionFactory().openSession();
 			Cliente cliente = null;
 			try {
 				Query consulta = sessao.getNamedQuery("cliente.authentication");
@@ -153,7 +159,7 @@ public class ClienteDAO {
 			} catch (Exception ex) {
 				throw ex;
 			} finally {
-				sessao.close();
+				//sessao.close();
 			}
 
 			return cliente;
@@ -162,17 +168,17 @@ public class ClienteDAO {
 	@SuppressWarnings("unchecked")
 	public List<Cliente> listarAtivos() {
     	boolean ativo = true;
-		Session sessao = null;
+		//Session sessao = null;
     	List<Cliente> listaAtivos = null;
     	try {
-    		sessao = HibernateUtil.getSessionFactory().openSession();
+    		//sessao = HibernateUtil.getSessionFactory().openSession();
     		listaAtivos = sessao.createQuery("FROM Cliente WHERE ativo = :ativo").setBoolean("ativo", ativo).list();
         } catch (HibernateException ex) {
             System.out.println("Não foi possível listar clientes ativos. Erro: " + ex.getMessage());
         } finally {
         	try {
         		// fecha a entity manager
-        		sessao.close();
+        		//sessao.close();
         	} catch (Throwable ex) {
         		System.out.println("Erro ao fechar a operação de listar clientes ativos. Mensagem:" + ex.getMessage());
         	}

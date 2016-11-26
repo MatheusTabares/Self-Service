@@ -29,17 +29,17 @@ public class Comanda {
 	@NotNull
 	private boolean aberta = true;
 	
-	@NotNull
-	private Double total = 0.0;
-	
 	@OneToOne
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
 	
+	@NotNull
+	private Double total = 0.0;
+	
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@ManyToMany(targetEntity = Item.class, cascade = CascadeType.ALL)
+	@ManyToMany(targetEntity = Item.class)
 	@JoinTable(name = "comanda_tem_pedidos",
-	joinColumns = @JoinColumn(unique=false, name = "pedidosSolicitados"))
+	joinColumns = @JoinColumn(unique=false, name = "comanda_id"))
 	private List<Item> pedidosSolicitados = new ArrayList<Item>();
 	
 	

@@ -13,10 +13,14 @@ import br.com.mastermenu.util.HibernateUtil;
 public class IngredienteDAO {
 	
 	 private Session sessao;
+	 
+	 public IngredienteDAO() {
+		 sessao = HibernateUtil.getSessionFactory().openSession();
+	        
+	 }
 	   
 	    
 	    public void incluir(Ingrediente p) throws Exception {
-	        sessao = HibernateUtil.getSessionFactory().openSession();
 	        Transaction t = null;
 	    
 	        try {
@@ -28,12 +32,12 @@ public class IngredienteDAO {
 	                t.rollback();
 	            }
 	        } finally {
-	            sessao.close();
+	        //    sessao.close();
 	        }
 	    }
 	    
 	    public void alterar(Ingrediente p) throws Exception {
-	        sessao = HibernateUtil.getSessionFactory().openSession();
+	        //sessao = HibernateUtil.getSessionFactory().openSession();
 	        Transaction t = null;
 	        
 	     try {
@@ -45,13 +49,13 @@ public class IngredienteDAO {
 	                t.rollback();
 	            }
 	        } finally {
-	            sessao.close();
+	          //  sessao.close();
 	        }
 	    }
 	    
 	    
 	    public void remover(Ingrediente p) {
-	       sessao = HibernateUtil.getSessionFactory().openSession();
+	       //sessao = HibernateUtil.getSessionFactory().openSession();
 	        Transaction t = null;
 	        
 	     try {
@@ -63,17 +67,17 @@ public class IngredienteDAO {
 	                t.rollback();
 	            }
 	        } finally {
-	            sessao.close();
+	         //   sessao.close();
 	        }
 	    }
 	    
 	    public List<Ingrediente> listar() {
-			Session sessao = null;
+			//Session sessao = null;
 			Transaction transacao = null;
 			Query consulta = null;
 			List<Ingrediente> lista = null;
 			try {
-				sessao = HibernateUtil.getSessionFactory().openSession();
+				//sessao = HibernateUtil.getSessionFactory().openSession();
 				transacao = sessao.beginTransaction();
 	        	consulta = sessao.createQuery("from Ingrediente where ativo = 1");
 	        	lista = consulta.list();
@@ -85,7 +89,7 @@ public class IngredienteDAO {
 			}  finally {
 	        	try {
 	        		// fecha a entity manager
-	        		sessao.close();
+	        		//sessao.close();
 	        	} catch (Throwable ex) {
 	        		System.out.println("Erro ao fechar a operação de adicionar. Mensagem:" + ex.getMessage());
 	        	}

@@ -280,24 +280,41 @@ public class ClienteBean {
 			this.copa.setCliente(this.authenticationClienteBean.getClienteLogado());
 		}
 		
-		 
 		for(Item item : this.pedidos) {
-				this.comanda.getPedidosSolicitados().add(item);
-				//this.comandaDAO.salvar(this.comanda);
-				
-				if(item.getTipo().getTipo() == 1) {
-					this.cozinha.getPedidosSolicitados().add(item);
-				}	
-				else if (item.getTipo().getTipo() == 2) { 
-					this.copa.getPedidosSolicitados().add(item);
-				}
+			if(item.getTipo().getTipo() == 1) {
+				this.cozinha.getPedidosSolicitados().add(item);
+			}	
+			else if (item.getTipo().getTipo() == 2) { 
+				this.copa.getPedidosSolicitados().add(item);
 			}
-		
-		if(this.pedidosCopa.isEmpty()) {
-			this.pedidosCopa.add(this.copa);
 		}
 		
+		this.comanda.setPedidosSolicitados(this.pedidos);;
 		somarTotalComanda();
+		this.copaDAO.salvar(this.copa);
+		this.cozinhaDAO.salvar(this.cozinha);
+		this.comandaDAO.salvar(this.comanda);
+		
+		this.getComanda();
+		this.getPedidosCopa();
+		this.getPedidosCozinha();
+		
+		/*if(this.pedidosCopa.isEmpty()) {
+			this.pedidosCopa.add(this.copa);
+		} else {
+			for(int i = 0; i < this.pedidosCopa.size(); i++) {
+				if(this.pedidosCopa.get(i).getId().equals(this.copa.getId())) {
+					this.pedidosCopa.set(i, this.copa);
+					//this.copaDAO.salvar(this.copa);
+					
+				} else {
+					this.pedidosCopa.add(this.copa);
+					//this.copaDAO.atualizar(this.copa);
+				}
+			}
+		}
+		
+		/*
 		for(Comanda comanda : this.comandasAbertas) {
 			if(comanda.getCliente().equals(this.comanda.getCliente())) {
 				comanda = this.comanda;
@@ -327,20 +344,15 @@ public class ClienteBean {
 					//this.cozinhaDAO.atualizar(this.cozinha);
 				}
 			}
-			for(int i = 0; i < this.pedidosCopa.size(); i++) {
-				if(this.pedidosCopa.get(i).getId().equals(this.copa.getId())) {
-					this.pedidosCopa.set(i, this.copa);
-					//this.copaDAO.salvar(this.copa);
-					
-				} else {
-					this.pedidosCopa.add(this.copa);
-					//this.copaDAO.atualizar(this.copa);
-				}
-			}
-		}
+			
+		}*/
 		FacesMessage facesMessage = new FacesMessage("Seus Pedidos foram solicitados.");
 		context.addMessage(null, facesMessage);
 		this.pedidos = new ArrayList<Item>();
+		this.pedidosCopa = new ArrayList<Copa>();
+		this.pedidosCozinha = new ArrayList<Cozinha>();
+		this.comanda = new Comanda();
+		
 		return "";
 	}
 	
@@ -626,7 +638,7 @@ public class ClienteBean {
 	}
 
 	public List<Comanda> getComandasAbertas() {
-		return comandasAbertas;
+		return comandasAbertas = this.comandaDAO.carregarAbertas();
 	}
 
 	public void setComandasAbertas(List<Comanda> comandasAbertas) {
@@ -634,7 +646,8 @@ public class ClienteBean {
 	}
 
 	public Comanda getComanda() {
-		return comanda;
+		return comanda = this.comandaDAO.carregarAbertaPorIdCliente(
+								this.authenticationClienteBean.getClienteLogado().getId());
 	}
 
 	public void setComanda(Comanda comanda) {
@@ -642,7 +655,8 @@ public class ClienteBean {
 	}
 
 	public Cozinha getCozinha() {
-		return cozinha;
+		return this.cozinha = this.cozinhaDAO.carregarAbertaPorIdCliente(
+											this.authenticationClienteBean.getClienteLogado().getId());
 	}
 
 	public void setCozinha(Cozinha cozinha) {
@@ -650,7 +664,8 @@ public class ClienteBean {
 	}
 
 	public Copa getCopa() {
-		return copa;
+		return copa = this.copaDAO.carregarAbertaPorIdCliente(
+									this.authenticationClienteBean.getClienteLogado().getId());
 	}
 
 	public void setCopa(Copa copa) {
@@ -658,7 +673,7 @@ public class ClienteBean {
 	}
 
 	public List<Copa> getPedidosCopa() {
-		return pedidosCopa;
+		return pedidosCopa = this.copaDAO.carregarAbertas();
 	}
 
 	public void setPedidosCopa(List<Copa> pedidosCopa) {
@@ -666,7 +681,7 @@ public class ClienteBean {
 	}
 
 	public List<Cozinha> getPedidosCozinha() {
-		return pedidosCozinha;
+		return pedidosCozinha = this.cozinhaDAO.carregarAbertas();
 	}
 
 	public void setPedidosCozinha(List<Cozinha> pedidosCozinha) {

@@ -34,10 +34,12 @@ public class Cozinha implements Serializable{
 	@JoinColumn(name = "id_cliente")
 	private Cliente cliente;
 	
+	private boolean aberta = true;
+	
 	@LazyCollection(LazyCollectionOption.FALSE)
-	@ManyToMany(targetEntity = Item.class, cascade = CascadeType.ALL)
+	@ManyToMany(targetEntity = Item.class)
 	@JoinTable(name = "cozinha_tem_pedidos",
-	joinColumns = @JoinColumn(unique=false, name = "pedidosSolicitados"))
+	joinColumns = @JoinColumn(unique=false, name = "cozinha_id"))
 	private List<Item> pedidosSolicitados = new ArrayList<Item>();
 	
 	public Long getId() {
@@ -54,6 +56,12 @@ public class Cozinha implements Serializable{
 	}
 	public void setPedidosSolicitados(List<Item> pedidosSolicitados) {
 		this.pedidosSolicitados = pedidosSolicitados;
+	}
+	public boolean isAberta() {
+		return aberta;
+	}
+	public void setAberta(boolean aberta) {
+		this.aberta = aberta;
 	}
 	
 }
