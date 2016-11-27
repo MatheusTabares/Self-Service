@@ -11,12 +11,12 @@
 		<ui:include src="/includes/menuPrincipal.xhtml" />
 	</ui:define>
 	<ui:define name="conteudo">
-		<h:form id="frmItemListagem">
-			<p:dataTable id="playersSubTable" var="player" value="#{clienteBean.pedidosCopa}">  
+		<h:form id="frmPedidosCopa">
+			<p:dataTable id="playersSubTable" var="player" value="#{clienteBean.pedidosCopa}"
+				emptyMessage="Nenhum pedido pendente.">  
 		    <f:facet name="header">  
 		        <h:outputText value="Pedidos Copa"/>  
 		    </f:facet>  
-		  
 		    <p:columnGroup type="header">  
 		        <p:row>  
 		            <p:column rowspan="2" headerText="Item " />
@@ -27,6 +27,10 @@
 		    <p:subTable var="details" value="#{player.pedidosSolicitados}">  
 		        <f:facet name="header">  
 		            <h:outputText value="Cliente : #{player.cliente.nome}"/>  
+		        	<p:commandButton action="#{clienteBean.encerrarPedidoCopa(player)}"
+						  value="ENCERRAR PEDIDO"
+						  update=":frmPedidosCopa">
+					</p:commandButton>
 		        </f:facet>  
 		  
 		        <p:column>  

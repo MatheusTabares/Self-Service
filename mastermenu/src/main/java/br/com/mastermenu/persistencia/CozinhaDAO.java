@@ -43,6 +43,26 @@ public class CozinhaDAO {
         }
 	}
 	
+	public void excluir(Cozinha cozinha) {
+		Transaction transacao = null;
+		try {
+			transacao = sessao.beginTransaction();
+        	
+        	sessao.delete(cozinha);
+     
+            transacao.commit();
+		} catch (Exception ex) {
+			System.out.println("Não foi possível remover pedido cozinha. Erro: " + ex.getMessage());
+		}  finally {
+        	try {
+        		// fecha a entity manager
+        		//sessao.close();
+        	} catch (Throwable ex) {
+        		System.out.println("Erro ao fechar a operação de remover pedido cozinha. Mensagem:" + ex.getMessage());
+        	}
+        }
+	}
+	
 	public Cozinha carregarAbertaPorIdCliente(Long idCliente) {
 		boolean aberta = true;
 		//Session sessao = null;
@@ -73,6 +93,20 @@ public class CozinhaDAO {
 		List<Cozinha> cozinha = null;
 		try {
 			//sessao = HibernateUtil.getSessionFactory().openSession();
+			cozinha = sessao.createQuery("FROM Cozinha WHERE aberta=:aberta")
+									.setBoolean("aberta", aberta)
+									.list();
+		} catch (HibernateException ex) {
+			System.out.println("Não foi possível listar Pedidos Cozinha por cliente. Erro: " + ex.getMessage());
+		}
+		return cozinha;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<Cozinha> carregarEncerrados() {
+		boolean aberta = false;
+		List<Cozinha> cozinha = null;
+		try {
 			cozinha = sessao.createQuery("FROM Cozinha WHERE aberta=:aberta")
 									.setBoolean("aberta", aberta)
 									.list();

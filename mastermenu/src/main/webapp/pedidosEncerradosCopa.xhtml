@@ -4,18 +4,17 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
-	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough" 
 	template="tema.xhtml">
 
 	<ui:define name="menu">
 		<ui:include src="/includes/menuPrincipal.xhtml" />
 	</ui:define>
 	<ui:define name="conteudo">
-		<h:form id="frmPedidosCozinha">
-			<p:dataTable id="playersSubTable" var="player" value="#{clienteBean.pedidosCozinha}"
-					emptyMessage="Nenhum pedido à fazer.">  
+		<h:form id="frmPedidosCopaEncerrados">
+			<p:dataTable id="playersSubTable" var="player" value="#{clienteBean.pedidosCopaEncerrados}"
+					emptyMessage="Nenhum pedido encerrado.">  
 			    <f:facet name="header">  
-			        <h:outputText value="Pedidos Pendentes Cozinha"/>  
+			        <h:outputText value="Pedidos Encerrados Copa"/>  
 			    </f:facet>  
 			  
     <p:columnGroup type="header">  
@@ -27,21 +26,15 @@
     <p:subTable var="details" value="#{player.pedidosSolicitados}">  
         <f:facet name="header">  
             <h:outputText value="Cliente : #{player.cliente.nome}"/>  
-        	<p:commandButton action="#{clienteBean.encerrarPedidoCozinha(player)}"
-				  value="ENCERRAR PEDIDO"
-				  update=":frmPedidosCozinha">
-			</p:commandButton>
         </f:facet>  
   
         <p:column>  
             <h:outputText value=" #{details.nome}"/>  
         </p:column>  
-        <!-- <p:column>  
-            <h:outputText value=" #{details.quantidade}"/>  
-        </p:column>   -->
+        
     </p:subTable>  
 </p:dataTable>
-		<a href="cozinha.xhtml">voltar</a>
+		<a href="copa.xhtml" >voltar</a>
 		</h:form>
 	</ui:define>
 </ui:composition>

@@ -53,6 +53,9 @@ public class ClienteBean {
 	private Copa copa;
 	private CozinhaDAO cozinhaDAO;
 	private CopaDAO copaDAO;
+	private Comanda comandaTela;
+	private List<Cozinha> pedidosCozinhaEncerrados;
+	private List<Copa> pedidosCopaEncerrados;
 	
 	public ClienteBean() {
 		this.cliente = new Cliente();
@@ -78,6 +81,9 @@ public class ClienteBean {
 		this.pedidosCozinha = new ArrayList<Cozinha>();
 		this.cozinhaDAO = new CozinhaDAO();
 		this.copaDAO = new CopaDAO();
+		this.comandaTela = new Comanda();
+		this.pedidosCozinhaEncerrados = new ArrayList<Cozinha>();
+		this.pedidosCopaEncerrados = new ArrayList<Copa>();
 	}
 
 	public void novo() {
@@ -356,6 +362,16 @@ public class ClienteBean {
 		return "";
 	}
 	
+
+	/*public String sair() {
+		this.authenticationClienteBean = null;
+		this.comanda = new Comanda();
+		this.copa = new Copa();
+		this.cozinha = new Cozinha();
+		return "/index.xhtml?faces-redirect=true";
+		
+	}*/
+	
 	public String excluirItemDaListaDePedidos(Item item) {
 		FacesContext context = FacesContext.getCurrentInstance();
 		FacesMessage facesMessage = new FacesMessage();	
@@ -377,12 +393,26 @@ public class ClienteBean {
 		this.comanda.setTotal(somador);
 	}
 	
-	public String encerrarComanda(Comanda comandaTela) {
-		for(Comanda comanda : this.comandasAbertas) {
-			if(comanda.equals(comandaTela)) {
-				comanda.setAberta(false);
-			}
-		}
+	public String encerrarComanda(Comanda comandaEncerrar) {
+		comandaEncerrar.setAberta(false);
+		this.comandaDAO.atualizar(comandaEncerrar);
+		this.getComandasAbertas();
+		return null;
+	}
+	
+	public String encerrarPedidoCozinha(Cozinha cozinhaEncerrar) {
+		cozinhaEncerrar.setAberta(false);
+		this.cozinhaDAO.atualizar(cozinhaEncerrar);
+		this.getPedidosCozinha();
+		this.getPedidosCozinhaEncerrados();
+		return null;
+	}
+	
+	public String encerrarPedidoCopa(Copa copaEncerrar) {
+		copaEncerrar.setAberta(false);
+		this.copaDAO.atualizar(copaEncerrar);
+		this.getPedidosCopa();
+		this.getPedidosCopaEncerrados();
 		return null;
 	}
 
@@ -687,9 +717,29 @@ public class ClienteBean {
 	public void setPedidosCozinha(List<Cozinha> pedidosCozinha) {
 		this.pedidosCozinha = pedidosCozinha;
 	}
-	
-	
-	
-	
+
+	public Comanda getComandaTela() {
+		return comandaTela;
+	}
+
+	public void setComandaTela(Comanda comandaTela) {
+		this.comandaTela = comandaTela;
+	}
+
+	public List<Cozinha> getPedidosCozinhaEncerrados() {
+		return pedidosCozinhaEncerrados = this.cozinhaDAO.carregarEncerrados();
+	}
+
+	public void setPedidosCozinhaEncerrados(List<Cozinha> pedidosCozinhaEncerrados) {
+		this.pedidosCozinhaEncerrados = pedidosCozinhaEncerrados;
+	}
+
+	public List<Copa> getPedidosCopaEncerrados() {
+		return pedidosCopaEncerrados = this.copaDAO.carregarEncerrados();
+	}
+
+	public void setPedidosCopaEncerrados(List<Copa> pedidosCopaEncerrados) {
+		this.pedidosCopaEncerrados = pedidosCopaEncerrados;
+	}
 	
 }

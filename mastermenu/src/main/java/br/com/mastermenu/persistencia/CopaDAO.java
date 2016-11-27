@@ -79,6 +79,20 @@ public class CopaDAO {
 		return copa;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public List<Copa> carregarEncerrados() {
+		boolean aberta = false;
+		List<Copa> copa = null;
+		try {
+			copa = sessao.createQuery("FROM Copa WHERE aberta=:aberta")
+									.setBoolean("aberta", aberta)
+									.list();
+		} catch (HibernateException ex) {
+			System.out.println("Não foi possível listar Pedidos Copa por cliente. Erro: " + ex.getMessage());
+		}
+		return copa;
+	}
+	
 	public void atualizar(Copa copa) {
 		//Session sessao = null;
 		Transaction transacao = null;

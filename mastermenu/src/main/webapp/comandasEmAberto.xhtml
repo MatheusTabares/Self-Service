@@ -11,7 +11,8 @@
 	</ui:define>
 	<ui:define name="conteudo">
 			<h:form id="frmComandas">
-				<p:dataTable id="playersSubTable" var="player" value="#{clienteBean.comandasAbertas}">  
+				<p:dataTable id="playersSubTable" var="player" value="#{clienteBean.comandasAbertas}"
+						emptyMessage="Nenhuma comanda.">  
 			    <f:facet name="header">  
 			        <h:outputText value="Comandas Em Aberto"/>  
 			    </f:facet>  
@@ -26,6 +27,12 @@
 			    <p:subTable var="details" value="#{player.pedidosSolicitados}">  
 			        <f:facet name="header">  
 			            <h:outputText value="Cliente : #{player.cliente.nome}"/>  
+			            <p:column>                                              
+							<p:commandButton action="#{clienteBean.encerrarComanda(player)}"
+								  value="ENCERRAR COMANDA"
+								  update=":frmComandas">
+							</p:commandButton>
+						</p:column>
 			        </f:facet>  
 						  
 			        <p:column>  
@@ -40,13 +47,10 @@
 	                    <p:column footerText="#{player.total}" />
 	                </p:row>
             		</p:columnGroup>  
-            		<f:facet name="footer">  
-			            <p:commandButton value="ENCERRAR" action="#{clienteBean.encerrarComanda(player)}"/>
-			         
-			        </f:facet>  
 			    </p:subTable>  
 		   </p:dataTable>
 		</h:form>
+	
 		<p:growl id="messages" showDetail="true" autoUpdate="true" life="5000" />		
 	</ui:define>
 </ui:composition>

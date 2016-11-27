@@ -70,5 +70,50 @@ public class Comanda {
 	public void setAberta(boolean aberta) {
 		this.aberta = aberta;
 	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (aberta ? 1231 : 1237);
+		result = prime * result + ((cliente == null) ? 0 : cliente.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((pedidosSolicitados == null) ? 0 : pedidosSolicitados.hashCode());
+		result = prime * result + ((total == null) ? 0 : total.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Comanda other = (Comanda) obj;
+		if (aberta != other.aberta)
+			return false;
+		if (cliente == null) {
+			if (other.cliente != null)
+				return false;
+		} else if (!cliente.equals(other.cliente))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (pedidosSolicitados == null) {
+			if (other.pedidosSolicitados != null)
+				return false;
+		} else if (!pedidosSolicitados.equals(other.pedidosSolicitados))
+			return false;
+		if (total == null) {
+			if (other.total != null)
+				return false;
+		} else if (!total.equals(other.total))
+			return false;
+		return true;
+	}
+	
 	
 }
