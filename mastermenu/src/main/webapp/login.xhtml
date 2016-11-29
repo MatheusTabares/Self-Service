@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<h:outputStylesheet library="css" name="theme.css" />
+	<h:outputStylesheet library="css" name="estilo.css" />
+</h:head>
+<h:body>
+	<p:layout fullPage="true">
+ 		<!-- TOPO -->
+	    <p:layoutUnit position="north" size="150" resizable="true" closable="true" collapsible="true">
+	        <h:graphicImage library="img" name="master-menu-logo1.png" style="margin-left:45%; width:100px; height:76px"/>
+			<f:facet name="footer">
+				Logar Como
+				<a href="index.xhtml" style="float: right;">voltar</a>
+			</f:facet>
+	    </p:layoutUnit>
+	    
+	    <!-- RODAPÉ -->
+	    <p:layoutUnit position="south" size="100" resizable="true" closable="true" collapsible="true">
+	        <h:outputText value="Master Menu " style="margin-left:43%;" /><span style="color:red;">&#169; </span> 2016.
+	    </p:layoutUnit>
+		
+		<!-- CENTRO -->
+		<p:layoutUnit position="center">
+			<!-- LOGIN PROFISSIONAL -->
+			<h:form id="frmProfissional" style="border: 2px solid orange; border-radius: 5px; width: 40%; float: right;">            
+			    <h:outputLink value="javascript:void(0)" onclick="PF('dlgP').show();" title="loginP">
+			        Profissional
+			        <div style="width: 25%; margin-left: 35%;">
+			        	<h:graphicImage library="img" name="botao-login1.png" style="margin-left:25%; margin-top:10%;"/>
+			    		
+			    	</div>
+			    	
+			    </h:outputLink>
+			 
+			    <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+			 
+			    <p:dialog header="Login Profissional" widgetVar="dlgP" resizable="false">
+			        <h:panelGrid columns="2" cellpadding="5">
+			            <h:outputLabel for="username" value="e-Mail:" />
+			            <p:inputText id="username" value="#{authenticationProfissionalBean.profissionalLogado.email}" required="true" label="username" />
+			 
+			            <h:outputLabel for="password" value="Senha:" />
+			            <p:password id="password" value="#{authenticationProfissionalBean.profissionalLogado.senha}" required="true" label="password" />
+			 
+			            <f:facet name="footer">
+			                <p:commandButton value="Entrar" update="growl" actionListener="#{authenticationClienteBean.autenticar()}"
+			                                 oncomplete="handleLoginRequestP(xhr, status, args)" />
+			            </f:facet>  
+			        </h:panelGrid>
+			    </p:dialog>
+			</h:form>
+			
+			<!-- LOGIN CLIENTE -->
+			<h:form id="frmCliente" style="border: 2px solid orange; border-radius: 5px; width: 40%; float: left;">            
+			    <h:outputLink value="javascript:void(0)" onclick="PF('dlg').show();" title="login">
+		        	Cliente
+		        	<div style="width: 25%; margin-left: 35%;">
+		        		<h:graphicImage library="img" name="botao-login.png" style="margin-height:25%; margin-top:10%; "/>
+		    		</div>
+		    	</h:outputLink>	
+		 
+			    <p:growl id="growl" sticky="true" life="3000" />
+			 
+			    <p:dialog header="Login Cliente" widgetVar="dlg" resizable="false">
+			        <h:panelGrid columns="2" cellpadding="5">
+			            <h:outputLabel for="username" value="e-Mail:" />
+			            <p:inputText id="username" value="#{authenticationClienteBean.clienteLogado.email}" required="true" label="username" />
+			 
+			            <h:outputLabel for="password" value="Senha:" />
+			            <p:password id="password" value="#{authenticationClienteBean.clienteLogado.senha}" required="true" label="password" />
+			 
+			            <f:facet name="footer">
+			                <p:commandButton value="Entrar" update="growl" actionListener="#{authenticationClienteBean.autenticar()}"
+			                                 oncomplete="handleLoginRequest(xhr, status, args)" />
+							<h:commandLink action="#{authenticationFace.conectar()}" style="float:right;">
+								<h:graphicImage library="img" name="logo-facebook.png" style="width: 40px; height: 40px;"/>
+							</h:commandLink><br/><br/>
+							<p:commandLink value="Esqueci minha senha"
+											 oncomplete="PF('dlgEsqSenha').show();" />
+										                               
+			            </f:facet>  
+			        </h:panelGrid>
+			    </p:dialog>
+			</h:form>
+	    </p:layoutUnit>
+ 		<script type="text/javascript">
+			    function handleLoginRequest(xhr, status, args) {
+			        if(args.validationFailed || !args.loggedIn) {
+			            PF('dlg').jq.effect("shake", {times:5}, 100);
+			        }
+			        else {
+			            PF('dlg').hide();
+			            $('#loginLink').fadeOut();
+			        }
+			    }
+			    
+			    function handleLoginRequestP(xhr, status, args) {
+			        if(args.validationFailed || !args.loggedIn) {
+			            PF('dlg').jq.effect("shake", {times:5}, 100);
+			        }
+			        else {
+			            PF('dlg').hide();
+			            $('#loginLink').fadeOut();
+			        }
+			    }
+			</script>
+	</p:layout>
+</h:body>	
+</html>

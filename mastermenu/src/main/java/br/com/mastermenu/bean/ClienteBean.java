@@ -125,7 +125,7 @@ public class ClienteBean {
 		this.cliente = new Cliente();
 		this.confirmarSenha = "";
 		this.listar();
-		return "loginCliente?faces-redirect=true";
+		return "login.xhtml";
 	}
 
 	public String atualizar() {
