@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<h:outputStylesheet library="css" name="estilo.css" />
+</h:head>
+<h:body class="corpo">
+	<div>
+		<h:graphicImage library="img" name="master-menu-logo1.png" style="margin-left:45%; width:100px; height:60px"/>
+	</div>
+	
+	<div>
+		<div style="float: right; margin-right: 2%;">
+			<p:button icon="ui-icon-triangle-1-e" iconPos="right" value="ENTRAR" href="escolherLogin.xhtml"/>	
+		</div>
+	</div>
+	<br/>
+			<h:form id="cadastroCliente" style="float:right; margin-right: 2%;">
+			<p:panelGrid columns="2" >
+				<f:facet name="header">Cadastre-se</f:facet>
+			   
+			   <p:outputLabel value="Nome:" for="txtNome"/>
+               <p:inputText id="txtNome" maxlength="150" value="#{clienteBean.cliente.nome}"/>
+
+               <p:outputLabel value="E-mail:" for="txtEmail"/>
+               <p:inputText id="txtEmail" maxlength="50" value="#{clienteBean.cliente.email}"/> 
+
+               <p:outputLabel value="Senha:" for="txtSenha"/>
+               <p:password id="txtSenha"  value="#{clienteBean.cliente.senha}"/> 
+
+			   <p:outputLabel value="Confirma Senha:" for="txtConfirmaSenha"/>
+               <p:password id="txtConfirmaSenha"  value="#{clienteBean.confirmarSenha}"/> 
+				             
+    	       <f:facet name="footer">
+                    <h:panelGroup>
+                        <p:commandButton icon="ui-icon-disk" ajax="false" value="Cadastrar"  action="#{clienteBean.salvar}" style="width: 100%"  />
+                    </h:panelGroup>
+                    <p:growl id="messages" showDetail="true" autoUpdate="true" life="5000" />
+	           </f:facet>
+	
+            </p:panelGrid>
+	</h:form>
+	<div style="width: 40%; margin-left:15%; margin-top:5%;">
+		<p style="font-size: 38pt; ">Master menu é um sistema de solicitações de pedidos através do seu smartphone.</p>
+	</div>
+	<h:outputScript library="js" name="cep.js" />
+	</h:body>
+</html>
