@@ -17,18 +17,21 @@ public class AutenticacaoListener implements PhaseListener {
 	@Override
 	public void afterPhase(PhaseEvent event) {
 		String paginaAtual = Faces.getViewId();
-		boolean ehPgautenticacao = paginaAtual.contains("loginCliente.xhtml");
+		boolean ehPgautenticacaoC = paginaAtual.contains("loginCliente.xhtml");
+		boolean ehPgautenticacaoF = paginaAtual.contains("loginFuncionario.xhtml");
 		boolean ehIndex = paginaAtual.contains("index.xhtml");
 		boolean ehAtendimento = paginaAtual.contains("atendimento.xhtml");
 		boolean ehPgautenticacaoFunc = paginaAtual.contains("loginFuncionario.xhtml");
 		boolean ehEscolherPagina = paginaAtual.contains("escolherLogin.xhtml");
 
-		if (!ehPgautenticacao) {
+		
+		
+		if (!ehPgautenticacaoC && !ehIndex) {
 				AuthenticationClienteBean autenticacaobean = Faces.getSessionAttribute("authenticationClienteBean");
 				if (autenticacaobean == null) {
 					try {
 						FacesContext.getCurrentInstance().getExternalContext()
-								.redirect("/mastermenu/loginCliente.xhtml");
+								.redirect("/mastermenu/index.xhtml");
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -54,6 +57,9 @@ public class AutenticacaoListener implements PhaseListener {
 			}
 		}
 
+	
+	
+	
 	@Override
 	public void beforePhase(PhaseEvent event) {
 
